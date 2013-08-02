@@ -1,0 +1,9 @@
+Manuel,en
+Moreno,es
+Paul,zh
+Poncho,ru
+James,ru
+Del toro,fr
+Michelangelo,it
+Joao,pr
+Felix,en

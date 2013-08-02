@@ -1,0 +1,9 @@
+Arthur,en
+Laura,es
+Ming,zh
+Ilich,ru
+Piotr,ru
+Jean-Jacques,fr
+Michelangelo,it
+Joao,pr
+David,en
