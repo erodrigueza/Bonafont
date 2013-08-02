@@ -3,7 +3,7 @@ Moreno,es
 Paul,zh
 Poncho,ru
 James,ru
-Del toro,fr
-Michelangelo,it
+Rafael,fr
+Michael,it
 Joao,pr
 Paola,en
