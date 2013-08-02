@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import org.springframework.batch.item.ItemProcessor;
 
+/* Class to implement ItemProcessor in this case aggregate the correct phrase */
 public class SaludoItemProcessor implements ItemProcessor<SaludoInput, String> {
 	
 	private Properties template;

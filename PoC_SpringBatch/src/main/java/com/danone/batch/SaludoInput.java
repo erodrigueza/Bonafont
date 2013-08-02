@@ -6,7 +6,16 @@ public class SaludoInput {
 
 	private String nombre;
 	private String idioma;
+	private String []tmp;
 	
+	public String[] getTmp() {
+		return tmp;
+	}
+
+	public void setTmp(String ...tmp) {
+		this.tmp = tmp;
+	}
+
 	public String saludar(Properties saludos) {
 		System.err.println("Idioma:"+this.idioma+" Nombre:"+this.nombre);
         return saludos.getProperty(this.idioma) + " <" + this.nombre + ">";
