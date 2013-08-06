@@ -80,7 +80,13 @@
 		<property name="itemSqlParameterSourceProvider">
 			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
 		</property>
-		<property name="sql" value="insert into nimms_own.mn405d01 (ksh_guid, acct_id, local_stock_nbr, trn_date, std_ui, ACQN_CD, NOMEN, ERRC_CD, SOS) values (:kshGuid,:acctId,:localStockNbr, sysdate, :stdUi, :acqnCd, :nomen, :errcCd, :sos )" />	                           
+		<property name="sql">
+        <value>
+            <![CDATA[        
+            INSERT INTO EMPLEADO(NOMBRE, IDIOMA) values (:nombre, :idioma)
+            ]]>
+        </value>
+    </property>
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 </beans>

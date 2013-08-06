@@ -16,9 +16,9 @@ public class SaludoInput {
 		this.tmp = tmp;
 	}
 
-	public String saludar(Properties saludos) {
+	public void saludar(Properties saludos) {
 		System.err.println("Idioma:"+this.idioma+" Nombre:"+this.nombre);
-        return saludos.getProperty(this.idioma) + " <" + this.nombre + ">";
+        this.idioma = saludos.getProperty(this.idioma);
     }
 	
 	public String getNombre() {

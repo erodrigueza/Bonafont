@@ -5,7 +5,7 @@ import java.util.Properties;
 import org.springframework.batch.item.ItemProcessor;
 
 /* Class to implement ItemProcessor in this case aggregate the correct phrase */
-public class SaludoItemProcessor implements ItemProcessor<SaludoInput, String> {
+public class SaludoItemProcessor implements ItemProcessor<SaludoInput, SaludoInput> {
 	
 	private Properties template;
 
@@ -18,8 +18,9 @@ public class SaludoItemProcessor implements ItemProcessor<SaludoInput, String> {
 	}
 
 	@Override
-	public String process(SaludoInput saldo) throws Exception {
-		return saldo.saludar(template);
+	public SaludoInput process(SaludoInput saldo) throws Exception {
+		saldo.saludar(template);
+		return saldo;
 	}
 
 }
