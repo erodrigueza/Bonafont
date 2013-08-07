@@ -22,7 +22,7 @@
 	</batch:job> 
 	
 	<bean id="taskletJob" class="org.springframework.batch.core.step.tasklet.SystemCommandTasklet">
-		<property name="command" value="cmd /c move C:\Trash\output.csv C:\Trash\tmp" />
+		<property name="command" value="cmd /c copy C:\Trash\output.csv C:\Trash\tmp" />
 		<property name="timeout" value="1000" />
 	</bean>
 	<!--bean id="reader" class="org.springframework.batch.item.file.FlatFileItemReader">
@@ -83,7 +83,7 @@
 		<property name="sql">
         <value>
             <![CDATA[        
-            INSERT INTO EMPLEADO(NOMBRE, IDIOMA) values (:nombre, :idioma)
+            INSERT INTO TEST1(NOMBRE, IDIOMA) values (:nombre, :idioma)
             ]]>
         </value>
     </property>
