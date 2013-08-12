@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class JobLauncherDetails extends QuartzJobBean {
 
-	static final String JOB_NAME = "jobName";
+	static final String JOB_NAME = "jobName" ;
 
 	private JobLocator jobLocator;
 
@@ -65,12 +65,11 @@ public class JobLauncherDetails extends QuartzJobBean {
 				// (ignoring)
 			}
 		}
-
+		
 		//need unique job parameter to rerun the same job
 		builder.addDate("run date", new Date());
 		
 		return builder.toJobParameters();
-
 	}
 
 }

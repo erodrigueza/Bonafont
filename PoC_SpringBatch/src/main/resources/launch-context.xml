@@ -14,24 +14,31 @@
 	<context:component-scan base-package="com.danone.batch" />
 
 	<!-- Initialize the database before every test case: -->
-	<jdbc:initialize-database data-source="dataSource"
-		enabled="false">
+	<jdbc:initialize-database data-source="dataSource" enabled="true">
 		<jdbc:script location="${batch.drop.script}" />
 		<jdbc:script location="${batch.schema.script}" />
 		<jdbc:script location="${batch.business.schema.script}" />
 	</jdbc:initialize-database>
 
-	<bean id="jobRepository"
-		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-		<property name="transactionManager" ref="transactionManager" />
-	</bean>
-
+	<!-- connect to database -->
+	<!-- bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://10.11.6.22:1433;DatabaseName=Danone" />
+		<property name="username" value="danone" />
+		<property name="password" value="Dan0204" />
+	</bean-->
+	
 	<bean id="transactionManager"
 		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
 	<bean id="jobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
 		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
 	</bean>
 
 	<bean

@@ -11,18 +11,28 @@
 		a typical batch application.</description>
 
 	<batch:job id="job1">
-		<batch:step id="step1" next="step2">
+		<batch:step id="step1">
 			<batch:tasklet transaction-manager="transactionManager"
 				start-limit="100">
-				<batch:chunk reader="reader" processor="processor"
-					writer="writer" commit-interval="1" />
+				<batch:chunk reader="reader" writer="writer" commit-interval="1" />
 			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="listenerWirte"/>
+			<batch:listener ref="listenerRead"/>
+			<batch:listener ref="executionStep"/>
+			<batch:listener ref="listenerChunk"/>
+			</batch:listeners>
 		</batch:step>
-		<batch:step id="step2">
+		<!--batch:step id="step2">
 			<batch:tasklet ref="taskletJob" />
-		</batch:step>
+		</batch:step-->
 	</batch:job>
 
+	<bean id="listenerWirte" class="com.danone.batch.SaludoListenerWrite"/>
+	<bean id="listenerRead" class="com.danone.batch.SaludoListenerRead"/>
+	<bean id="executionStep" class="com.danone.batch.SaludoListenerExecution"/>
+	<bean id="listenerChunk" class="com.danone.batch.SaludoListenerChunk"/>
+	
 	<!-- Spring Quartz -->
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="com.danone.batch.JobLauncherDetails" />
@@ -54,11 +64,11 @@
 	</bean>
 
 	<bean id="taskletJob"
-		class="org.springframework.batch.core.step.tasklet.SystemCommandTasklet">
+		class="org.springframework.batch.core.step.tasklet.SystemCommandTasklet" scope="step">
 		<property name="command">
 			<value>
             <![CDATA[        
-            cmd /c copy C:\Trash\output.csv C:\Trash\tmp & exit
+            cmd /c copy C:\interface_SAP_QS3\data\in\orderCreation\new\#{jobParameters['input.file']} C:\Trash\tmp & exit
             ]]>
 			</value>
 		</property>
@@ -79,26 +89,27 @@
 		<property name="template" ref="templateSaludos" />
 	</bean>
 
-	<bean id="reader"
-		class="org.springframework.batch.item.file.MultiResourceItemReader">
-		<property name="resources" value="classpath:*.mat" />
+	<bean id="reader" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="resources" value="file:C:/interface_SAP_QS3/data/in/orderCreation/new/*.txt" />
 		<property name="delegate" ref="fileReader" />
+		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="fileReader" class="org.springframework.batch.item.file.FlatFileItemReader">
-		<!--property name="resource" value="classpath:Saludos.txt" / -->
-		<!--property name="resource" value="#{jobExecutionContext[input.file.name]}" /-->
+	<bean id="fileReader" class="com.danone.batch.FlatFileSaludo" scope="step">
+	<property name="strict" value="false"/>
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
 				<property name="lineTokenizer">
-					<!--bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"> 
-						<property name="names" value="nombre,idioma" /> </bean -->
-					<bean
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value=";"/> 
+						<property name="names" value="nombre,idioma" /> 
+					</bean>
+					<!--bean
 						class="org.springframework.batch.item.file.transform.FixedLengthTokenizer">
 						<property name="names" value="nombre,idioma" />
 						<property name="columns" value="1-3, 4-5" />
 						<property name="strict" value="false" />
-					</bean>
+					</bean-->
 				</property>
 				<property name="fieldSetMapper">
 					<bean
@@ -121,7 +132,7 @@
 		<property name="sql">
 			<value>
            	<![CDATA[        
-           	INSERT INTO TEST1(NOMBRE, IDIOMA) values (:nombre, :idioma)
+		    INSERT INTO TEST1 VALUES(:nombre, :idioma)
            	]]>
 			</value>
 		</property>
@@ -137,8 +148,7 @@
 		<property name="sql">
 			<value>
 				<![CDATA[
-				SELECT *
-				FROM TEST1
+				SELECT * FROM TEST1
 				]]>
 			</value>
 		</property>
@@ -162,7 +172,7 @@
 	</bean>
 
 	<bean id="writerOut" class="org.springframework.batch.item.file.FlatFileItemWriter">
-		<property name="resource" value="file:C:/Trash/output2.csv" />
+		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation.csv" />
 		<property name="lineAggregator">
 			<bean
 				class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" />
