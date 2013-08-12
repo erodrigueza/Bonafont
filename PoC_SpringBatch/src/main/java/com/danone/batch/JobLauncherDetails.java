@@ -14,7 +14,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class JobLauncherDetails extends QuartzJobBean {
 
-	static final String JOB_NAME = "jobName";
+	static final String JOB_NAME = "jobName" ;
 
 	private JobLocator jobLocator;
 

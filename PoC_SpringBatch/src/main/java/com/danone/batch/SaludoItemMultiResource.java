@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 
 public class SaludoItemMultiResource extends MultiResourceItemReader<String>
 {
-    private static final Logger logger = LoggerFactory.getLogger( SaludoItemMultiResource.class );
+    private static final Logger logger = LoggerFactory.getLogger(SaludoItemMultiResource.class );
 
     private boolean failOnNoResources = true;
     public  boolean failOnNoResources () { return this.failOnNoResources; }

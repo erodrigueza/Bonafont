@@ -15,7 +15,7 @@ public class FlatFileSaludo extends FlatFileItemReader<SaludoInput> {
 	private Resource resource;
 	@Override
 	public void setResource(Resource resource) {
-		System.err.println("Archivo: "+resource.getFilename());
+		System.err.println("Archivo: "+ resource.getFilename());
 		this.resource = resource;
 		super.setResource(resource);
 	}

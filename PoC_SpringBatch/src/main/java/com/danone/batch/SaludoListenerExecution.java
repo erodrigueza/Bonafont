@@ -9,14 +9,14 @@ public class SaludoListenerExecution implements StepExecutionListener {
 	@Override
 	public ExitStatus afterStep(StepExecution arg0) {
 		// TODO Auto-generated method stub
-		System.err.println("-------------afterStep--------------");
+		System.err.println("--------------afterStep--------------");
 		return null;
 	}
 
 	@Override
 	public void beforeStep(StepExecution arg0) {
 		// TODO Auto-generated method stub
-		System.err.println("-------------beforeStep--------------");
+		System.err.println("--------------beforeStep--------------");
 	}
 
 }

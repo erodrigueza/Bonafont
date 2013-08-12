@@ -13,7 +13,7 @@ public class SaludoListenerRead implements ItemReadListener<SaludoInput> {
 	@Override
 	public void beforeRead() {
 		// TODO Auto-generated method stub
-		System.err.println("\t\tbeforeRead..");
+		System.err.println("\t\tbeforeRead...");
 	}
 
 	@Override

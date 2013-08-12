@@ -9,7 +9,7 @@ public class SaludoListenerWrite implements ItemWriteListener<SaludoInput> {
 	@Override
 	public void afterWrite(List<? extends SaludoInput> arg0) {
 		// TODO Auto-generated method stub
-		System.err.println("\t\tafterWrite");
+		System.err.println("\t\tafterWrite..");
 	}
 
 	@Override
