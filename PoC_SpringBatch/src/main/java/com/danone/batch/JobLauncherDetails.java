@@ -65,12 +65,11 @@ public class JobLauncherDetails extends QuartzJobBean {
 				// (ignoring)
 			}
 		}
-
+		
 		//need unique job parameter to rerun the same job
 		builder.addDate("run date", new Date());
 		
 		return builder.toJobParameters();
-
 	}
 
 }

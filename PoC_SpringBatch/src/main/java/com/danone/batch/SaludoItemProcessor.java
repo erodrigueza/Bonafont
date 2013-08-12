@@ -19,7 +19,8 @@ public class SaludoItemProcessor implements ItemProcessor<SaludoInput, SaludoInp
 
 	@Override
 	public SaludoInput process(SaludoInput saldo) throws Exception {
-		saldo.saludar(template);
+//		saldo.saludar(template);
+		System.err.println("\t\t\tColumna 1: "+saldo.getNombre() + " Columna 2:"+saldo.getIdioma());
 		return saldo;
 	}
 
