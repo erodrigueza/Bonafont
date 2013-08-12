@@ -96,7 +96,7 @@
 	</bean>
 
 	<bean id="fileReader" class="com.danone.batch.FlatFileSaludo" scope="step">
-	<property name="strict" value="false"/>
+		<property name="strict" value="false"/>
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
 				<property name="lineTokenizer">

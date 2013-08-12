@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.LineMapper;
 import org.springframework.core.io.Resource;
 
 public class FlatFileSaludo extends FlatFileItemReader<SaludoInput> {
@@ -86,4 +87,15 @@ public class FlatFileSaludo extends FlatFileItemReader<SaludoInput> {
     	}
     }
 
+    @Override
+    public void setLineMapper(LineMapper<SaludoInput> lineMapper) {
+    	// TODO Auto-generated method stub
+    	super.setLineMapper(lineMapper);
+    }
+    
+    @Override
+    public void setStrict(boolean strict) {
+    	// TODO Auto-generated method stub
+    	super.setStrict(strict);
+    }
 }
