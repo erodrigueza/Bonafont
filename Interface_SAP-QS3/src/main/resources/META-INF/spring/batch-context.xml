@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<description>Specification Jobs.</description>
+
+<!-- ############################# ORDEN CREATION INPUT ############################## -->
+	<batch:job id="jobOrdenCreationInput">
+		<batch:step id="stepOrdenCreationInput">
+			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
+				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="resources" value="file:C:/interface_SAP_QS3/data/in/orderCreation/new/*.txt" />
+		<property name="delegate" ref="fileReaderOrdenCreationInput" />
+		<property name="strict" value="false"/>
+	</bean>
+
+	<bean id="fileReaderOrdenCreationInput" class="com.danone.bonafont.batch.reader.FlatFileReader" scope="step">
+		<property name="strict" value="false"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value=";"/> 
+						<property name="names" value="ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido" /> 
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="ordenDTOPrototype" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.dto.OrdenDTO" />
+	
+	<bean id="writerOrdenCreationInput"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		<property name="itemSqlParameterSourceProvider">
+			<bean
+				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+		<property name="sql">
+			<value>
+           	<![CDATA[        
+		    INSERT INTO dbo.QS_TBL_SAP_ORDEN (                    
+		        ch_orden_compra, nu_id_estatus, da_registro,     
+		        nu_id_archivo, da_proceso, ch_origen, ch_foliopedido,  
+		        ch_destino, ch_ciudescrip, ch_pedfecha,     
+		        ch_pedfechaemb, ch_pedfechaent, ch_observa, ch_producto,     
+		        ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi,        
+		        ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido,
+		        ch_orgventas, ch_canaldist, ch_division,     
+		        nu_posicionitem, ch_procedencia, ch_razonpedido)                    
+		    VALUES (:ch_orden_compra, 2001, SYSDATETIME(), 4, SYSDATETIME(), :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
+           	]]>
+			</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- ############################# FIN ORDEN CREATION INPUT ############################# -->	
+
+<!-- ############################# ORDEN CREATION OUTPUT ############################# -->
+	<batch:job id="jobOrdenCreationOutput">
+		<batch:step id="stepOrdenCreationOutput">
+			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
+				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="1" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="readerOrdenCreationOutput"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql">
+			<value>
+				<![CDATA[
+				SELECT * FROM dbo.QS_TBL_SAP_ORDEN
+				]]>
+			</value>
+		</property>
+		<property name="rowMapper">
+			<bean id="beneficiarioMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+				<property name="mappedClass">
+					<value type="java.lang.Class">com.danone.bonafont.batch.dto.OrdenDTO</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="writerOrdenCreationOutput" class="org.springframework.batch.item.file.FlatFileItemWriter">
+		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation.csv" />
+		<property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+                <property name="delimiter">
+                    <util:constant static-field="org.springframework.batch.item.file.transform.DelimitedLineTokenizer.DELIMITER_COMMA" />
+                </property>
+                <property name="fieldExtractor">
+                    <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                    <property name="names" value="nu_id_orden,ch_orden_compra,nu_id_estatus,da_registro,nu_id_archivo,da_proceso,ch_origen,ch_foliopedido,ch_destino,ch_ciudescrip,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,ch_occamion,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem,ch_procedencia,ch_razonpedido"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+	</bean>
+	
+</beans>
