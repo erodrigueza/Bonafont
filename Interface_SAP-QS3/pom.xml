@@ -5,20 +5,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.danone.bonafot.batch</groupId>
 	<artifactId>interface-SAP-QS3</artifactId>
-	<version>1.0.0</version>
+	<version>0.1</version>
 	<packaging>jar</packaging>
 	<name>Bonafont Interface SAP QS3</name>
+	<url>http://www.intellego.com.mx/</url>
 	<description>
 		<![CDATA[
       		This project is the interface between SAP and QS3.  
     	]]>
 	</description>
+	
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<spring.framework.version>3.0.6.RELEASE</spring.framework.version>
 		<spring.batch.version>2.2.0.RELEASE</spring.batch.version>
 		<quartz.version>1.8.6</quartz.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
 	<profiles>
 		<profile>
 			<id>strict</id>
@@ -150,7 +154,6 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -158,6 +161,43 @@
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<mainClass>com.danone.bonafont.batch.App</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<mode>development</mode>
+							<url>${pom.url}</url>
+							<company>Intellego</company>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 
@@ -171,26 +211,94 @@
 						<!-- job configuration file -->
 						<argument>classpath:/launch-context.xml</argument>
 						<!-- job name -->
-						<argument>job1</argument>
+						<argument>jobOrdenCreationInput</argument>
 					</arguments>
 				</configuration>
 			</plugin>
 
-			<plugin>
+			<!-- packaged on one jar -->
+			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
+					<excludes>
+						<exclude>**/*.txt</exclude>
+					</excludes>
 					<archive>
 						<index>true</index>
 						<manifest>
-							<mainClass>org.springframework.batch.core.launch.support.CommandLineJobRunner</mainClass>
+							<mainClass>com.danone.bonafont.batch.App</mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
+
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-shade-plugin</artifactId>
+			    <version>2.0</version>
+			    <executions>
+			      <execution>
+			        <phase>package</phase>
+			        <goals>
+			          <goal>shade</goal>
+			        </goals>
+			        <configuration>
+			          <transformers>
+			            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+			              <resource>META-INF/spring.handlers</resource>
+			            </transformer>
+			            <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+			              <resource>META-INF/spring.schemas</resource>
+			            </transformer>
+			            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+			              <mainClass>com.danone.bonafont.batch.App</mainClass>
+			            </transformer>
+			          </transformers>
+			        </configuration>
+			      </execution>
+			    </executions>
+			  </plugin-->
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-dependency-plugin
+										</artifactId>
+										<versionRange>
+											[2.1,)
+										</versionRange>
+										<goals>
+											<goal>
+												copy-dependencies
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<pluginRepositories>
