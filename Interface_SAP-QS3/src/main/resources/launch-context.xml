@@ -27,6 +27,14 @@
 		<property name="username" value="danone" />
 		<property name="password" value="Dan0204" />
 	</bean>
+
+	<!-- connect to database TEST-->
+	<!--bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:file:C:/databases/hsqldb-2.3.0/testdb" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean-->	
 	
 	<bean id="transactionManager"
 		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />

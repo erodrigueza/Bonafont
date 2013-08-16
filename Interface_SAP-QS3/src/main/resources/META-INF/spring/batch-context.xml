@@ -31,7 +31,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido" /> 
+						<property name="names" value="ch_origen,ch_orden_compra,ch_foliopedido,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,dummy,dummy,dummy,ch_occamion,dummy,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -44,7 +44,7 @@
 		</property>
 	</bean>
 
-	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.dto.OrdenDTO" />
+	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.dto.OrdenInputDTO" />
 	
 	<bean id="writerOrdenCreationInput"
 		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
@@ -64,7 +64,7 @@
 		        ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido,
 		        ch_orgventas, ch_canaldist, ch_division,     
 		        nu_posicionitem, ch_procedencia, ch_razonpedido)                    
-		    VALUES (:ch_orden_compra, 2001, SYSDATETIME(), 4, SYSDATETIME(), :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
+		    VALUES (:ch_orden_compra, 2001, SYSDATETIME(), 4, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
            	]]>
 			</value>
 		</property>
@@ -88,29 +88,28 @@
 		<property name="sql">
 			<value>
 				<![CDATA[
-				SELECT * FROM dbo.QS_TBL_SAP_ORDEN
+				SELECT * FROM dbo.QS_TBL_QS3_ORDEN
 				]]>
 			</value>
 		</property>
 		<property name="rowMapper">
 			<bean id="beneficiarioMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
 				<property name="mappedClass">
-					<value type="java.lang.Class">com.danone.bonafont.batch.dto.OrdenDTO</value>
+					<value type="java.lang.Class">com.danone.bonafont.batch.dto.OrdenOutputDTO</value>
 				</property>
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="writerOrdenCreationOutput" class="org.springframework.batch.item.file.FlatFileItemWriter">
-		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation.csv" />
+	<bean id="writerOrdenCreationOutput" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+		<property name="shouldDeleteIfEmpty" value="true"/>
+		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(System).currentTimeMillis()}.csv" />
 		<property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
-                <property name="delimiter">
-                    <util:constant static-field="org.springframework.batch.item.file.transform.DelimitedLineTokenizer.DELIMITER_COMMA" />
-                </property>
+                <property name="delimiter" value=";" />
                 <property name="fieldExtractor">
                     <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-                    <property name="names" value="nu_id_orden,ch_orden_compra,nu_id_estatus,da_registro,nu_id_archivo,da_proceso,ch_origen,ch_foliopedido,ch_destino,ch_ciudescrip,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,ch_occamion,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem,ch_procedencia,ch_razonpedido"/>
+                    <property name="names" value="ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_producto, ch_cantidad, ch_origen, ch_almacen, ch_foliopedido, ch_observa, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, nu_prioridad, ch_razonpedido"/>
                     </bean>
                 </property>
             </bean>

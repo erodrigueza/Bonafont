@@ -34,7 +34,7 @@
 	
 	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
-		<property name="cronExpression" value="0/5 * * * * ?" />
+		<property name="cronExpression" value="0 5 * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CREATION INPUT ############################## -->
@@ -53,7 +53,7 @@
 	<!-- Cron Trigger, run every 10 seconds -->
 	<bean id="cronOrdenCreationOutput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationOutput" />
-		<property name="cronExpression" value="0/10 * * * * ?" />
+		<property name="cronExpression" value="0 10 * * * ?" />
 	</bean>
 	
 </beans>
