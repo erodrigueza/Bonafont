@@ -1,16 +1,17 @@
 package com.danone.bonafont.batch.dto;
 
+
 /**
  * @author Eduardo Rodriguez 
- * DTO Orden Creator
+ * DTO Orden Creator Input
  */
-public class OrdenDTO {
+public class OrdenInputDTO {
 
-	private String nu_id_orden;
+	private Integer nu_id_orden;
 	private String ch_orden_compra;
-	private String nu_id_estatus;
+	private Integer nu_id_estatus;
 	private String da_registro;
-	private String nu_id_archivo;
+	private Integer nu_id_archivo;
 	private String da_proceso;
 	private String ch_origen;
 	private String ch_foliopedido;
@@ -32,14 +33,15 @@ public class OrdenDTO {
 	private String ch_orgventas;
 	private String ch_canaldist;
 	private String ch_division;
-	private String nu_posicionitem;
+	private Integer nu_posicionitem;
 	private String ch_procedencia;
 	private String ch_razonpedido;
+	private String dummy;
 	
-	public String getNu_id_orden() {
+	public Integer getNu_id_orden() {
 		return nu_id_orden;
 	}
-	public void setNu_id_orden(String nu_id_orden) {
+	public void setNu_id_orden(Integer nu_id_orden) {
 		this.nu_id_orden = nu_id_orden;
 	}
 	public String getCh_orden_compra() {
@@ -48,10 +50,10 @@ public class OrdenDTO {
 	public void setCh_orden_compra(String ch_orden_compra) {
 		this.ch_orden_compra = ch_orden_compra;
 	}
-	public String getNu_id_estatus() {
+	public Integer getNu_id_estatus() {
 		return nu_id_estatus;
 	}
-	public void setNu_id_estatus(String nu_id_estatus) {
+	public void setNu_id_estatus(Integer nu_id_estatus) {
 		this.nu_id_estatus = nu_id_estatus;
 	}
 	public String getDa_registro() {
@@ -60,10 +62,10 @@ public class OrdenDTO {
 	public void setDa_registro(String da_registro) {
 		this.da_registro = da_registro;
 	}
-	public String getNu_id_archivo() {
+	public Integer getNu_id_archivo() {
 		return nu_id_archivo;
 	}
-	public void setNu_id_archivo(String nu_id_archivo) {
+	public void setNu_id_archivo(Integer nu_id_archivo) {
 		this.nu_id_archivo = nu_id_archivo;
 	}
 	public String getDa_proceso() {
@@ -192,10 +194,10 @@ public class OrdenDTO {
 	public void setCh_division(String ch_division) {
 		this.ch_division = ch_division;
 	}
-	public String getNu_posicionitem() {
+	public Integer getNu_posicionitem() {
 		return nu_posicionitem;
 	}
-	public void setNu_posicionitem(String nu_posicionitem) {
+	public void setNu_posicionitem(Integer nu_posicionitem) {
 		this.nu_posicionitem = nu_posicionitem;
 	}
 	public String getCh_procedencia() {
@@ -209,6 +211,12 @@ public class OrdenDTO {
 	}
 	public void setCh_razonpedido(String ch_razonpedido) {
 		this.ch_razonpedido = ch_razonpedido;
+	}
+	public String getDummy() {
+		return dummy;
+	}
+	public void setDummy(String dummy) {
+		this.dummy = dummy;
 	}
 
 }

@@ -10,12 +10,12 @@ import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.core.io.Resource;
 
-import com.danone.bonafont.batch.dto.OrdenDTO;
+import com.danone.bonafont.batch.dto.OrdenInputDTO;
 
 /**
  * @author Eduardo Rodriguez Wrapper class by reader the inputs files
  */
-public class FlatFileReader extends FlatFileItemReader<OrdenDTO> {
+public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 
 	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
 	private Resource resource;
@@ -35,7 +35,7 @@ public class FlatFileReader extends FlatFileItemReader<OrdenDTO> {
 	}
 
 	@Override
-	protected OrdenDTO doRead() throws Exception {
+	protected OrdenInputDTO doRead() throws Exception {
 		try {
 			return super.doRead();
 		} catch (Exception e) {
