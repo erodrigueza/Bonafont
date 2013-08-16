@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+	<description>Specification Quartz.</description>
+
+	<!-- Scheduler Factory Bean -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronOrdenCreationInput" />
+				<ref bean="cronOrdenCreationOutput" />
+			</list>
+		</property>
+	</bean>
+
+<!-- ############################# ORDEN CREATION INPUT ############################## -->
+	<bean id="jobDetailOrdenCreationInput" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobOrdenCreationInput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
+		<property name="cronExpression" value="0 5 * * * ?" />
+	</bean>
+
+<!-- ############################# ORDEN CREATION INPUT ############################## -->
+	<bean id="jobDetailOrdenCreationOutput" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobOrdenCreationOutput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Cron Trigger, run every 10 seconds -->
+	<bean id="cronOrdenCreationOutput" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCreationOutput" />
+		<property name="cronExpression" value="0 10 * * * ?" />
+	</bean>
+	
+</beans>
