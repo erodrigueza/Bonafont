@@ -5,10 +5,7 @@ package com.danone.bonafont.batch.reader;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.item.ExecutionContext;
@@ -16,7 +13,9 @@ import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.core.io.Resource;
 
+import com.danone.bonafont.batch.dao.ArchivoDAO;
 import com.danone.bonafont.batch.dto.OrdenInputDTO;
+import com.danone.bonafont.batch.model.Archivo;
 
 /**
  * @author Eduardo Rodriguez Wrapper class by reader the inputs files
@@ -27,8 +26,10 @@ public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 	private Resource resource;
 	private boolean isError = false;
 	private Integer idArchivo;
-	private DataSource datasource;
 
+	@javax.annotation.Resource
+	ArchivoDAO archivoDAO;
+	
 	@Override
 	public void setResource(Resource resource) {
 		LOG.debug("File Name: " + resource.getFilename());
@@ -38,15 +39,17 @@ public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 	}
 
 	private Integer getIdArchivo(Resource resource) {
-		try {
-			String nameFile = resource.getFilename();
-			Connection conn = datasource.getConnection();
-			String query = "";
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		Integer id = 0;
+		Archivo archivo = new Archivo();
+        archivo.setCh_nombre(resource.getFilename());
+        archivo.setDa_registro(new Date());
+        archivo.setNu_id_estatus(1001);
+        archivo.setNu_id_tipo(1);
+        LOG.info("Se registra el archivo " + resource.getFilename() + " en la DB.");
+        archivoDAO.insert(archivo);   
+        id = archivo.getNu_id_archivo().intValue();
+        LOG.info("Con el ID: "+id);  
+		return id;
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 			throw e;
 		}
 		if (dto != null) {
-			dto.setNu_id_archivo(2);
+			dto.setNu_id_archivo(this.idArchivo);
 		}
 		return dto;
 	}
@@ -93,11 +96,4 @@ public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 		super.update(executionContext);
 	}
 
-	public DataSource getDatasource() {
-		return datasource;
-	}
-
-	public void setDatasource(DataSource datasource) {
-		this.datasource = datasource;
-	}
 }

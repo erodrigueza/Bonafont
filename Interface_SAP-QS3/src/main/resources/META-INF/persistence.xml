@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" 
+	xmlns="http://java.sun.com/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemalocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+	<persistence-unit name="interfaces" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.danone.bonafont.batch.model.Archivo</class>
+		<!--properties>
+			<property name="hibernate.connection.url" value="jdbc:sqlserver://10.11.6.22:1433;DatabaseName=Danone" />
+			<property name="hibernate.connection.driver_class" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+			<property name="hibernate.connection.password" value="Dan0204" />
+			<property name="hibernate.connection.username" value="danone" />
+			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
+			<property name="hibernate.connection.pool_size" value="8" />
+			<property name="transaction.factory_class" value="org.hibernate.transaction.JDBCTransactionFactory" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.showSql" value="true" /> 
+		</properties-->
+	</persistence-unit>  
+</persistence>  
