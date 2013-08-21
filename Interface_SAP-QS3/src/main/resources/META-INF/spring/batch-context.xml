@@ -13,10 +13,19 @@
 	<batch:job id="jobOrdenCreationInput">
 		<batch:step id="stepOrdenCreationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" />
+				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" skip-limit="100">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
 			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="listenerChunk"/>
+			</batch:listeners>
 		</batch:step>
 	</batch:job>
+	
+	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>
 
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
 		<property name="resources" value="file:C:/interface_SAP_QS3/data/in/orderCreation/new/*.txt" />
@@ -47,7 +56,7 @@
 	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.dto.OrdenInputDTO" />
 	
 	<bean id="writerOrdenCreationInput"
-		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
+		class="com.danone.bonafont.batch.writer.JdbcWriter" scope="step">
 		<property name="itemSqlParameterSourceProvider">
 			<bean
 				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
@@ -55,7 +64,7 @@
 		<property name="sql">
 			<value>
            	<![CDATA[        
-		    INSERT INTO dbo.QS_TBL_SAP_ORDEN (                    
+		    INSERT INTO dbo.QS_TBL_SAP_ORDEN (                 
 		        ch_orden_compra, nu_id_estatus, da_registro,     
 		        nu_id_archivo, da_proceso, ch_origen, ch_foliopedido,  
 		        ch_destino, ch_ciudescrip, ch_pedfecha,     
@@ -64,7 +73,7 @@
 		        ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido,
 		        ch_orgventas, ch_canaldist, ch_division,     
 		        nu_posicionitem, ch_procedencia, ch_razonpedido)                    
-		    VALUES (:ch_orden_compra, 2001, SYSDATETIME(), 4, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
+		    VALUES (:ch_orden_compra, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
            	]]>
 			</value>
 		</property>
