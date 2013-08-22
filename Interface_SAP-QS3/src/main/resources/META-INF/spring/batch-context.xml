@@ -85,7 +85,7 @@
 	<batch:job id="jobOrdenCreationOutput">
 		<batch:step id="stepOrdenCreationOutput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="1" />
+				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="1000" />
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
@@ -97,20 +97,20 @@
 		<property name="sql">
 			<value>
 				<![CDATA[
-				SELECT * FROM dbo.QS_TBL_QS3_ORDEN
+				SELECT * FROM dbo.QS_TBL_QS3_ORDEN WHERE nu_id_estatus = 2005
 				]]>
 			</value>
 		</property>
 		<property name="rowMapper">
 			<bean id="beneficiarioMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
 				<property name="mappedClass">
-					<value type="java.lang.Class">com.danone.bonafont.batch.dto.OrdenOutputDTO</value>
+					<value type="java.lang.Class">com.danone.bonafont.batch.model.Qs3Orden</value>
 				</property>
 			</bean>
 		</property>
 	</bean>
 
-	<bean id="writerOrdenCreationOutput" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
+	<bean id="writerOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriter" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
 		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(System).currentTimeMillis()}.csv" />
 		<property name="lineAggregator">

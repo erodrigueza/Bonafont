@@ -1,33 +1,71 @@
-/**
- * 
- */
 package com.danone.bonafont.batch.writer;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.core.io.Resource;
 
-import com.danone.bonafont.batch.dto.OrdenOutputDTO;
+import com.danone.bonafont.batch.dao.ArchivoDAO;
+import com.danone.bonafont.batch.dao.Qs3OrdenDAO;
+import com.danone.bonafont.batch.model.Qs3Orden;
+import com.danone.bonafont.batch.reader.FlatFileReader;
+import com.danone.bonafont.batch.util.Constants;
 
 /**
- * @author Eduardo Rodriguez
- *
+ * @author Eduardo Rodriguez 
+ * Class register out file and update status of order
  */
-public class FlatFileIWriter extends FlatFileItemWriter<OrdenOutputDTO> {
+public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 
-	List<OrdenOutputDTO> items;
-	
+	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
+	private boolean isError = false;
+	private Integer idArchivo;
+
+	@javax.annotation.Resource
+	Qs3OrdenDAO qs3OrdenDAO;
+
+	@javax.annotation.Resource
+	ArchivoDAO archivoDAO;
+
+	List<Qs3Orden> items;
+
 	@Override
-	public void write(List<? extends OrdenOutputDTO> items) throws Exception {
-		Collections.copy(this.items, items);
-		super.write(items);
+	public void setResource(Resource resource) {
+		LOG.debug("File Name: " + resource.getFilename());
+		this.idArchivo = archivoDAO.registerFile(resource.getFilename(),
+				Constants.ARCHIVO_GENERADO, Constants.QS3_SAP_OR_CREATION);
+		super.setResource(resource);
 	}
+
+	@Override
+	public void write(List<? extends Qs3Orden> items) throws Exception {
+		this.items = new ArrayList<Qs3Orden>(items);
+		try {
+			super.write(items);
+		} catch (Exception e) {
+			this.isError = true;
+			throw e;
+		}
+	}
+
 	@Override
 	public void close() {
-		for (OrdenOutputDTO dto : items) {
-			System.err.println("getCh_almacen(): "+dto.getCh_almacen());
-		}
 		super.close();
+		updateState();
+	}
+
+	private void updateState() {
+		if (!isError && items != null) {
+			for (Qs3Orden qs3 : items) {
+				qs3.setNu_id_estatus(Constants.REG_PROCESADO);
+				qs3.setDa_proceso(new Date());
+				qs3.setNu_id_archivo(idArchivo);
+			}
+			qs3OrdenDAO.update(items);
+		}
+
 	}
 }

@@ -47,8 +47,16 @@ public class GenericDAOJPAImpl<T, PK extends Serializable> extends
     @Transactional  
     public void update(T object) {  
         getJpaTemplate().merge(object);  
-    }  
-  
+    }
+    
+	@Transactional
+	public void update(List<T> objects) {
+
+		for (T entity : objects) {
+			getJpaTemplate().merge(entity);// update an entity
+		}
+	}
+    
     @SuppressWarnings("unchecked")  
     @Transactional(readOnly = true)  
     public List<T> getPaginated(Class<T> typeClass, int startPosition,  

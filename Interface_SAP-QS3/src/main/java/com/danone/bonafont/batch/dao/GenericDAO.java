@@ -13,7 +13,9 @@ public interface GenericDAO <T, PK extends Serializable> {
   
     T findByPK(Class<T> typeClass, PK id);  
   
-    void update(T object);  
+    void update(T object);
+    
+    void update(List<T> objects);
   
     void remove(T object);  
   

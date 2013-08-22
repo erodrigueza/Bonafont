@@ -1,6 +1,10 @@
 package com.danone.bonafont.batch.dao.imp.jpa;
 
+import java.util.Date;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.danone.bonafont.batch.dao.ArchivoDAO;
 import com.danone.bonafont.batch.model.Archivo;
@@ -11,5 +15,22 @@ import com.danone.bonafont.batch.model.Archivo;
  */
 @Repository("archivoDAO")
 public class ArchivoDAOJPAImpl extends GenericDAOJPAImpl<Archivo, Long> implements ArchivoDAO{
+
+	private static final Logger LOG = Logger.getLogger(ArchivoDAOJPAImpl.class);
+	
+	@Transactional
+	public Integer registerFile(String fileName, Integer status, Integer interfaz) {
+		Integer id = 0;
+		Archivo archivo = new Archivo();
+        archivo.setCh_nombre(fileName);
+        archivo.setDa_registro(new Date());
+        archivo.setNu_id_estatus(status);
+        archivo.setNu_id_tipo(interfaz);
+        insert(archivo);   
+        LOG.info("Se registra el archivo " + fileName + " en la DB.");
+        id = archivo.getNu_id_archivo().intValue();
+        LOG.info("Con el ID: "+id);  
+		return id;
+	}
 
 }

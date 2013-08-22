@@ -13,7 +13,7 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<ref bean="cronOrdenCreationInput" />
+				<!-- ref bean="cronOrdenCreationInput" /-->
 				<ref bean="cronOrdenCreationOutput" />
 			</list>
 		</property>
@@ -37,7 +37,7 @@
 		<property name="cronExpression" value="0/40 * * * * ?" />
 	</bean>
 
-<!-- ############################# ORDEN CREATION INPUT ############################## -->
+<!-- ############################# ORDEN CREATION OUTPUT ############################## -->
 	<bean id="jobDetailOrdenCreationOutput" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
 		<property name="group" value="quartz-batch" />
@@ -53,7 +53,7 @@
 	<!-- Cron Trigger, run every 10 seconds -->
 	<bean id="cronOrdenCreationOutput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationOutput" />
-		<property name="cronExpression" value="0/10 * * * * ?" />
+		<property name="cronExpression" value="50 * * * * ?" />
 	</bean>
 	
 </beans>
