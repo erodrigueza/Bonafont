@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "QS_TBL_SAP_ORDEN", schema = "dbo")
-@NamedQuery(name="SapOrden.findByOrden", query="SELECT t FROM dbo.QS_TBL_SAP_ORDEN t WHERE t.ch_orden_compra = :ch_orden_compra")
+@NamedQuery(name="SapOrden.findByOrden", query="SELECT t FROM SapOrden t WHERE t.ch_orden_compra = :ch_orden_compra")
 public class SapOrden implements Serializable{
 
 	private static final long serialVersionUID = 1L;
