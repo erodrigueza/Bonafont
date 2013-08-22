@@ -10,6 +10,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * @author Eduardo Rodriguez
+ *
+ */
 @Entity
 @Table(name = "QS_TBL_QS3_ORDEN", schema = "dbo")
 public class Qs3Orden implements Serializable{
@@ -28,7 +32,7 @@ public class Qs3Orden implements Serializable{
     private Date da_registro    ;
 	
 	@Column(name = "nu_id_archivo")
-	private Integer nu_id_archivo  ;
+	private Long nu_id_archivo  ;
 	
 	@Column(name = "da_proceso")
     @Temporal(TemporalType.TIMESTAMP)
@@ -124,11 +128,11 @@ public class Qs3Orden implements Serializable{
 		this.da_registro = da_registro;
 	}
 
-	public Integer getNu_id_archivo() {
+	public Long getNu_id_archivo() {
 		return nu_id_archivo;
 	}
 
-	public void setNu_id_archivo(Integer nu_id_archivo) {
+	public void setNu_id_archivo(Long nu_id_archivo) {
 		this.nu_id_archivo = nu_id_archivo;
 	}
 

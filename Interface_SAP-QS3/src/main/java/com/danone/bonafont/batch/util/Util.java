@@ -1,11 +1,10 @@
-/**
- * 
- */
 package com.danone.bonafont.batch.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.log4j.Logger;
 
@@ -72,6 +71,12 @@ public class Util {
 		} catch (IOException e) {
 			LOG.error(e.getLocalizedMessage());
 		}
+	}
+	
+	public static String getDate(){
+		SimpleDateFormat formatter;
+		formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+	    return formatter.format(new Date());
 	}
 
 }

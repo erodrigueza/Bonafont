@@ -53,7 +53,7 @@
 		</property>
 	</bean>
 
-	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.dto.OrdenInputDTO" />
+	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapOrden" />
 	
 	<bean id="writerOrdenCreationInput"
 		class="com.danone.bonafont.batch.writer.JdbcWriter" scope="step">
@@ -112,7 +112,7 @@
 
 	<bean id="writerOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriter" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
-		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(System).currentTimeMillis()}.csv" />
+		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" />
 		<property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
                 <property name="delimiter" value=";" />

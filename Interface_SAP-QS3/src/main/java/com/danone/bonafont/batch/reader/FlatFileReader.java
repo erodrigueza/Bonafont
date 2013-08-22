@@ -10,19 +10,20 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.core.io.Resource;
 
 import com.danone.bonafont.batch.dao.ArchivoDAO;
-import com.danone.bonafont.batch.dto.OrdenInputDTO;
+import com.danone.bonafont.batch.model.Archivo;
+import com.danone.bonafont.batch.model.SapOrden;
 import com.danone.bonafont.batch.util.Constants;
 
 /**
  * @author Eduardo Rodriguez 
  * Wrapper class by reader the inputs files
  */
-public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
+public class FlatFileReader extends FlatFileItemReader<SapOrden> {
 
 	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
 	private Resource resource;
 	private boolean isError = false;
-	private Integer idArchivo;
+	private Long idArchivo;
 
 	@javax.annotation.Resource
 	ArchivoDAO archivoDAO;
@@ -40,11 +41,12 @@ public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 	protected void doClose() throws Exception {
 		super.doClose();
 		moveFile();
+		updateFile();
 	}
 
 	@Override
-	protected OrdenInputDTO doRead() throws Exception {
-		OrdenInputDTO dto = null;
+	protected SapOrden doRead() throws Exception {
+		SapOrden dto = null;
 		try {
 			dto = super.doRead();
 		} catch (Exception e) {
@@ -68,6 +70,14 @@ public class FlatFileReader extends FlatFileItemReader<OrdenInputDTO> {
 			} else {
 				LOG.error("FAILED Move File ");
 			}
+		}
+	}
+	
+	private void updateFile(){
+		if(this.isError){
+			Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
+			archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
+			archivoDAO.update(archivo);
 		}
 	}
 

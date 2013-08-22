@@ -19,8 +19,8 @@ public class ArchivoDAOJPAImpl extends GenericDAOJPAImpl<Archivo, Long> implemen
 	private static final Logger LOG = Logger.getLogger(ArchivoDAOJPAImpl.class);
 	
 	@Transactional
-	public Integer registerFile(String fileName, Integer status, Integer interfaz) {
-		Integer id = 0;
+	public Long registerFile(String fileName, Integer status, Integer interfaz) {
+		Long id = 0L;
 		Archivo archivo = new Archivo();
         archivo.setCh_nombre(fileName);
         archivo.setDa_registro(new Date());
@@ -28,7 +28,7 @@ public class ArchivoDAOJPAImpl extends GenericDAOJPAImpl<Archivo, Long> implemen
         archivo.setNu_id_tipo(interfaz);
         insert(archivo);   
         LOG.info("Se registra el archivo " + fileName + " en la DB.");
-        id = archivo.getNu_id_archivo().intValue();
+        id = archivo.getNu_id_archivo();
         LOG.info("Con el ID: "+id);  
 		return id;
 	}

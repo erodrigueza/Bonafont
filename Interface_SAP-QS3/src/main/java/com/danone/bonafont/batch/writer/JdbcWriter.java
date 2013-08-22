@@ -3,35 +3,40 @@
  */
 package com.danone.bonafont.batch.writer;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.DataSource;
+import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 
-import com.danone.bonafont.batch.dto.OrdenInputDTO;
+import com.danone.bonafont.batch.dao.SapOrdenDAO;
+import com.danone.bonafont.batch.model.SapOrden;
+import com.danone.bonafont.batch.util.Constants;
 
 /**
  * @author Eduardo Rodriguez
  * 
  */
-public class JdbcWriter extends JdbcBatchItemWriter<OrdenInputDTO> {
+public class JdbcWriter extends JdbcBatchItemWriter<SapOrden> {
+
+	private static final Logger LOG = Logger.getLogger(JdbcWriter.class);
+
+	@Resource
+	SapOrdenDAO sapOrdenDAO;
+
 	@Override
-	public void write(List<? extends OrdenInputDTO> items) throws Exception {
-		List<OrdenInputDTO> rows = new ArrayList<OrdenInputDTO>();
-		for (OrdenInputDTO dto : items) {
-			//TODO Aqui se implementara la consulta a la DB para identificar duplicados
-			System.err.println("Ch_orden_compra: "+dto.getCh_orden_compra());
-			System.err.println("Nu_id_archivo: "+dto.getNu_id_archivo());
-			dto.setNu_id_estatus(2001);
-			rows.add(dto);
+	public void write(List<? extends SapOrden> items) throws Exception {
+		for (SapOrden orden : items) {
+			LOG.info("Ch_orden_compra: " + orden.getCh_orden_compra());
+			LOG.info("Nu_id_archivo: " + orden.getNu_id_archivo());
+			List<SapOrden> ordens = sapOrdenDAO.findByOrdenCompra(orden.getCh_orden_compra());
+			if(ordens.size() > 0){
+				orden.setNu_id_estatus(Constants.REG_DUPLICADO);
+			}else{
+				orden.setNu_id_estatus(Constants.REG_NUEVO);
+			}
 		}
-		super.write(rows);
+		super.write(items);
 	}
-@Override
-public void setDataSource(DataSource dataSource) {
-	// TODO Auto-generated method stub
-	super.setDataSource(dataSource);
-}
 }

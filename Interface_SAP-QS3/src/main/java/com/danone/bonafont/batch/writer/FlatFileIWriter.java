@@ -15,14 +15,14 @@ import com.danone.bonafont.batch.reader.FlatFileReader;
 import com.danone.bonafont.batch.util.Constants;
 
 /**
- * @author Eduardo Rodriguez 
- * Class register out file and update status of order
+ * @author Eduardo Rodriguez Class register out file and update status of order
  */
 public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 
 	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
 	private boolean isError = false;
-	private Integer idArchivo;
+	private Long idArchivo;
+	private Resource resource;
 
 	@javax.annotation.Resource
 	Qs3OrdenDAO qs3OrdenDAO;
@@ -35,8 +35,7 @@ public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 	@Override
 	public void setResource(Resource resource) {
 		LOG.debug("File Name: " + resource.getFilename());
-		this.idArchivo = archivoDAO.registerFile(resource.getFilename(),
-				Constants.ARCHIVO_GENERADO, Constants.QS3_SAP_OR_CREATION);
+		this.resource = resource;
 		super.setResource(resource);
 	}
 
@@ -49,6 +48,8 @@ public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 			this.isError = true;
 			throw e;
 		}
+		this.idArchivo = archivoDAO.registerFile(this.resource.getFilename(),
+				Constants.ARCHIVO_GENERADO, Constants.QS3_SAP_OR_CREATION);
 	}
 
 	@Override

@@ -13,7 +13,7 @@
 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-				<!-- ref bean="cronOrdenCreationInput" /-->
+				<ref bean="cronOrdenCreationInput" />
 				<ref bean="cronOrdenCreationOutput" />
 			</list>
 		</property>
@@ -34,7 +34,7 @@
 	
 	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
-		<property name="cronExpression" value="0/40 * * * * ?" />
+		<property name="cronExpression" value="0/10 * * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CREATION OUTPUT ############################## -->
