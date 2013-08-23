@@ -12,6 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * @author Eduardo Rodriguez
@@ -115,6 +116,7 @@ public class SapOrden implements Serializable{
 	@Column(name = "ch_razonpedido")
 	private String ch_razonpedido;
 	
+	@Transient
 	private String dummy;
 
 	public Integer getNu_id_orden() {

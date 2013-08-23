@@ -24,7 +24,7 @@ public class ChunkErrorListener implements ChunkListener {
 
 	@Override
 	public void afterChunk(ChunkContext context) {
-		LOG.error("Termino correctamente a nivel de Chunk.");
+		LOG.info("Termino correctamente a nivel de Chunk.");
 		StepContext stepContext = context.getStepContext();
 		StepExecution stepExecution = stepContext.getStepExecution();
 		ExecutionContext executionContext = stepExecution.getExecutionContext();
