@@ -84,10 +84,16 @@ public class FlatFileReader extends FlatFileItemReader<SapOrden> {
 	@Override
 	public void update(ExecutionContext executionContext)
 			throws ItemStreamException {
-		if (executionContext.get("anErrorHappened") != null) {
+		if (executionContext.get("anErrorHappened") != null && !this.isError) {
 			this.isError = executionContext.getInt("anErrorHappened") == 1;
 		}
 		super.update(executionContext);
+	}
+	
+	@Override
+	protected void doOpen() throws Exception {
+		this.isError = false;
+		super.doOpen();
 	}
 
 }

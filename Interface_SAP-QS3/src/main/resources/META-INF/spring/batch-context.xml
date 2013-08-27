@@ -84,7 +84,7 @@
 <!-- ############################# ORDEN CREATION OUTPUT ############################# -->
 	<batch:job id="jobOrdenCreationOutput">
 		<batch:step id="stepOrdenCreationOutput">
-			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
+			<batch:tasklet>
 				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="1000" />
 			</batch:tasklet>
 		</batch:step>
@@ -110,9 +110,18 @@
 		</property>
 	</bean>
 
-	<bean id="writerOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriter" scope="step">
+	<bean id="writerOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileMultiWriter" scope="step">
+		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation" />
+		<property name="saveState" value="true"/>
+		<property name="delegate" ref="fileWriterOrdenCreationOutput"/>
+		<property name="resourceSuffixCreator" ref="dateResourceSuffix"/>
+	</bean>
+	
+	<bean id="dateResourceSuffix" class="com.danone.bonafont.batch.util.DateResourceSuffix"/>
+	
+	<bean id="fileWriterOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriter" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
-		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" />
+		<!--property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" /-->
 		<property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
                 <property name="delimiter" value=";" />
