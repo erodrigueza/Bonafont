@@ -14,7 +14,12 @@
 		<property name="triggers">
 			<list>
 				<ref bean="cronOrdenCreationInput" />
-				<ref bean="cronOrdenCreationOutput" />
+				<ref bean="cronOrdenCreationOutputMX2" />
+				<ref bean="cronOrdenCreationOutputMX3" />
+				<ref bean="cronOrdenCreationCanOutputMX2" />
+				<ref bean="cronOrdenCreationCanOutputMX3" />
+				<ref bean="cronStoOutputMX2" />
+				<ref bean="cronStoOutputMX3" />
 			</list>
 		</property>
 	</bean>
@@ -34,26 +39,113 @@
 	
 	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
-		<property name="cronExpression" value="0/40 * * * * ?" />
+		<property name="cronExpression" value="10 * * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CREATION OUTPUT ############################## -->
-	<bean id="jobDetailOrdenCreationOutput" class="org.springframework.scheduling.quartz.JobDetailBean">
+	<bean id="jobDetailOrdenCreationOutputMX3" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
-		<property name="group" value="quartz-batch" />
+		<!--property name="group" value="quartz-batch" /-->
 		<property name="jobDataAsMap">
 			<map>
 				<entry key="jobName" value="jobOrdenCreationOutput" />
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
+				<entry key="orgventas" value="0084" />
+				<entry key="file" value="MX3QS3_orderCreation" />
 			</map>
 		</property>
 	</bean>
-	
-	<!-- Cron Trigger, run every 10 seconds -->
-	<bean id="cronOrdenCreationOutput" class="org.springframework.scheduling.quartz.CronTriggerBean">
-		<property name="jobDetail" ref="jobDetailOrdenCreationOutput" />
-		<property name="cronExpression" value="0/50 * * * * ?" />
+	<bean id="cronOrdenCreationOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCreationOutputMX3" />
+		<property name="cronExpression" value="50 * * * * ?" />
+	</bean>
+
+	<bean id="jobDetailOrdenCreationOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobOrdenCreationOutput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+				<entry key="orgventas" value="0068" />
+				<entry key="file" value="MX2QS3_orderCreation" />
+			</map>
+		</property>
+	</bean>
+	<bean id="cronOrdenCreationOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCreationOutputMX2" />
+		<property name="cronExpression" value="50 * * * * ?" />
 	</bean>
 	
+<!-- ##################### ORDEN CREATION CANCELLATION OUTPUT ######################## -->
+	<bean id="jobDetailOrdenCreationCanOutputMX3" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobOrdenCreationCanOutput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+				<entry key="orgventas" value="0084" />
+				<entry key="file" value="MX3QS3_orderCancellation" />
+			</map>
+		</property>
+	</bean>
+	<bean id="cronOrdenCreationCanOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCreationCanOutputMX3" />
+		<property name="cronExpression" value="50 * * * * ?" />
+	</bean>
+
+	<bean id="jobDetailOrdenCreationCanOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobOrdenCreationCanOutput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+				<entry key="orgventas" value="0068" />
+				<entry key="file" value="MX2QS3_orderCancellation" />
+			</map>
+		</property>
+	</bean>
+	<bean id="cronOrdenCreationCanOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCreationCanOutputMX2" />
+		<property name="cronExpression" value="50 * * * * ?" />
+	</bean>
+
+<!-- ################################ STO OUTPUT ##################################### -->
+	<bean id="jobDetailStoOutputMX3" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobStoOutput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+				<entry key="orgventas" value="0084" />
+				<entry key="file" value="MX3QS3_STO" />
+			</map>
+		</property>
+	</bean>
+	<bean id="cronStoOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailStoOutputMX3" />
+		<property name="cronExpression" value="50 * * * * ?" />
+	</bean>
+
+	<bean id="jobDetailStoOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobStoOutput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+				<entry key="orgventas" value="0068" />
+				<entry key="file" value="MX2QS3_STO" />
+			</map>
+		</property>
+	</bean>
+	<bean id="cronStoOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailStoOutputMX2" />
+		<property name="cronExpression" value="50 * * * * ?" />
+	</bean>
+		
 </beans>

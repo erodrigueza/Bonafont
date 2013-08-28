@@ -14,10 +14,10 @@ import com.danone.bonafont.batch.model.Qs3Orden;
  * @author Eduardo Rodriguez
  * 
  */
-public class FlatFileMultiWriter extends MultiResourceItemWriter<Qs3Orden> {
+public class FlatFileMultiWriterQs3Orden extends MultiResourceItemWriter<Qs3Orden> {
 
 	private static final Logger LOG = Logger
-			.getLogger(FlatFileMultiWriter.class);
+			.getLogger(FlatFileMultiWriterQs3Orden.class);
 
 	@Override
 	public void write(List<? extends Qs3Orden> items) throws Exception {
@@ -45,17 +45,8 @@ public class FlatFileMultiWriter extends MultiResourceItemWriter<Qs3Orden> {
 
 	private String getKey(Qs3Orden orden) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(orden.getCh_tipopedido());
-		buffer.append(orden.getCh_canaldist());
-		buffer.append(orden.getCh_division());
-		buffer.append(orden.getCh_destino());
+		buffer.append(orden.getCh_producto());
 		buffer.append(orden.getCh_foliopedido());
-		buffer.append(orden.getCh_observa());
-		buffer.append(orden.getCh_cubicuadre());
-		buffer.append(orden.getCh_pedidos3());
-		buffer.append(orden.getCh_occamion());
-		buffer.append(orden.getNu_prioridad());
-		buffer.append(orden.getCh_razonpedido());
 		return buffer.toString();
 	}
 

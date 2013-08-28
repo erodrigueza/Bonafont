@@ -9,28 +9,27 @@ import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.core.io.Resource;
 
 import com.danone.bonafont.batch.dao.ArchivoDAO;
-import com.danone.bonafont.batch.dao.Qs3OrdenDAO;
-import com.danone.bonafont.batch.model.Qs3Orden;
-import com.danone.bonafont.batch.reader.FlatFileReader;
+import com.danone.bonafont.batch.dao.Qs3OrdenCanDAO;
+import com.danone.bonafont.batch.model.Qs3OrdenCan;
 import com.danone.bonafont.batch.util.Constants;
 
 /**
  * @author Eduardo Rodriguez Class register out file and update status of order
  */
-public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
+public class FlatFileIWriterQs3OrdenCan extends FlatFileItemWriter<Qs3OrdenCan> {
 
-	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
+	private static final Logger LOG = Logger.getLogger(FlatFileIWriterQs3OrdenCan.class);
 	private boolean isError = false;
 	private Long idArchivo;
 	private Resource resource;
 
 	@javax.annotation.Resource
-	Qs3OrdenDAO qs3OrdenDAO;
+	Qs3OrdenCanDAO qs3OrdenCanDAO;
 
 	@javax.annotation.Resource
 	ArchivoDAO archivoDAO;
 
-	List<Qs3Orden> items;
+	List<Qs3OrdenCan> items;
 
 	@Override
 	public void setResource(Resource resource) {
@@ -40,8 +39,8 @@ public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 	}
 
 	@Override
-	public void write(List<? extends Qs3Orden> items) throws Exception {
-		this.items = new ArrayList<Qs3Orden>(items);
+	public void write(List<? extends Qs3OrdenCan> items) throws Exception {
+		this.items = new ArrayList<Qs3OrdenCan>(items);
 		try {
 			super.write(items);
 		} catch (Exception e) {
@@ -49,7 +48,7 @@ public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 			throw e;
 		}
 		this.idArchivo = archivoDAO.registerFile(this.resource.getFilename(),
-				Constants.ARCHIVO_GENERADO, Constants.QS3_SAP_OR_CREATION);
+				Constants.ARCHIVO_GENERADO, Constants.QS3_SAP_OR_CANCELLA);
 	}
 
 	@Override
@@ -60,12 +59,12 @@ public class FlatFileIWriter extends FlatFileItemWriter<Qs3Orden> {
 
 	private void updateState() {
 		if (!isError && items != null) {
-			for (Qs3Orden qs3 : items) {
+			for (Qs3OrdenCan qs3 : items) {
 				qs3.setNu_id_estatus(Constants.REG_PROCESADO);
 				qs3.setDa_proceso(new Date());
 				qs3.setNu_id_archivo(idArchivo);
 			}
-			qs3OrdenDAO.update(items);
+			qs3OrdenCanDAO.update(items);
 		}
 
 	}

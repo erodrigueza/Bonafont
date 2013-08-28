@@ -79,4 +79,9 @@ public class Util {
 	    return formatter.format(new Date());
 	}
 
+	public static String getDateSeg(){
+		SimpleDateFormat formatter;
+		formatter = new SimpleDateFormat("yyyyMMddHHmm");
+	    return formatter.format(new Date());
+	}
 }

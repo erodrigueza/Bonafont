@@ -21,6 +21,8 @@ public class JobLauncherDetails extends QuartzJobBean {
 
 
 	static final String JOB_NAME = "jobName" ;
+	
+	static final String PATH_BASE_OUT = "C:/interface_sap-qs3/data/out/new/" ;
 
 	private JobLocator jobLocator;
 
@@ -59,19 +61,17 @@ public class JobLauncherDetails extends QuartzJobBean {
 			String key = entry.getKey();
 			Object value = entry.getValue();
 			if (value instanceof String && !key.equals(JOB_NAME)) {
-				builder.addString(key, (String) value);
+				 builder.addString(key, (String) value);
 			} else if (value instanceof Float || value instanceof Double) {
 				builder.addDouble(key, ((Number) value).doubleValue());
 			} else if (value instanceof Integer || value instanceof Long) {
 				builder.addLong(key, ((Number) value).longValue());
 			} else if (value instanceof Date) {
 				builder.addDate(key, (Date) value);
-			} else {
-				// JobDataMap contains values which are not job parameters
-				// (ignoring)
 			}
 		}
 		
+		builder.addString("pathout", PATH_BASE_OUT);
 		builder.addDate("run date", new Date());
 		
 		return builder.toJobParameters();

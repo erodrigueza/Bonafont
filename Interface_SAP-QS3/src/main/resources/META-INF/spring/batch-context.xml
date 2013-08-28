@@ -10,6 +10,7 @@
 	<description>Specification Jobs.</description>
 
 <!-- ############################# ORDEN CREATION INPUT ############################## -->
+
 	<batch:job id="jobOrdenCreationInput">
 		<batch:step id="stepOrdenCreationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
@@ -28,7 +29,7 @@
 	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>
 
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_SAP_QS3/data/in/orderCreation/new/*.txt" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/*.txt" />
 		<property name="delegate" ref="fileReaderOrdenCreationInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -82,6 +83,7 @@
 <!-- ############################# FIN ORDEN CREATION INPUT ############################# -->	
 
 <!-- ############################# ORDEN CREATION OUTPUT ############################# -->
+
 	<batch:job id="jobOrdenCreationOutput">
 		<batch:step id="stepOrdenCreationOutput">
 			<batch:tasklet>
@@ -97,12 +99,12 @@
 		<property name="sql">
 			<value>
 				<![CDATA[
-				SELECT * FROM dbo.QS_TBL_QS3_ORDEN WHERE nu_id_estatus = 2005
+				SELECT * FROM dbo.QS_TBL_QS3_ORDEN WHERE nu_id_estatus = 2005 and ch_orgventas = '#{jobParameters[orgventas]}'
 				]]>
 			</value>
 		</property>
 		<property name="rowMapper">
-			<bean id="beneficiarioMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+			<bean id="ordenCreationOutputMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
 				<property name="mappedClass">
 					<value type="java.lang.Class">com.danone.bonafont.batch.model.Qs3Orden</value>
 				</property>
@@ -110,8 +112,8 @@
 		</property>
 	</bean>
 
-	<bean id="writerOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileMultiWriter" scope="step">
-		<property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation" />
+	<bean id="writerOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileMultiWriterQs3Orden" scope="step">
+		<property name="resource" value="file:#{jobParameters[pathout]}#{jobParameters[file]}" />
 		<property name="saveState" value="true"/>
 		<property name="delegate" ref="fileWriterOrdenCreationOutput"/>
 		<property name="resourceSuffixCreator" ref="dateResourceSuffix"/>
@@ -119,7 +121,7 @@
 	
 	<bean id="dateResourceSuffix" class="com.danone.bonafont.batch.util.DateResourceSuffix"/>
 	
-	<bean id="fileWriterOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriter" scope="step">
+	<bean id="fileWriterOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3Orden" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
 		<!--property name="resource" value="file:C:/interface_QS3_SAP/data/out/orderCreation/new/MX2QS3_orderCreation#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" /-->
 		<property name="lineAggregator">
@@ -133,5 +135,105 @@
             </bean>
         </property>
 	</bean>
+<!-- ######################### FIN ORDEN CREATION OUTPUT ############################# -->
 	
+<!-- ##################### ORDEN CREATION CANCELLATION OUTPUT ######################## -->
+
+	<batch:job id="jobOrdenCreationCanOutput">
+		<batch:step id="stepOrdenCreationCanOutput">
+			<batch:tasklet>
+				<batch:chunk reader="readerOrdenCreationCanOutput" writer="writerOrdenCreationCanOutput" commit-interval="1000" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="readerOrdenCreationCanOutput"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql">
+			<value>
+				<![CDATA[
+				SELECT * FROM dbo.QS_TBL_QS3_ORDEN_CAN WHERE nu_id_estatus = 2005 and ch_orgventas = '#{jobParameters[orgventas]}'
+				]]>
+			</value>
+		</property>
+		<property name="rowMapper">
+			<bean id="ordenCreationCanOutputMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+				<property name="mappedClass">
+					<value type="java.lang.Class">com.danone.bonafont.batch.model.Qs3OrdenCan</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="writerOrdenCreationCanOutput" class="com.danone.bonafont.batch.writer.FlatFileMultiWriterQs3OrdenCan" scope="step">
+		<property name="resource" value="file:#{jobParameters[pathout]}#{jobParameters[file]}" />
+		<property name="saveState" value="true"/>
+		<property name="delegate" ref="fileWriterOrdenCreationCanOutput"/>
+		<property name="resourceSuffixCreator" ref="dateResourceSuffix"/>
+	</bean>
+	
+	<bean id="fileWriterOrdenCreationCanOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3OrdenCan" scope="step">
+		<property name="shouldDeleteIfEmpty" value="true"/>
+		<property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+                <property name="delimiter" value=";" />
+                <property name="fieldExtractor">
+                    <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                    <property name="names" value="ch_foliopedido, ch_orgventas, ch_canaldist, ch_division, ch_producto, ch_razonrechazo, nu_posicionitem"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+	</bean>
+<!-- ################# FIN ORDEN CREATION CANCELLATION OUTPUT ######################## -->
+
+<!-- ################################ STO OUTPUT ##################################### -->
+
+	<batch:job id="jobStoOutput">
+		<batch:step id="stepStoOutput">
+			<batch:tasklet>
+				<batch:chunk reader="readerStoOutput" writer="writerStoOutput" commit-interval="1000" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="readerStoOutput"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql">
+			<value>
+				<![CDATA[
+				SELECT * FROM dbo.QS_TBL_STO WHERE nu_id_estatus = 2005 and ch_orgventas = '#{jobParameters[orgventas]}'
+				]]>
+			</value>
+		</property>
+		<property name="rowMapper">
+			<bean id="stoOutputMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+				<property name="mappedClass">
+					<value type="java.lang.Class">com.danone.bonafont.batch.model.Qs3STO</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="writerStoOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3Sto" scope="step">
+		<property name="shouldDeleteIfEmpty" value="true"/>
+		<property name="resource" value="file:file:#{jobParameters[pathout]}#{jobParameters[file]}#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" />
+		<property name="lineAggregator">
+            <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+                <property name="delimiter" value=";" />
+                <property name="fieldExtractor">
+                    <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+                    <property name="names" value="ch_codecomp, ch_tipopedido, ch_idioma, ch_orgventas, ch_pedidos3, ch_origen, ch_cubicuadre, ch_estadopedido, ch_producto, ch_destino, ch_almacen, ch_cantidad, ch_ordenunidad, ch_lote, nu_posicionitem, ch_numerolinea, ch_pedfechaemb"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+	</bean>
+<!-- ############################ FIN STO OUTPUT ##################################### -->
+	
+
 </beans>
