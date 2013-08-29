@@ -206,7 +206,7 @@
 		<property name="sql">
 			<value>
 				<![CDATA[
-				SELECT * FROM dbo.QS_TBL_STO WHERE nu_id_estatus = 2005 and ch_orgventas = '#{jobParameters[orgventas]}'
+				SELECT * FROM dbo.QS_TBL_QS3_STO WHERE nu_id_estatus = 2005 and ch_orgventas = '#{jobParameters[orgventas]}'
 				]]>
 			</value>
 		</property>
@@ -221,7 +221,7 @@
 
 	<bean id="writerStoOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3Sto" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
-		<property name="resource" value="file:file:#{jobParameters[pathout]}#{jobParameters[file]}#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" />
+		<property name="resource" value="file:#{jobParameters[pathout]}#{jobParameters[file]}#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" />
 		<property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
                 <property name="delimiter" value=";" />

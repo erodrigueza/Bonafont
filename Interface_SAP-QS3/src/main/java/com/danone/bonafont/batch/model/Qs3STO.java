@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
  * 
  */
 @Entity
-@Table(name = "QS_TBL_STO", schema = "dbo")
+@Table(name = "QS_TBL_QS3_STO", schema = "dbo")
 public class Qs3STO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
