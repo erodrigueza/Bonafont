@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.danone.bonafont.batch.writer;
 
 import java.util.List;
@@ -18,9 +15,9 @@ import com.danone.bonafont.batch.util.Constants;
  * @author Eduardo Rodriguez
  * 
  */
-public class JdbcWriter extends JdbcBatchItemWriter<SapOrden> {
+public class JdbcWriterSapOrden extends JdbcBatchItemWriter<SapOrden> {
 
-	private static final Logger LOG = Logger.getLogger(JdbcWriter.class);
+	private static final Logger LOG = Logger.getLogger(JdbcWriterSapOrden.class);
 
 	@Resource
 	SapOrdenDAO sapOrdenDAO;
@@ -28,9 +25,9 @@ public class JdbcWriter extends JdbcBatchItemWriter<SapOrden> {
 	@Override
 	public void write(List<? extends SapOrden> items) throws Exception {
 		for (SapOrden orden : items) {
-			LOG.info("Ch_orden_compra: " + orden.getCh_orden_compra());
-			LOG.info("Nu_id_archivo: " + orden.getNu_id_archivo());
-			List<SapOrden> ordens = sapOrdenDAO.findByOrdenCompra(orden.getCh_orden_compra());
+			LOG.info("ch_foliopedido: " + orden.getCh_foliopedido());
+			LOG.info("ch_producto: " + orden.getCh_producto());
+			List<SapOrden> ordens = sapOrdenDAO.findByFolioProducto(orden);
 			if(ordens.size() > 0){
 				orden.setNu_id_estatus(Constants.REG_DUPLICADO);
 			}else{

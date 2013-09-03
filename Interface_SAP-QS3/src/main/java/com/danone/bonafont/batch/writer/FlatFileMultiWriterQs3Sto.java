@@ -8,34 +8,34 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.batch.item.file.MultiResourceItemWriter;
 
-import com.danone.bonafont.batch.model.Qs3Orden;
+import com.danone.bonafont.batch.model.Qs3STO;
 
 /**
  * @author Eduardo Rodriguez
  * 
  */
-public class FlatFileMultiWriterQs3Orden extends MultiResourceItemWriter<Qs3Orden> {
+public class FlatFileMultiWriterQs3Sto extends MultiResourceItemWriter<Qs3STO> {
 
 	private static final Logger LOG = Logger
-			.getLogger(FlatFileMultiWriterQs3Orden.class);
+			.getLogger(FlatFileMultiWriterQs3Sto.class);
 
 	@Override
-	public void write(List<? extends Qs3Orden> items) throws Exception {
+	public void write(List<? extends Qs3STO> items) throws Exception {
 		LOG.info("Tamaño de lista original: " + items.size());
-		Map<String, List<Qs3Orden>> map = new HashMap<String, List<Qs3Orden>>();
-		for (Qs3Orden orden : items) {
+		Map<String, List<Qs3STO>> map = new HashMap<String, List<Qs3STO>>();
+		for (Qs3STO orden : items) {
 			if (map.containsKey(getKey(orden))) {
-				List<Qs3Orden> tmp = map.get(getKey(orden));
+				List<Qs3STO> tmp = map.get(getKey(orden));
 				tmp.add(orden);
 				map.put(getKey(orden), tmp);
 			} else {
-				List<Qs3Orden> nueva = new ArrayList<Qs3Orden>();
+				List<Qs3STO> nueva = new ArrayList<Qs3STO>();
 				nueva.add(orden);
 				map.put(getKey(orden), nueva);
 			}
 		}
 
-		for (Map.Entry<String, List<Qs3Orden>> entry : map.entrySet()) {
+		for (Map.Entry<String, List<Qs3STO>> entry : map.entrySet()) {
 			LOG.info("Key de Lista: " + entry.getKey());
 			LOG.info("Tamano de segmento: " + entry.getValue().size());
 			setItemCountLimitPerResource(entry.getValue().size());
@@ -43,20 +43,13 @@ public class FlatFileMultiWriterQs3Orden extends MultiResourceItemWriter<Qs3Orde
 		}
 	}
 
-	private String getKey(Qs3Orden orden) {
+	private String getKey(Qs3STO orden) {
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append(orden.getCh_tipopedido());
-		buffer.append(orden.getCh_canaldist());
-		buffer.append(orden.getCh_division());
 		buffer.append(orden.getCh_destino());
-		buffer.append(orden.getCh_foliopedido());
-		buffer.append(orden.getCh_observa());
 		buffer.append(orden.getCh_cubicuadre());
 		buffer.append(orden.getCh_pedidos3());
-		buffer.append(orden.getCh_occamion());
-		buffer.append(orden.getNu_prioridad());
-		buffer.append(orden.getCh_razonpedido());
 		
 		return buffer.toString();
 	}

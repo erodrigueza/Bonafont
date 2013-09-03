@@ -19,16 +19,16 @@ import javax.persistence.Transient;
  *
  */
 @Entity
-@Table(name = "QS_TBL_SAP_ORDEN", schema = "dbo")
-@NamedQuery(name="SapOrden.findByFolioProducto", query="SELECT t FROM SapOrden t WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto")
-public class SapOrden implements Serializable{
+@Table(name = "QS_TBL_SAP_ORDEN_CAN", schema = "dbo")
+@NamedQuery(name="SapOrdenCan.findByFolioProducto", query="SELECT t FROM SapOrdenCan t WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto")
+public class SapOrdenCan implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)  
-    @Column(name = "nu_id_orden", unique = true, nullable = false, precision = 10)  
-    private Integer nu_id_orden;
+    @Column(name = "nu_id_orden_can", unique = true, nullable = false, precision = 10)  
+    private Integer nu_id_orden_can;
 	
 	@Column(name = "ch_orden_compra", nullable = false)  
 	private String ch_orden_compra;
@@ -115,16 +115,19 @@ public class SapOrden implements Serializable{
 
 	@Column(name = "ch_razonpedido")
 	private String ch_razonpedido;
+
+	@Column(name = "ch_estadopedido")
+	private String ch_estadopedido;
 	
 	@Transient
 	private String dummy;
 
-	public Integer getNu_id_orden() {
-		return nu_id_orden;
+	public Integer getNu_id_orden_can() {
+		return nu_id_orden_can;
 	}
 
-	public void setNu_id_orden(Integer nu_id_orden) {
-		this.nu_id_orden = nu_id_orden;
+	public void setNu_id_orden_can(Integer nu_id_orden_can) {
+		this.nu_id_orden_can = nu_id_orden_can;
 	}
 
 	public String getCh_orden_compra() {
@@ -349,6 +352,14 @@ public class SapOrden implements Serializable{
 
 	public void setCh_razonpedido(String ch_razonpedido) {
 		this.ch_razonpedido = ch_razonpedido;
+	}
+
+	public String getCh_estadopedido() {
+		return ch_estadopedido;
+	}
+
+	public void setCh_estadopedido(String ch_estadopedido) {
+		this.ch_estadopedido = ch_estadopedido;
 	}
 
 	public String getDummy() {

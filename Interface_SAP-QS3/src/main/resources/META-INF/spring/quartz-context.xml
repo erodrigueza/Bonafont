@@ -14,6 +14,9 @@
 		<property name="triggers">
 			<list>
 				<ref bean="cronOrdenCreationInput" />
+				<ref bean="cronOrdenCancellationInput" />
+				<ref bean="cronDeliveryInput" />
+				<ref bean="cronInventoryInput" />
 				<ref bean="cronOrdenCreationOutputMX2" />
 				<ref bean="cronOrdenCreationOutputMX3" />
 				<ref bean="cronOrdenCreationCanOutputMX2" />
@@ -39,6 +42,60 @@
 	
 	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
+		<property name="cronExpression" value="10 * * * * ?" />
+	</bean>
+
+<!-- ############################# ORDEN CANCELLATION INPUT ############################# -->
+	<bean id="jobDetailOrdenCancellationInput" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobOrdenCancellationInput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="cronOrdenCancellationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailOrdenCancellationInput" />
+		<property name="cronExpression" value="10 * * * * ?" />
+	</bean>
+
+<!-- ################################ DELIVERY INPUT ################################# -->
+	<bean id="jobDetailDeliveryInput" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobDeliveryInput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="cronDeliveryInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailDeliveryInput" />
+		<property name="cronExpression" value="10 * * * * ?" />
+	</bean>
+
+<!-- ############################### INVENTORY INPUT ################################## -->
+	<bean id="jobDetailInventoryInput" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobInventoryInput" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="cronInventoryInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailInventoryInput" />
 		<property name="cronExpression" value="10 * * * * ?" />
 	</bean>
 

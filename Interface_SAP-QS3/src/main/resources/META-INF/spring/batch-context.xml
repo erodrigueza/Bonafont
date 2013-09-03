@@ -29,12 +29,12 @@
 	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>
 
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/*.txt" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_OrderCreation*" />
 		<property name="delegate" ref="fileReaderOrdenCreationInput" />
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="fileReaderOrdenCreationInput" class="com.danone.bonafont.batch.reader.FlatFileReader" scope="step">
+	<bean id="fileReaderOrdenCreationInput" class="com.danone.bonafont.batch.reader.FlatFileReaderSapOrden" scope="step">
 		<property name="strict" value="false"/>
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
@@ -57,7 +57,7 @@
 	<bean id="ordenDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapOrden" />
 	
 	<bean id="writerOrdenCreationInput"
-		class="com.danone.bonafont.batch.writer.JdbcWriter" scope="step">
+		class="com.danone.bonafont.batch.writer.JdbcWriterSapOrden" scope="step">
 		<property name="itemSqlParameterSourceProvider">
 			<bean
 				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
@@ -65,22 +65,207 @@
 		<property name="sql">
 			<value>
            	<![CDATA[        
-		    INSERT INTO dbo.QS_TBL_SAP_ORDEN (                 
-		        ch_orden_compra, nu_id_estatus, da_registro,     
-		        nu_id_archivo, da_proceso, ch_origen, ch_foliopedido,  
-		        ch_destino, ch_ciudescrip, ch_pedfecha,     
-		        ch_pedfechaemb, ch_pedfechaent, ch_observa, ch_producto,     
-		        ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi,        
-		        ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido,
-		        ch_orgventas, ch_canaldist, ch_division,     
-		        nu_posicionitem, ch_procedencia, ch_razonpedido)                    
-		    VALUES (:ch_orden_compra, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
+		    INSERT INTO dbo.QS_TBL_SAP_ORDEN 
+		    	(ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido)
+		    	VALUES (:ch_orden_compra, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido)
            	]]>
 			</value>
 		</property>
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 <!-- ############################# FIN ORDEN CREATION INPUT ############################# -->	
+
+<!-- ############################# ORDEN CANCELLATION INPUT ############################# -->
+
+	<batch:job id="jobOrdenCancellationInput">
+		<batch:step id="stepOrdenCancellationInput">
+			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
+				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" skip-limit="100">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="listenerChunk"/>
+			</batch:listeners>
+		</batch:step>
+	</batch:job>
+	
+	<bean id="readerOrdenCancellationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_OrderCancellation*" />
+		<property name="delegate" ref="fileReaderOrdenCancellationInput" />
+		<property name="strict" value="false"/>
+	</bean>
+
+	<bean id="fileReaderOrdenCancellationInput" class="com.danone.bonafont.batch.reader.FlatFileReaderSapOrdenCan" scope="step">
+		<property name="strict" value="false"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value=";"/> 
+						<property name="names" value="" /> 
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="ordenCanDTOPrototype" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ordenCanDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapOrdenCan" />
+	
+	<bean id="writerOrdenCancellationInput"
+		class="com.danone.bonafont.batch.writer.JdbcWriterSapOrdenCan" scope="step">
+		<property name="itemSqlParameterSourceProvider">
+			<bean
+				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+		<property name="sql">
+			<value>
+           	<![CDATA[        
+		    INSERT INTO dbo.QS_TBL_SAP_ORDEN_CAN
+    			(nu_id_orden_can, ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido, ch_estadopedido)
+    			VALUES(0, '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '')
+           	]]>
+			</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- ######################## FIN ORDEN CANCELLATION INPUT ########################### -->	
+
+<!-- ################################ DELIVERY INPUT ################################# -->
+
+	<batch:job id="jobDeliveryInput">
+		<batch:step id="stepDeliveryInput">
+			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
+				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" skip-limit="100">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="listenerChunk"/>
+			</batch:listeners>
+		</batch:step>
+	</batch:job>
+	
+	<bean id="readerDeliveryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_Deliveries*" />
+		<property name="delegate" ref="fileReaderDeliveryInput" />
+		<property name="strict" value="false"/>
+	</bean>
+
+	<bean id="fileReaderDeliveryInput" class="com.danone.bonafont.batch.reader.FlatFileReader" scope="step">
+		<property name="strict" value="false"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value=";"/> 
+						<property name="names" value="" /> 
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="deliveryDTOPrototype" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="deliveryDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapEntrega" />
+	
+	<bean id="writerDeliveryInput"
+		class="com.danone.bonafont.batch.writer.JdbcWriterSapEntrega" scope="step">
+		<property name="itemSqlParameterSourceProvider">
+			<bean
+				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+		<property name="sql">
+			<value>
+           	<![CDATA[        
+			INSERT INTO dbo.QS_TBL_SAP_ENTREGA
+    			(nu_id_orden_ent, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_tipopedido, ch_orgventas, ch_numeroalmacen, ch_ruta, ch_peso_neto, ch_receproducto, ch_numeropieza, ch_numerolote, ch_material_cliente, ch_calidad, ch_fecha_transito)
+    			VALUES(0, 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+           	]]>
+			</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- ############################ FIN DELIVERY INPUT ################################# -->	
+
+<!-- ############################### INVENTORY INPUT ################################# -->
+
+	<batch:job id="jobInventoryInput">
+		<batch:step id="stepInventoryInput">
+			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
+				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" skip-limit="100">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
+			</batch:tasklet>
+			<batch:listeners>
+			<batch:listener ref="listenerChunk"/>
+			</batch:listeners>
+		</batch:step>
+	</batch:job>
+	
+	<bean id="readerInventoryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/*.txt" />
+		<property name="delegate" ref="fileReaderInventoryInput" />
+		<property name="strict" value="false"/>
+	</bean>
+
+	<bean id="fileReaderInventoryInput" class="com.danone.bonafont.batch.reader.FlatFileReaderSapInventario" scope="step">
+		<property name="strict" value="false"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="delimiter" value=";"/> 
+						<property name="names" value="" /> 
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean
+						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
+						<property name="prototypeBeanName" value="inventoryDTOPrototype" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="inventoryDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapInventario" />
+	
+	<bean id="writerInventoryInput"
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter" scope="step">
+		<property name="itemSqlParameterSourceProvider">
+			<bean
+				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+		<property name="sql">
+			<value>
+           	<![CDATA[        
+			INSERT INTO dbo.QS_TBL_SAP_INVENTARIO
+    			(id_inventario, nu_id_estatus, nu_id_archivo, ch_distribuidora, ch_almacen, ch_producto, da_registro, da_proceso, ch_lote, ch_edodesc, nu_existencia, da_fechaprod, ch_tipo_material)
+    			VALUES(0, 0, 0, '', '', '', '', '', '', '', 0, '', '')
+           	]]>
+			</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+<!-- ########################### FIN INVENTORY INPUT ################################# -->	
 
 <!-- ############################# ORDEN CREATION OUTPUT ############################# -->
 

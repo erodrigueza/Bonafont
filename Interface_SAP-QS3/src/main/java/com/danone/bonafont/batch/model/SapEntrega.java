@@ -19,20 +19,17 @@ import javax.persistence.Transient;
  *
  */
 @Entity
-@Table(name = "QS_TBL_SAP_ORDEN", schema = "dbo")
-@NamedQuery(name="SapOrden.findByFolioProducto", query="SELECT t FROM SapOrden t WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto")
-public class SapOrden implements Serializable{
+@Table(name = "QS_TBL_SAP_ENTREGA", schema = "dbo")
+@NamedQuery(name="SapEntrega.findByFolioProducto", query="SELECT t FROM SapEntrega t WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto")
+public class SapEntrega implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)  
-    @Column(name = "nu_id_orden", unique = true, nullable = false, precision = 10)  
-    private Integer nu_id_orden;
+    @Column(name = "nu_id_orden_ent", unique = true, nullable = false, precision = 10)  
+    private Integer nu_id_orden_ent;
 	
-	@Column(name = "ch_orden_compra", nullable = false)  
-	private String ch_orden_compra;
-
 	@Column(name = "nu_id_estatus", nullable = false)  
 	private Integer nu_id_estatus;
 	
@@ -50,14 +47,14 @@ public class SapOrden implements Serializable{
 	@Column(name = "ch_origen")
 	private String ch_origen;
 
+	@Column(name = "ch_seriepedido")
+	private String ch_seriepedido;
+
 	@Column(name = "ch_foliopedido")
 	private String ch_foliopedido;
 
 	@Column(name = "ch_destino")
 	private String ch_destino;
-
-	@Column(name = "ch_ciudescrip")
-	private String ch_ciudescrip;
 
 	@Column(name = "ch_pedfecha")
 	private String ch_pedfecha;
@@ -67,6 +64,9 @@ public class SapOrden implements Serializable{
 
 	@Column(name = "ch_pedfechaent")
 	private String ch_pedfechaent;
+
+	@Column(name = "ch_estadopedido")
+	private String ch_estadopedido;
 
 	@Column(name = "ch_observa")
 	private String ch_observa;
@@ -80,59 +80,64 @@ public class SapOrden implements Serializable{
 	@Column(name = "ch_fechaembarque")
 	private String ch_fechaembarque;
 
-	@Column(name = "ch_cajas")
-	private String ch_cajas;
-
 	@Column(name = "ch_ocedi")
 	private String ch_ocedi;
 
-	@Column(name = "ch_cubicuadre")
-	private String ch_cubicuadre;
+	@Column(name = "da_avisos")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date da_avisos;
 
-	@Column(name = "ch_pedidos3")
-	private String ch_pedidos3;
+	@Column(name = "ch_comentario")
+	private String ch_comentario;
 
 	@Column(name = "ch_occamion")
 	private String ch_occamion;
 
+	@Column(name = "ch_proveedoredi")
+	private String ch_proveedoredi;
+	
 	@Column(name = "ch_tipopedido")
 	private String ch_tipopedido;
 
 	@Column(name = "ch_orgventas")
 	private String ch_orgventas;
 
-	@Column(name = "ch_canaldist")
-	private String ch_canaldist;
+	@Column(name = "ch_numeroalmacen")
+	private String ch_numeroalmacen;
 
-	@Column(name = "ch_division")
-	private String ch_division;
+	@Column(name = "ch_ruta")
+	private String ch_ruta;
 
-	@Column(name = "nu_posicionitem")
-	private Integer nu_posicionitem;
+	@Column(name = "ch_peso_neto")
+	private String ch_peso_neto;
 
-	@Column(name = "ch_procedencia")
-	private String ch_procedencia;
+	@Column(name = "ch_receproducto")
+	private String ch_receproducto;
 
-	@Column(name = "ch_razonpedido")
-	private String ch_razonpedido;
-	
+	@Column(name = "ch_numeropieza")
+	private String ch_numeropieza;
+
+	@Column(name = "ch_numerolote")
+	private String ch_numerolote;
+
+	@Column(name = "ch_material_cliente")
+	private String ch_material_cliente;
+
+	@Column(name = "ch_calidad")
+	private String ch_calidad;
+
+	@Column(name = "ch_fecha_transito")
+	private String ch_fecha_transito;
+
 	@Transient
 	private String dummy;
 
-	public Integer getNu_id_orden() {
-		return nu_id_orden;
+	public Integer getNu_id_orden_ent() {
+		return nu_id_orden_ent;
 	}
 
-	public void setNu_id_orden(Integer nu_id_orden) {
-		this.nu_id_orden = nu_id_orden;
-	}
-
-	public String getCh_orden_compra() {
-		return ch_orden_compra;
-	}
-
-	public void setCh_orden_compra(String ch_orden_compra) {
-		this.ch_orden_compra = ch_orden_compra;
+	public void setNu_id_orden_ent(Integer nu_id_orden_ent) {
+		this.nu_id_orden_ent = nu_id_orden_ent;
 	}
 
 	public Integer getNu_id_estatus() {
@@ -175,6 +180,14 @@ public class SapOrden implements Serializable{
 		this.ch_origen = ch_origen;
 	}
 
+	public String getCh_seriepedido() {
+		return ch_seriepedido;
+	}
+
+	public void setCh_seriepedido(String ch_seriepedido) {
+		this.ch_seriepedido = ch_seriepedido;
+	}
+
 	public String getCh_foliopedido() {
 		return ch_foliopedido;
 	}
@@ -189,14 +202,6 @@ public class SapOrden implements Serializable{
 
 	public void setCh_destino(String ch_destino) {
 		this.ch_destino = ch_destino;
-	}
-
-	public String getCh_ciudescrip() {
-		return ch_ciudescrip;
-	}
-
-	public void setCh_ciudescrip(String ch_ciudescrip) {
-		this.ch_ciudescrip = ch_ciudescrip;
 	}
 
 	public String getCh_pedfecha() {
@@ -221,6 +226,14 @@ public class SapOrden implements Serializable{
 
 	public void setCh_pedfechaent(String ch_pedfechaent) {
 		this.ch_pedfechaent = ch_pedfechaent;
+	}
+
+	public String getCh_estadopedido() {
+		return ch_estadopedido;
+	}
+
+	public void setCh_estadopedido(String ch_estadopedido) {
+		this.ch_estadopedido = ch_estadopedido;
 	}
 
 	public String getCh_observa() {
@@ -255,14 +268,6 @@ public class SapOrden implements Serializable{
 		this.ch_fechaembarque = ch_fechaembarque;
 	}
 
-	public String getCh_cajas() {
-		return ch_cajas;
-	}
-
-	public void setCh_cajas(String ch_cajas) {
-		this.ch_cajas = ch_cajas;
-	}
-
 	public String getCh_ocedi() {
 		return ch_ocedi;
 	}
@@ -271,20 +276,20 @@ public class SapOrden implements Serializable{
 		this.ch_ocedi = ch_ocedi;
 	}
 
-	public String getCh_cubicuadre() {
-		return ch_cubicuadre;
+	public Date getDa_avisos() {
+		return da_avisos;
 	}
 
-	public void setCh_cubicuadre(String ch_cubicuadre) {
-		this.ch_cubicuadre = ch_cubicuadre;
+	public void setDa_avisos(Date da_avisos) {
+		this.da_avisos = da_avisos;
 	}
 
-	public String getCh_pedidos3() {
-		return ch_pedidos3;
+	public String getCh_comentario() {
+		return ch_comentario;
 	}
 
-	public void setCh_pedidos3(String ch_pedidos3) {
-		this.ch_pedidos3 = ch_pedidos3;
+	public void setCh_comentario(String ch_comentario) {
+		this.ch_comentario = ch_comentario;
 	}
 
 	public String getCh_occamion() {
@@ -293,6 +298,14 @@ public class SapOrden implements Serializable{
 
 	public void setCh_occamion(String ch_occamion) {
 		this.ch_occamion = ch_occamion;
+	}
+
+	public String getCh_proveedoredi() {
+		return ch_proveedoredi;
+	}
+
+	public void setCh_proveedoredi(String ch_proveedoredi) {
+		this.ch_proveedoredi = ch_proveedoredi;
 	}
 
 	public String getCh_tipopedido() {
@@ -311,44 +324,76 @@ public class SapOrden implements Serializable{
 		this.ch_orgventas = ch_orgventas;
 	}
 
-	public String getCh_canaldist() {
-		return ch_canaldist;
+	public String getCh_numeroalmacen() {
+		return ch_numeroalmacen;
 	}
 
-	public void setCh_canaldist(String ch_canaldist) {
-		this.ch_canaldist = ch_canaldist;
+	public void setCh_numeroalmacen(String ch_numeroalmacen) {
+		this.ch_numeroalmacen = ch_numeroalmacen;
 	}
 
-	public String getCh_division() {
-		return ch_division;
+	public String getCh_ruta() {
+		return ch_ruta;
 	}
 
-	public void setCh_division(String ch_division) {
-		this.ch_division = ch_division;
+	public void setCh_ruta(String ch_ruta) {
+		this.ch_ruta = ch_ruta;
 	}
 
-	public Integer getNu_posicionitem() {
-		return nu_posicionitem;
+	public String getCh_peso_neto() {
+		return ch_peso_neto;
 	}
 
-	public void setNu_posicionitem(Integer nu_posicionitem) {
-		this.nu_posicionitem = nu_posicionitem;
+	public void setCh_peso_neto(String ch_peso_neto) {
+		this.ch_peso_neto = ch_peso_neto;
 	}
 
-	public String getCh_procedencia() {
-		return ch_procedencia;
+	public String getCh_receproducto() {
+		return ch_receproducto;
 	}
 
-	public void setCh_procedencia(String ch_procedencia) {
-		this.ch_procedencia = ch_procedencia;
+	public void setCh_receproducto(String ch_receproducto) {
+		this.ch_receproducto = ch_receproducto;
 	}
 
-	public String getCh_razonpedido() {
-		return ch_razonpedido;
+	public String getCh_numeropieza() {
+		return ch_numeropieza;
 	}
 
-	public void setCh_razonpedido(String ch_razonpedido) {
-		this.ch_razonpedido = ch_razonpedido;
+	public void setCh_numeropieza(String ch_numeropieza) {
+		this.ch_numeropieza = ch_numeropieza;
+	}
+
+	public String getCh_numerolote() {
+		return ch_numerolote;
+	}
+
+	public void setCh_numerolote(String ch_numerolote) {
+		this.ch_numerolote = ch_numerolote;
+	}
+
+	public String getCh_material_cliente() {
+		return ch_material_cliente;
+	}
+
+	public void setCh_material_cliente(String ch_material_cliente) {
+		this.ch_material_cliente = ch_material_cliente;
+	}
+
+	public String getCh_calidad() {
+		return ch_calidad;
+	}
+
+	public void setCh_calidad(String ch_calidad) {
+		this.ch_calidad = ch_calidad;
+	}
+
+	public String getCh_fecha_transito() {
+		return ch_fecha_transito;
+	}
+
+	public void setCh_fecha_transito(String ch_fecha_transito) {
+		this.ch_fecha_transito = ch_fecha_transito;
 	}
 
 	public String getDummy() {
@@ -358,5 +403,6 @@ public class SapOrden implements Serializable{
 	public void setDummy(String dummy) {
 		this.dummy = dummy;
 	}
+
 
 }

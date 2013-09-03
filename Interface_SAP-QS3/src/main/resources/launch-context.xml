@@ -23,7 +23,15 @@
 		<jdbc:script location="${batch.business.schema.script}" />
 	</jdbc:initialize-database>
 
-	<!-- connect to database -->
+	<!-- connect to database Danone Simulacion -->
+	<!--bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://10.19.164.174:1433;DatabaseName=QS3_SAP" />
+		<property name="username" value="UserInte" />
+		<property name="password" value="Danone.2010" />
+	</bean-->
+
+	<!-- connect to database Intellego -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="url" value="jdbc:sqlserver://10.11.6.22:1433;DatabaseName=Danone" />
@@ -31,7 +39,7 @@
 		<property name="password" value="Dan0204" />
 	</bean>
 
-	<!-- connect to database TEST-->
+	<!-- connect to database TEST -->
 	<!--bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
 		<property name="url" value="jdbc:hsqldb:file:C:/databases/hsqldb-2.3.0/testdb" />

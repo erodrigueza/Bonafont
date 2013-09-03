@@ -46,9 +46,13 @@ public class FlatFileMultiWriterQs3OrdenCan extends MultiResourceItemWriter<Qs3O
 
 	private String getKey(Qs3OrdenCan orden) {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(orden.getCh_producto());
+
+		buffer.append(orden.getCh_canaldist());
+		buffer.append(orden.getCh_division());
 		buffer.append(orden.getCh_foliopedido());
+		
 		return buffer.toString();
+
 	}
 
 }

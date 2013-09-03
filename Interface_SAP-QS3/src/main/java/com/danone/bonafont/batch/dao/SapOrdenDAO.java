@@ -10,5 +10,5 @@ import com.danone.bonafont.batch.model.SapOrden;
  */
 public interface SapOrdenDAO extends GenericDAO<SapOrden, Long> {
 
-	List<SapOrden> findByOrdenCompra(String orden);
+	List<SapOrden> findByFolioProducto(SapOrden orden);
 }
