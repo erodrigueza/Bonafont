@@ -33,7 +33,7 @@ public class ArchivoDAOJPAImplTest {
     public void crudArchivo(){  
     	System.err.println("Inicia prueba..!!");
         Archivo archivo = new Archivo();
-        archivo.setCh_nombre("InicioXyX.xml");
+        archivo.setCh_nombre("TestDao.xml");
         archivo.setDa_registro(new Date());
         archivo.setNu_id_estatus(1001);
         archivo.setNu_id_tipo(1);
