@@ -105,7 +105,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="" /> 
+						<property name="names" value="ch_origen,dummy,ch_foliopedido,ch_destino,ch_ciudescrip,ch_pedfecha,ch_pedfechaemb,ch_pedfechent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,dummy,dummy,dummy,ch_occamion,dummy,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem,ch_procedencia,ch_razonpedido,ch_estadopedido" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -131,7 +131,7 @@
            	<![CDATA[        
 		    INSERT INTO dbo.QS_TBL_SAP_ORDEN_CAN
     			(nu_id_orden_can, ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido, ch_estadopedido)
-    			VALUES(0, '', 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '', '', '')
+    			VALUES(:nu_id_orden_can, :ch_orden_compra, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido, :ch_estadopedido)
            	]]>
 			</value>
 		</property>
@@ -169,7 +169,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="" /> 
+						<property name="names" value="ch_origen,ch_seriepedido,ch_foliopedido,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_estadopedido,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_ocedi,dummy,dummy,dummy,dummy,dummy,da_avisos,ch_comentario,dummy,ch_occamion,ch_proveedoredi,ch_tipopedido,ch_orgventas,ch_numeroalmacen,ch_ruta,ch_peso_neto,ch_receproducto,ch_numeropieza,dummy,ch_numerolote,ch_material_cliente,ch_calidad,ch_fecha_transito" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -195,7 +195,7 @@
            	<![CDATA[        
 			INSERT INTO dbo.QS_TBL_SAP_ENTREGA
     			(nu_id_orden_ent, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_tipopedido, ch_orgventas, ch_numeroalmacen, ch_ruta, ch_peso_neto, ch_receproducto, ch_numeropieza, ch_numerolote, ch_material_cliente, ch_calidad, ch_fecha_transito)
-    			VALUES(0, 0, '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '')
+    			VALUES(:nu_id_orden_ent, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_tipopedido, :ch_orgventas, :ch_numeroalmacen, :ch_ruta, :ch_peso_neto, :ch_receproducto, :ch_numeropieza, :ch_numerolote, :ch_material_cliente, :ch_calidad, :ch_fecha_transito)
            	]]>
 			</value>
 		</property>
@@ -221,7 +221,7 @@
 	</batch:job>
 	
 	<bean id="readerInventoryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/*.txt" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_Inventory*" />
 		<property name="delegate" ref="fileReaderInventoryInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -233,7 +233,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="" /> 
+						<property name="names" value="ch_edodesc,ch_producto,ch_distribuidora,ch_almacen,ch_lote,nu_existencia,ch_tipo_material,da_fechaprod" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -259,7 +259,7 @@
            	<![CDATA[        
 			INSERT INTO dbo.QS_TBL_SAP_INVENTARIO
     			(id_inventario, nu_id_estatus, nu_id_archivo, ch_distribuidora, ch_almacen, ch_producto, da_registro, da_proceso, ch_lote, ch_edodesc, nu_existencia, da_fechaprod, ch_tipo_material)
-    			VALUES(0, 0, 0, '', '', '', '', '', '', '', 0, '', '')
+    			VALUES(:id_inventario, :nu_id_estatus, :nu_id_archivo, :ch_distribuidora, :ch_almacen, :ch_producto, SYSDATETIME(), :da_proceso, :ch_lote, :ch_edodesc, :nu_existencia, :da_fechaprod, :ch_tipo_material)
            	]]>
 			</value>
 		</property>
