@@ -42,13 +42,13 @@ public class SapInventario implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date da_proceso;
 
-	@Column(name = "ch_distribuidora")
+	@Column(name = "ch_distribuidora", nullable = false)
 	private String ch_distribuidora;
 
-	@Column(name = "ch_almacen")
+	@Column(name = "ch_almacen", nullable = false)
 	private String ch_almacen;
 
-	@Column(name = "ch_producto")
+	@Column(name = "ch_producto", nullable = false)
 	private String ch_producto;
 
 	@Column(name = "ch_lote")
@@ -58,7 +58,7 @@ public class SapInventario implements Serializable{
 	private String ch_edodesc;
 
 	@Column(name = "nu_existencia")
-	private String nu_existencia;
+	private Integer nu_existencia;
 
 	@Column(name = "da_fechaprod")
     @Temporal(TemporalType.TIMESTAMP)
@@ -150,11 +150,11 @@ public class SapInventario implements Serializable{
 		this.ch_edodesc = ch_edodesc;
 	}
 
-	public String getNu_existencia() {
+	public Integer getNu_existencia() {
 		return nu_existencia;
 	}
 
-	public void setNu_existencia(String nu_existencia) {
+	public void setNu_existencia(Integer nu_existencia) {
 		this.nu_existencia = nu_existencia;
 	}
 

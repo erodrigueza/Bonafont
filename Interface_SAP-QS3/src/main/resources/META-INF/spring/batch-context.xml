@@ -105,7 +105,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="ch_origen,dummy,ch_foliopedido,ch_destino,ch_ciudescrip,ch_pedfecha,ch_pedfechaemb,ch_pedfechent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,dummy,dummy,dummy,ch_occamion,dummy,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem,ch_procedencia,ch_razonpedido,ch_estadopedido" /> 
+						<property name="names" value="ch_origen,ch_orden_compra,ch_foliopedido,ch_destino,ch_ciudescrip,ch_pedfecha,ch_pedfechaemb,ch_pedfechent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,dummy,dummy,dummy,ch_occamion,dummy,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem,ch_procedencia,ch_razonpedido,ch_estadopedido" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -130,8 +130,8 @@
 			<value>
            	<![CDATA[        
 		    INSERT INTO dbo.QS_TBL_SAP_ORDEN_CAN
-    			(nu_id_orden_can, ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido, ch_estadopedido)
-    			VALUES(:nu_id_orden_can, :ch_orden_compra, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido, :ch_estadopedido)
+    			(ch_orden_compra, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_foliopedido, ch_destino, ch_ciudescrip, ch_pedfecha, ch_pedfechaemb, ch_pedfechent, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_cajas, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, nu_posicionitem, ch_procedencia, ch_razonpedido, ch_estadopedido)
+    			VALUES(:ch_orden_compra, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_foliopedido, :ch_destino, :ch_ciudescrip, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechent, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_cajas, :ch_ocedi, :ch_cubicuadre, :ch_pedidos3, :ch_occamion, :ch_tipopedido, :ch_orgventas, :ch_canaldist, :ch_division, :nu_posicionitem, :ch_procedencia, :ch_razonpedido, :ch_estadopedido)
            	]]>
 			</value>
 		</property>
@@ -162,7 +162,7 @@
 		<property name="strict" value="false"/>
 	</bean>
 
-	<bean id="fileReaderDeliveryInput" class="com.danone.bonafont.batch.reader.FlatFileReader" scope="step">
+	<bean id="fileReaderDeliveryInput" class="com.danone.bonafont.batch.reader.FlatFileReaderSapEntrega" scope="step">
 		<property name="strict" value="false"/>
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
@@ -176,6 +176,13 @@
 					<bean
 						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 						<property name="prototypeBeanName" value="deliveryDTOPrototype" />
+						<property name="customEditors">
+							<map>
+								<entry key="java.util.Date">
+									<ref local="dateEditor" />
+								</entry>
+							</map>
+						</property>
 					</bean>
 				</property>
 			</bean>
@@ -183,6 +190,15 @@
 	</bean>
 
 	<bean id="deliveryDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapEntrega" />
+
+	<bean id="dateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="dd/MM/yyyy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
 	
 	<bean id="writerDeliveryInput"
 		class="com.danone.bonafont.batch.writer.JdbcWriterSapEntrega" scope="step">
@@ -194,8 +210,8 @@
 			<value>
            	<![CDATA[        
 			INSERT INTO dbo.QS_TBL_SAP_ENTREGA
-    			(nu_id_orden_ent, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_tipopedido, ch_orgventas, ch_numeroalmacen, ch_ruta, ch_peso_neto, ch_receproducto, ch_numeropieza, ch_numerolote, ch_material_cliente, ch_calidad, ch_fecha_transito)
-    			VALUES(:nu_id_orden_ent, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_tipopedido, :ch_orgventas, :ch_numeroalmacen, :ch_ruta, :ch_peso_neto, :ch_receproducto, :ch_numeropieza, :ch_numerolote, :ch_material_cliente, :ch_calidad, :ch_fecha_transito)
+    			(nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_tipopedido, ch_orgventas, ch_numeroalmacen, ch_ruta, ch_peso_neto, ch_receproducto, ch_numeropieza, ch_numerolote, ch_material_cliente, ch_calidad, ch_fecha_transito)
+    			VALUES(:nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_tipopedido, :ch_orgventas, :ch_numeroalmacen, :ch_ruta, :ch_peso_neto, :ch_receproducto, :ch_numeropieza, :ch_numerolote, :ch_material_cliente, :ch_calidad, :ch_fecha_transito)
            	]]>
 			</value>
 		</property>
@@ -240,6 +256,13 @@
 					<bean
 						class="org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper">
 						<property name="prototypeBeanName" value="inventoryDTOPrototype" />
+						<property name="customEditors">
+							<map>
+								<entry key="java.util.Date">
+									<ref local="dateEditor2" />
+								</entry>
+							</map>
+						</property>
 					</bean>
 				</property>
 			</bean>
@@ -247,6 +270,15 @@
 	</bean>
 
 	<bean id="inventoryDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapInventario" />
+
+	<bean id="dateEditor2" class="org.springframework.beans.propertyeditors.CustomDateEditor">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="yyyyMMdd" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
 	
 	<bean id="writerInventoryInput"
 		class="org.springframework.batch.item.database.JdbcBatchItemWriter" scope="step">
@@ -258,8 +290,8 @@
 			<value>
            	<![CDATA[        
 			INSERT INTO dbo.QS_TBL_SAP_INVENTARIO
-    			(id_inventario, nu_id_estatus, nu_id_archivo, ch_distribuidora, ch_almacen, ch_producto, da_registro, da_proceso, ch_lote, ch_edodesc, nu_existencia, da_fechaprod, ch_tipo_material)
-    			VALUES(:id_inventario, :nu_id_estatus, :nu_id_archivo, :ch_distribuidora, :ch_almacen, :ch_producto, SYSDATETIME(), :da_proceso, :ch_lote, :ch_edodesc, :nu_existencia, :da_fechaprod, :ch_tipo_material)
+    			(nu_id_estatus, nu_id_archivo, ch_distribuidora, ch_almacen, ch_producto, da_registro, da_proceso, ch_lote, ch_edodesc, nu_existencia, da_fechaprod, ch_tipo_material)
+    			VALUES(2001, :nu_id_archivo, :ch_distribuidora, :ch_almacen, :ch_producto, SYSDATETIME(), :da_proceso, :ch_lote, :ch_edodesc, :nu_existencia, :da_fechaprod, :ch_tipo_material)
            	]]>
 			</value>
 		</property>

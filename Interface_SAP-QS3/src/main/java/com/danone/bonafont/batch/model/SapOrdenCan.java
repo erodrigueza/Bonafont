@@ -65,8 +65,8 @@ public class SapOrdenCan implements Serializable{
 	@Column(name = "ch_pedfechaemb")
 	private String ch_pedfechaemb;
 
-	@Column(name = "ch_pedfechaent")
-	private String ch_pedfechaent;
+	@Column(name = "ch_pedfechent")
+	private String ch_pedfechent;
 
 	@Column(name = "ch_observa")
 	private String ch_observa;
@@ -218,12 +218,12 @@ public class SapOrdenCan implements Serializable{
 		this.ch_pedfechaemb = ch_pedfechaemb;
 	}
 
-	public String getCh_pedfechaent() {
-		return ch_pedfechaent;
+	public String getCh_pedfechent() {
+		return ch_pedfechent;
 	}
 
-	public void setCh_pedfechaent(String ch_pedfechaent) {
-		this.ch_pedfechaent = ch_pedfechaent;
+	public void setCh_pedfechent(String ch_pedfechent) {
+		this.ch_pedfechent = ch_pedfechent;
 	}
 
 	public String getCh_observa() {
