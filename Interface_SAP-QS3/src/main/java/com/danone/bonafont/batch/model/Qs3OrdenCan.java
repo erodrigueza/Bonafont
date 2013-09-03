@@ -59,6 +59,9 @@ public class Qs3OrdenCan implements Serializable {
 	@Column(name = "nu_posicionitem")
 	private Integer nu_posicionitem;
 
+	@Column(name = "ch_cantidad")
+	private String ch_cantidad;
+
 	public Long getNu_id_orden_can() {
 		return nu_id_orden_can;
 	}
@@ -153,6 +156,14 @@ public class Qs3OrdenCan implements Serializable {
 
 	public void setNu_posicionitem(Integer nu_posicionitem) {
 		this.nu_posicionitem = nu_posicionitem;
+	}
+
+	public String getCh_cantidad() {
+		return ch_cantidad;
+	}
+
+	public void setCh_cantidad(String ch_cantidad) {
+		this.ch_cantidad = ch_cantidad;
 	}
 
 }
