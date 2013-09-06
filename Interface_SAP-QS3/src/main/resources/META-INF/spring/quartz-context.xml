@@ -42,7 +42,7 @@
 	
 	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
-		<property name="cronExpression" value="10 * * * * ?" />
+		<property name="cronExpression" value="* 0 * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CANCELLATION INPUT ############################# -->
@@ -60,7 +60,7 @@
 	
 	<bean id="cronOrdenCancellationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCancellationInput" />
-		<property name="cronExpression" value="10 * * * * ?" />
+		<property name="cronExpression" value="* 6 * * * ?" />
 	</bean>
 
 <!-- ################################ DELIVERY INPUT ################################# -->
@@ -78,7 +78,7 @@
 	
 	<bean id="cronDeliveryInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailDeliveryInput" />
-		<property name="cronExpression" value="10 * * * * ?" />
+		<property name="cronExpression" value="* 12 * * * ?" />
 	</bean>
 
 <!-- ############################### INVENTORY INPUT ################################## -->
@@ -96,7 +96,7 @@
 	
 	<bean id="cronInventoryInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailInventoryInput" />
-		<property name="cronExpression" value="10 * * * * ?" />
+		<property name="cronExpression" value="* 18 * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CREATION OUTPUT ############################## -->
@@ -109,13 +109,13 @@
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
 				<entry key="orgventas" value="0084" />
-				<entry key="file" value="MX3QS3_orderCreation" />
+				<entry key="file" value="MX3QS3_SOC_" />
 			</map>
 		</property>
 	</bean>
 	<bean id="cronOrdenCreationOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationOutputMX3" />
-		<property name="cronExpression" value="50 * * * * ?" />
+		<property name="cronExpression" value="* 24 * * * ?" />
 	</bean>
 
 	<bean id="jobDetailOrdenCreationOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -126,13 +126,13 @@
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
 				<entry key="orgventas" value="0068" />
-				<entry key="file" value="MX2QS3_orderCreation" />
+				<entry key="file" value="MX2QS3_SOC_" />
 			</map>
 		</property>
 	</bean>
 	<bean id="cronOrdenCreationOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationOutputMX2" />
-		<property name="cronExpression" value="50 * * * * ?" />
+		<property name="cronExpression" value="* 30 * * * ?" />
 	</bean>
 	
 <!-- ##################### ORDEN CREATION CANCELLATION OUTPUT ######################## -->
@@ -144,13 +144,13 @@
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
 				<entry key="orgventas" value="0084" />
-				<entry key="file" value="MX3QS3_orderCancellation" />
+				<entry key="file" value="MX3QS3_CAN_" />
 			</map>
 		</property>
 	</bean>
 	<bean id="cronOrdenCreationCanOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationCanOutputMX3" />
-		<property name="cronExpression" value="50 * * * * ?" />
+		<property name="cronExpression" value="* 36 * * * ?" />
 	</bean>
 
 	<bean id="jobDetailOrdenCreationCanOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -161,13 +161,13 @@
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
 				<entry key="orgventas" value="0068" />
-				<entry key="file" value="MX2QS3_orderCancellation" />
+				<entry key="file" value="MX2QS3_CAN_" />
 			</map>
 		</property>
 	</bean>
 	<bean id="cronOrdenCreationCanOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationCanOutputMX2" />
-		<property name="cronExpression" value="50 * * * * ?" />
+		<property name="cronExpression" value="* 42 * * * ?" />
 	</bean>
 
 <!-- ################################ STO OUTPUT ##################################### -->
@@ -179,13 +179,13 @@
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
 				<entry key="orgventas" value="0084" />
-				<entry key="file" value="MX3QS3_STO" />
+				<entry key="file" value="MX3QS3_STO_" />
 			</map>
 		</property>
 	</bean>
 	<bean id="cronStoOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailStoOutputMX3" />
-		<property name="cronExpression" value="50 * * * * ?" />
+		<property name="cronExpression" value="* 48 * * * ?" />
 	</bean>
 
 	<bean id="jobDetailStoOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -196,13 +196,13 @@
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
 				<entry key="orgventas" value="0068" />
-				<entry key="file" value="MX2QS3_STO" />
+				<entry key="file" value="MX2QS3_STO_" />
 			</map>
 		</property>
 	</bean>
 	<bean id="cronStoOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailStoOutputMX2" />
-		<property name="cronExpression" value="50 * * * * ?" />
+		<property name="cronExpression" value="* 54 * * * ?" />
 	</bean>
 		
 </beans>

@@ -41,7 +41,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="ch_origen,ch_orden_compra,ch_foliopedido,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,dummy,dummy,dummy,ch_occamion,dummy,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem" /> 
+						<property name="names" value="ch_origen,ch_orden_compra,ch_foliopedido,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_cajas,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,dummy,dummy,dummy,ch_occamion,dummy,ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,nu_posicionitem,ch_procedencia,ch_razonpedido" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -398,7 +398,7 @@
                 <property name="delimiter" value=";" />
                 <property name="fieldExtractor">
                     <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-                    <property name="names" value="ch_foliopedido, ch_orgventas, ch_canaldist, ch_division, ch_producto, ch_razonrechazo, nu_posicionitem"/>
+                    <property name="names" value="ch_foliopedido, ch_orgventas, ch_canaldist, ch_division, ch_producto, ch_razonrechazo, nu_posicionitem, ch_cantidad"/>
                     </bean>
                 </property>
             </bean>
