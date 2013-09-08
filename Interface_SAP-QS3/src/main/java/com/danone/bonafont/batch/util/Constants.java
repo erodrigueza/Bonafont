@@ -25,4 +25,8 @@ public class Constants {
 	public final static Integer QS3_SAP_OR_CANCELLA 	= 6;
 	public final static Integer QS3_SAP_STO 			= 7;
 	
+	public final static String ERR_FILE_MOVE 			= "No se puede mover de ruta el archivo.";
+	public final static String ERR_FILE_DATA 			= "Error al insertar el dato en la DB.";
+	public final static String ERR_FILE_STRU 			= "Estructura incorrecta del archivo.";
+	
 }

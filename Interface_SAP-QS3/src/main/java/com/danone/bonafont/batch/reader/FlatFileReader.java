@@ -22,6 +22,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
 	protected Resource resource;
 	protected boolean isError = false;
+	protected String desError = "";
 	protected Long idArchivo;
 
 	@javax.annotation.Resource
@@ -44,6 +45,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 				LOG.info("OK Move File " + newParent + file.getName());
 			} else {
 				LOG.error("FAILED Move File ");
+				desError = Constants.ERR_FILE_MOVE;
 			}
 		}
 	}
@@ -52,6 +54,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 		if(this.isError){
 			Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
 			archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
+			archivo.setCh_descripcion(desError);
 			archivoDAO.update(archivo);
 		}
 	}
@@ -61,6 +64,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 			throws ItemStreamException {
 		if (executionContext.get("anErrorHappened") != null && !this.isError) {
 			this.isError = executionContext.getInt("anErrorHappened") == 1;
+			desError = Constants.ERR_FILE_DATA;
 		}
 		super.update(executionContext);
 	}

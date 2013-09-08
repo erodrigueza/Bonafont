@@ -37,6 +37,9 @@ public class Archivo implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date da_registro;
 
+    @Column(name = "ch_descripcion")
+    private String ch_descripcion;
+    
 	public Long getNu_id_archivo() {
 		return nu_id_archivo;
 	}
@@ -75,5 +78,13 @@ public class Archivo implements Serializable{
 
 	public void setDa_registro(Date da_registro) {
 		this.da_registro = da_registro;
+	}
+
+	public String getCh_descripcion() {
+		return ch_descripcion;
+	}
+
+	public void setCh_descripcion(String ch_descripcion) {
+		this.ch_descripcion = ch_descripcion;
 	}
 }

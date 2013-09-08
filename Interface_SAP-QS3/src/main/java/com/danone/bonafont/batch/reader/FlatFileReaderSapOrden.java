@@ -29,7 +29,8 @@ public class FlatFileReaderSapOrden extends FlatFileReader<SapOrden> {
 		try {
 			entity = super.doRead();
 		} catch (Exception e) {
-			this.isError = true;
+			isError = true;
+			desError = Constants.ERR_FILE_STRU;
 			throw e;
 		}
 		if (entity != null) {

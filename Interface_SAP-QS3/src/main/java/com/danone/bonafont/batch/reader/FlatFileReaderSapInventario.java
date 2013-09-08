@@ -29,7 +29,8 @@ public class FlatFileReaderSapInventario extends FlatFileReader<SapInventario> {
 		try {
 			entity = super.doRead();
 		} catch (Exception e) {
-			this.isError = true;
+			isError = true;
+			desError = Constants.ERR_FILE_STRU;
 			throw e;
 		}
 		if (entity != null) {
