@@ -259,7 +259,7 @@
 						<property name="customEditors">
 							<map>
 								<entry key="java.util.Date">
-									<ref local="dateEditor2" />
+									<ref local="dateEditor" />
 								</entry>
 							</map>
 						</property>
@@ -270,15 +270,6 @@
 	</bean>
 
 	<bean id="inventoryDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapInventario" />
-
-	<bean id="dateEditor2" class="org.springframework.beans.propertyeditors.CustomDateEditor">
-		<constructor-arg>
-			<bean class="java.text.SimpleDateFormat">
-				<constructor-arg value="yyyyMMdd" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg value="true" />
-	</bean>
 	
 	<bean id="writerInventoryInput"
 		class="org.springframework.batch.item.database.JdbcBatchItemWriter" scope="step">
