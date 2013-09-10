@@ -249,7 +249,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="ch_edodesc,ch_producto,ch_distribuidora,ch_almacen,ch_lote,nu_existencia,ch_tipo_material,da_fechaprod" /> 
+						<property name="names" value="ch_distribuidora,ch_almacen,ch_producto,ch_lote,ch_edodesc,nu_existencia,dummy,dummy,dummy,da_fechaprod" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
