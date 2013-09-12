@@ -20,7 +20,7 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "QS_TBL_SAP_ORDEN_CAN", schema = "dbo")
-@NamedQuery(name="SapOrdenCan.findByFolioProducto", query="SELECT t FROM SapOrdenCan t WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto")
+@NamedQuery(name="SapOrdenCan.findByFolioProducto", query="SELECT t FROM SapOrdenCan t, Archivo s WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto AND s.nu_id_archivo = t.nu_id_archivo AND s.nu_id_estatus = 1001")
 public class SapOrdenCan implements Serializable{
 
 	private static final long serialVersionUID = 1L;
