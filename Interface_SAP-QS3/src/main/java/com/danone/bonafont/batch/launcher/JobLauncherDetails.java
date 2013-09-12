@@ -4,12 +4,14 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.springframework.batch.core.JobExecutionException;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.configuration.JobLocator;
 import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
@@ -19,6 +21,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  */
 public class JobLauncherDetails extends QuartzJobBean {
 
+	private static final Logger LOG = Logger.getLogger(JobLauncherDetails.class);
 
 	static final String JOB_NAME = "jobName" ;
 	
@@ -48,6 +51,11 @@ public class JobLauncherDetails extends QuartzJobBean {
 		try {
 			jobLauncher.run(jobLocator.getJob(jobName), jobParameters);
 		} catch (JobExecutionException e) {
+			LOG.error(e.getMessage(), e);
+		} catch (CannotGetJdbcConnectionException e){
+			LOG.error(e.getMessage(), e);
+		} catch (Exception e){
+			LOG.error(e.getMessage(), e);
 			e.printStackTrace();
 		}
 	}
