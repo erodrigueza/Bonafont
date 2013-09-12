@@ -29,7 +29,7 @@
 	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>
 
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_OrderCreation*" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_OrderCR*" />
 		<property name="delegate" ref="fileReaderOrdenCreationInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -93,7 +93,7 @@
 	</batch:job>
 	
 	<bean id="readerOrdenCancellationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_OrderCancellation*" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_OrderCN*" />
 		<property name="delegate" ref="fileReaderOrdenCancellationInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -157,7 +157,7 @@
 	</batch:job>
 	
 	<bean id="readerDeliveryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_Deliveries*" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_Deliveries*" />
 		<property name="delegate" ref="fileReaderDeliveryInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -237,7 +237,7 @@
 	</batch:job>
 	
 	<bean id="readerInventoryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/FR1_Inventory*" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_Inventory*" />
 		<property name="delegate" ref="fileReaderInventoryInput" />
 		<property name="strict" value="false"/>
 	</bean>
