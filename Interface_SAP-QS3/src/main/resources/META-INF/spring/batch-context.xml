@@ -337,7 +337,7 @@
                 <property name="delimiter" value=";" />
                 <property name="fieldExtractor">
                     <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-                    <property name="names" value="ch_tipopedido, ch_orgventas, ch_canaldist, ch_division, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_producto, ch_cantidad, ch_origen, ch_almacen, ch_foliopedido, ch_observa, ch_ocedi, ch_cubicuadre, ch_pedidos3, ch_occamion, nu_prioridad, ch_razonpedido"/>
+                    <property name="names" value="ch_tipopedido,ch_orgventas,ch_canaldist,ch_division,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_producto,ch_cantidad,ch_origen,ch_almacen,ch_foliopedido,ch_estadopedido,ch_observa,ch_ocedi,ch_cubicuadre,ch_pedidos3,dummy,dummy,dummy,ch_occamion,ch_pedtipo,nu_prioridad,ch_razonpedido"/>
                     </bean>
                 </property>
             </bean>

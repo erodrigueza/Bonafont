@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * @author Eduardo Rodriguez
@@ -103,6 +104,9 @@ public class Qs3Orden implements Serializable{
 	
 	@Column(name = "ch_razonpedido")
 	private String ch_razonpedido ;
+
+	@Transient
+	private String dummy;
 
 	public Long getNu_id_orden() {
 		return nu_id_orden;
@@ -318,5 +322,13 @@ public class Qs3Orden implements Serializable{
 
 	public void setCh_razonpedido(String ch_razonpedido) {
 		this.ch_razonpedido = ch_razonpedido;
+	}
+
+	public String getDummy() {
+		return dummy;
+	}
+
+	public void setDummy(String dummy) {
+		this.dummy = dummy;
 	}
 }

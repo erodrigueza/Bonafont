@@ -1,12 +1,13 @@
 package com.danone.bonafont.test; 
 
+import com.danone.bonafont.batch.model.SapOrden;
 import com.danone.bonafont.batch.reader.FlatFileReader;
 
 import junit.framework.TestCase;
 
 public class FlatFileReaderTests extends TestCase {
 
-	private FlatFileReader reader = new FlatFileReader();
+	private FlatFileReader<?> reader = new FlatFileReader<SapOrden>();
 	
 	public void testReadOnce() throws Exception {
 		assertEquals("Hello world!", reader.read());
