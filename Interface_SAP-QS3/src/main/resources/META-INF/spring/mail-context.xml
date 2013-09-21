@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<description>Specification Send Mail.</description>
+	
+<!-- ########################### SEND NOTIFICATION ################################### -->
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="rodriguez.arreola" />
+		<property name="password" value="eduardor*02" />
+	
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="sendMailManager" class="com.danone.bonafont.batch.tasklet.SendMailTasklet">
+		<property name="mailSender" ref="mailSender" />
+		<property name="sendMailService" ref="sendMailService" />
+		<property name="senderAddress" value="rodriguez.arreola@gmail.com" />
+		<property name="recipient" value="erodrigueza@intellego.com.mx;eduardo-rodriguez@latbc.com.mx" />
+		<property name="attachmentFilePath" value="C:/interface_sap-qs3/data/in/error" />
+	</bean>
+
+	<bean id="sendMailService" class="com.danone.bonafont.batch.mail.SendMailService" />
+
+	<batch:job id="sendMailJob" restartable="false">
+		<batch:step id="sendMailStep">
+			<batch:tasklet ref="sendMailManager" />
+		</batch:step>
+	</batch:job>
+	
+<!-- ######################## FIN SEND NOTIFICATION ################################### -->
+
+</beans>

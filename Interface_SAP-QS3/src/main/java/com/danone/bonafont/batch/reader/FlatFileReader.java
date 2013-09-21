@@ -41,7 +41,14 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 			String parent = file.getParent();
 			String newParent = parent.substring(0, parent.length() - 3)
 					+ (this.isError ? "error\\" : "processed\\");
-			if (file.renameTo(new File(newParent + file.getName()))) {
+			
+			File newFile = new File(newParent + file.getName());
+			System.err.println("nombre del archivo: "+newFile.getName());
+			if(newFile.exists()){
+				System.err.println("El archivo existe..!!");
+			}
+			
+			if (file.renameTo(newFile)) {
 				LOG.info("OK Move File " + newParent + file.getName());
 			} else {
 				LOG.error("FAILED Move File ");

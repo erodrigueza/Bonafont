@@ -14,16 +14,13 @@
 	<batch:job id="jobOrdenCreationInput">
 		<batch:step id="stepOrdenCreationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" skip-limit="100">
-					<batch:skippable-exception-classes>
-						<batch:include class="java.lang.Exception" />
-					</batch:skippable-exception-classes>
-				</batch:chunk>
+				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" />
 			</batch:tasklet>
 			<batch:listeners>
-			<batch:listener ref="listenerChunk"/>
+				<batch:listener ref="listenerChunk"/>
 			</batch:listeners>
 		</batch:step>
+		<!--batch:decision decider="deciderSendMail" id="idSendMail"></batch:decision-->
 	</batch:job>
 	
 	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>
@@ -80,14 +77,10 @@
 	<batch:job id="jobOrdenCancellationInput">
 		<batch:step id="stepOrdenCancellationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" skip-limit="100">
-					<batch:skippable-exception-classes>
-						<batch:include class="java.lang.Exception" />
-					</batch:skippable-exception-classes>
-				</batch:chunk>
+				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" />
 			</batch:tasklet>
 			<batch:listeners>
-			<batch:listener ref="listenerChunk"/>
+				<batch:listener ref="listenerChunk"/>
 			</batch:listeners>
 		</batch:step>
 	</batch:job>
@@ -144,14 +137,10 @@
 	<batch:job id="jobDeliveryInput">
 		<batch:step id="stepDeliveryInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" skip-limit="100">
-					<batch:skippable-exception-classes>
-						<batch:include class="java.lang.Exception" />
-					</batch:skippable-exception-classes>
-				</batch:chunk>
+				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" />
 			</batch:tasklet>
 			<batch:listeners>
-			<batch:listener ref="listenerChunk"/>
+				<batch:listener ref="listenerChunk"/>
 			</batch:listeners>
 		</batch:step>
 	</batch:job>
@@ -224,14 +213,10 @@
 	<batch:job id="jobInventoryInput">
 		<batch:step id="stepInventoryInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" skip-limit="100">
-					<batch:skippable-exception-classes>
-						<batch:include class="java.lang.Exception" />
-					</batch:skippable-exception-classes>
-				</batch:chunk>
+				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" />
 			</batch:tasklet>
 			<batch:listeners>
-			<batch:listener ref="listenerChunk"/>
+				<batch:listener ref="listenerChunk"/>
 			</batch:listeners>
 		</batch:step>
 	</batch:job>
