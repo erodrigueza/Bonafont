@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import com.danone.bonafont.batch.dao.ArchivoDAO;
 import com.danone.bonafont.batch.model.Archivo;
 import com.danone.bonafont.batch.util.Constants;
+import com.danone.bonafont.batch.util.Util;
 
 /**
  * @author Eduardo Rodriguez 
@@ -28,6 +29,20 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 	@javax.annotation.Resource
 	ArchivoDAO archivoDAO;
 
+	public void setResource(Resource resource, Integer interfaz) {
+		LOG.info("File Name: " + resource.getFilename());
+		this.resource = resource;
+		try{
+			idArchivo = archivoDAO.registerFile(resource.getFilename(),
+				Constants.ARCHIVO_LEIDO, interfaz);
+			isError = false;
+		}catch (Exception e){
+			LOG.error("Error al registrar el archivo, excepcion: "+e.getMessage());
+			isError = true;
+		}
+		super.setResource(resource);
+	}
+	
 	@Override
 	protected void doClose() throws Exception {
 		super.doClose();
@@ -43,13 +58,14 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 					+ (this.isError ? "error\\" : "processed\\");
 			
 			File newFile = new File(newParent + file.getName());
-			System.err.println("nombre del archivo: "+newFile.getName());
+
 			if(newFile.exists()){
-				System.err.println("El archivo existe..!!");
+				LOG.info("El archivo ya existe en la carpeta destino..!!");
+				newFile = new File(newParent + Util.getDateSeg() +file.getName());
 			}
 			
 			if (file.renameTo(newFile)) {
-				LOG.info("OK Move File " + newParent + file.getName());
+				LOG.info("OK Move File " + newFile.getPath());
 			} else {
 				LOG.error("FAILED Move File ");
 				desError = Constants.ERR_FILE_MOVE;
@@ -76,10 +92,4 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 		super.update(executionContext);
 	}
 	
-	@Override
-	protected void doOpen() throws Exception {
-		this.isError = false;
-		super.doOpen();
-	}
-
 }

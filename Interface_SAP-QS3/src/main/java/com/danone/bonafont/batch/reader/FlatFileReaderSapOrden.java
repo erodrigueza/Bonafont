@@ -16,11 +16,7 @@ public class FlatFileReaderSapOrden extends FlatFileReader<SapOrden> {
 
 	@Override
 	public void setResource(Resource resource) {
-		LOG.debug("File Name: " + resource.getFilename());
-		super.resource = resource;
-		super.idArchivo = super.archivoDAO.registerFile(resource.getFilename(),
-				Constants.ARCHIVO_LEIDO, Constants.SAP_QS3_OR_CREATION);
-		super.setResource(resource);
+		super.setResource(resource, Constants.SAP_QS3_OR_CREATION);
 	}
 
 	@Override
@@ -31,6 +27,8 @@ public class FlatFileReaderSapOrden extends FlatFileReader<SapOrden> {
 		} catch (Exception e) {
 			isError = true;
 			desError = Constants.ERR_FILE_STRU;
+			LOG.error("Error en la estructura de los datos.");
+			LOG.error(e);
 			throw e;
 		}
 		if (entity != null) {
