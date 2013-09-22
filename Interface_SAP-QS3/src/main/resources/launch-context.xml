@@ -70,7 +70,6 @@
 		
 	<import resource="classpath:/META-INF/spring/batch-context.xml" />
 	<import resource="classpath:/META-INF/spring/quartz-context.xml" />
-	<import resource="classpath:/META-INF/spring/mail-context.xml" />
 
 	<!-- Persistence JPA -->
  	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />  
