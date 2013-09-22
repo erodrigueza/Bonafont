@@ -5,38 +5,22 @@ import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import com.danone.bonafont.batch.mail.SendMailService;
 
 /**
  * @author Eduardo Rodriguez
- * 
+ * Tasklet responsable de enviar mail de notificacion
  */
 public class SendMailTasklet implements Tasklet {
 
 	private static final Logger LOG = Logger.getLogger(SendMailTasklet.class);
 	private SendMailService sendMailService = new SendMailService();
-	private JavaMailSender mailSender;
-	private String senderAddress;
-	private String recipient;
-	private String attachmentFilePath;
-
-	public void setMailSender(JavaMailSender mailSender) {
-		this.mailSender = mailSender;
-	}
-
-	public void setSenderAddress(String senderAddress) {
-		this.senderAddress = senderAddress;
-	}
-
-	public void setRecipient(String recipient) {
-		this.recipient = recipient;
-	}
-
-	public void setAttachmentFilePath(String attachmentFilePath) {
-		this.attachmentFilePath = attachmentFilePath;
-	}
+	private String message;
+	
+	public void setMessage(String message) {
+		this.message = message;
+	}	
 
 	public void setSendMailService(SendMailService sendMailService) {
 		this.sendMailService = sendMailService;
@@ -45,11 +29,10 @@ public class SendMailTasklet implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
-		LOG.debug("execute(StepContribution contribution, ChunkContext chunkContext) begin");
-		sendMailService.setFields(mailSender, senderAddress, recipient,
-				attachmentFilePath);
-		sendMailService.sendMail();
-		LOG.debug("execute(StepContribution contribution, ChunkContext chunkContext) end");
+		LOG.info("inicia SendMailTasklet...");
+		sendMailService.sendMail(message);
+		LOG.info("termina correctamente SendMailTasklet...");
 		return RepeatStatus.FINISHED;
 	}
+
 }

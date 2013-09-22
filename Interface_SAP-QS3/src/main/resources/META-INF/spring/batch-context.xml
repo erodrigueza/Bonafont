@@ -8,19 +8,25 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<description>Specification Jobs.</description>
-
+	<import resource="classpath:/META-INF/spring/mail-context.xml" />
+	
 <!-- ############################# ORDEN CREATION INPUT ############################## -->
 
 	<batch:job id="jobOrdenCreationInput">
 		<batch:step id="stepOrdenCreationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" />
+				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" >
+					<batch:listeners>
+						<batch:listener ref="listenerChunk" />
+					</batch:listeners>
+				</batch:chunk>
 			</batch:tasklet>
-			<batch:listeners>
-				<batch:listener ref="listenerChunk"/>
-			</batch:listeners>
+			<batch:end on="*"/>
+			<batch:next on="EXCEPTION DB" to="sendMailStep"/>
 		</batch:step>
-		<!--batch:decision decider="deciderSendMail" id="idSendMail"></batch:decision-->
+		<batch:step id="sendMailStep">
+			<batch:tasklet ref="sendMailConnectionDB" />
+		</batch:step>
 	</batch:job>
 	
 	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>

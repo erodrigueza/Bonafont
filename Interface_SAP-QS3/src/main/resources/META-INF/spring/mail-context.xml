@@ -13,7 +13,7 @@
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="username" value="rodriguez.arreola" />
-		<property name="password" value="eduardor*02" />
+		<property name="password" value="******" />
 	
 		<property name="javaMailProperties">
 			<props>
@@ -23,19 +23,22 @@
 		</property>
 	</bean>
 
-	<bean id="sendMailManager" class="com.danone.bonafont.batch.tasklet.SendMailTasklet">
+	<bean id="sendMailService" class="com.danone.bonafont.batch.mail.SendMailService">
 		<property name="mailSender" ref="mailSender" />
-		<property name="sendMailService" ref="sendMailService" />
 		<property name="senderAddress" value="rodriguez.arreola@gmail.com" />
-		<property name="recipient" value="erodrigueza@intellego.com.mx;eduardo-rodriguez@latbc.com.mx" />
-		<property name="attachmentFilePath" value="C:/interface_sap-qs3/data/in/error" />
+		<property name="recipient" value="erodrigueza@intellego.com.mx" />
+		<property name="attachmentFilePath" value="C:/interface_sap-qs3/log" />
 	</bean>
 
-	<bean id="sendMailService" class="com.danone.bonafont.batch.mail.SendMailService" />
+	<bean id="sendMailConnectionDB" class="com.danone.bonafont.batch.tasklet.SendMailTasklet">
+		<property name="sendMailService" ref="sendMailService" />
+		<property name="message" value="No fue posible conectarse a la base de datos." />
+	</bean>
+
 
 	<batch:job id="sendMailJob" restartable="false">
 		<batch:step id="sendMailStep">
-			<batch:tasklet ref="sendMailManager" />
+			<batch:tasklet ref="sendMailConnectionDB" />
 		</batch:step>
 	</batch:job>
 	
