@@ -8,12 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "QS_TBL_ARCHIVOS", schema = "dbo")
+@NamedQuery(name="Archivo.findByName", query="SELECT t FROM Archivo t WHERE t.ch_nombre = :ch_nombre AND t.nu_id_estatus = 1001")
 public class Archivo implements Serializable{
 
 	private static final long serialVersionUID = 1L;

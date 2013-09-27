@@ -1,6 +1,9 @@
 package com.danone.bonafont.batch.dao.imp.jpa;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -32,5 +35,16 @@ public class ArchivoDAOJPAImpl extends GenericDAOJPAImpl<Archivo, Long> implemen
         LOG.info("Con el ID: "+id);  
 		return id;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Archivo> findByName(String fileName) {
+		Map<String,String> paramMap=new HashMap<String, String>();	
+
+		paramMap.put("ch_nombre", fileName);
+
+		return getJpaTemplate().findByNamedQueryAndNamedParams("Archivo.findByName", paramMap);
+	}
+	
 
 }

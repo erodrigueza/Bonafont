@@ -2,6 +2,7 @@ package com.danone.bonafont.batch.reader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.batch.item.ExecutionContext;
@@ -32,15 +33,23 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 	public void setResource(Resource resource, Integer interfaz) {
 		LOG.info("File Name: " + resource.getFilename());
 		this.resource = resource;
+		regFile(resource, interfaz);
+		super.setResource(resource);
+	}
+
+	private void regFile(Resource resource, Integer interfaz) {
+		Integer status = Constants.ARCHIVO_LEIDO; 
+		List<Archivo> archivos = archivoDAO.findByName(resource.getFilename());
+		if(archivos.size() > 0){
+			status = Constants.ARCHIVO_DUPLICADO;
+		}
 		try{
-			idArchivo = archivoDAO.registerFile(resource.getFilename(),
-				Constants.ARCHIVO_LEIDO, interfaz);
+			idArchivo = archivoDAO.registerFile(resource.getFilename(),status, interfaz);
 			isError = false;
 		}catch (Exception e){
 			LOG.error("Error al registrar el archivo, excepcion: "+e.getMessage());
 			isError = true;
 		}
-		super.setResource(resource);
 	}
 	
 	@Override
