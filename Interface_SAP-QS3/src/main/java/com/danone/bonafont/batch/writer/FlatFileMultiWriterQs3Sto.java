@@ -46,9 +46,6 @@ public class FlatFileMultiWriterQs3Sto extends MultiResourceItemWriter<Qs3STO> {
 	private String getKey(Qs3STO orden) {
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append(orden.getCh_tipopedido());
-		buffer.append(orden.getCh_destino());
-		buffer.append(orden.getCh_cubicuadre());
 		buffer.append(orden.getCh_pedidos3());
 		
 		return buffer.toString();
