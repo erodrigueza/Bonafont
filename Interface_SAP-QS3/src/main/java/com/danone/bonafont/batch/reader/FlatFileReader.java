@@ -84,18 +84,20 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 		}
 	}
 	
-	private void updateFile(){
-		Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
-		if(this.isError){
-			archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
-			archivo.setCh_descripcion(desError);
-		}else if(isDuplicate){
-			archivo.setNu_id_estatus(Constants.ARCHIVO_DUPLICADO);
-			archivo.setCh_descripcion("Archivo Duplicado");
-		}else{
-			archivo.setNu_id_estatus(Constants.ARCHIVO_LEIDO);
+	private void updateFile() {
+		if (idArchivo != null) {
+			Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
+			if (this.isError) {
+				archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
+				archivo.setCh_descripcion(desError);
+			} else if (isDuplicate) {
+				archivo.setNu_id_estatus(Constants.ARCHIVO_DUPLICADO);
+				archivo.setCh_descripcion("Archivo Duplicado");
+			} else {
+				archivo.setNu_id_estatus(Constants.ARCHIVO_LEIDO);
+			}
+			archivoDAO.update(archivo);
 		}
-		archivoDAO.update(archivo);
 	}
 
 	@Override
