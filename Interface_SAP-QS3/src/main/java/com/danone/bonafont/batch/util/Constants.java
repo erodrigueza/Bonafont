@@ -10,6 +10,7 @@ public class Constants {
 	public final static Integer ARCHIVO_ERROR 		= 1002;
 	public final static Integer ARCHIVO_GENERADO 	= 1003;
 	public final static Integer ARCHIVO_DUPLICADO 	= 1004;
+	public final static Integer ARCHIVO_PROCESANDO 	= 1005;
 	
 	public final static Integer REG_NUEVO 			= 2001;
 	public final static Integer REG_DUPLICADO 		= 2002;

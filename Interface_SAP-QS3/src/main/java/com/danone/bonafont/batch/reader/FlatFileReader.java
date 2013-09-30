@@ -38,7 +38,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 	}
 
 	private void regFile(Resource resource, Integer interfaz) {
-		Integer status = Constants.ARCHIVO_LEIDO; 
+		Integer status = Constants.ARCHIVO_PROCESANDO; 
 		List<Archivo> archivos = archivoDAO.findByName(resource.getFilename());
 		if(archivos.size() > 0){
 			status = Constants.ARCHIVO_DUPLICADO;
@@ -83,12 +83,14 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 	}
 	
 	private void updateFile(){
+		Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
 		if(this.isError){
-			Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
 			archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
 			archivo.setCh_descripcion(desError);
-			archivoDAO.update(archivo);
+		}else{
+			archivo.setNu_id_estatus(Constants.ARCHIVO_LEIDO);
 		}
+		archivoDAO.update(archivo);
 	}
 
 	@Override
