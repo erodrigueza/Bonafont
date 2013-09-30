@@ -418,9 +418,15 @@
 		</property>
 	</bean>
 
-	<bean id="writerStoOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3Sto" scope="step">
+	<bean id="writerStoOutput" class="com.danone.bonafont.batch.writer.FlatFileMultiWriterQs3Sto" scope="step">
+		<property name="resource" value="file:#{jobParameters[pathout]}#{jobParameters[file]}" />
+		<property name="saveState" value="true"/>
+		<property name="delegate" ref="fileWriterStoOutput"/>
+		<property name="resourceSuffixCreator" ref="dateResourceSuffix"/>
+	</bean>
+
+	<bean id="fileWriterStoOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3Sto" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
-		<property name="resource" value="file:#{jobParameters[pathout]}#{jobParameters[file]}#{T(com.danone.bonafont.batch.util.Util).getDate()}.csv" />
 		<property name="lineAggregator">
             <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
                 <property name="delimiter" value=";" />
