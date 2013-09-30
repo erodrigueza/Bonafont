@@ -89,6 +89,15 @@ public class Qs3STO implements Serializable {
 	@Column(name = "ch_pedfechaemb")
 	private String ch_pedfechaemb;
 
+	@Column(name = "ch_carrier")
+	private String ch_carrier;
+
+	@Column(name = "ch_pedfechaent")
+	private String ch_pedfechaent;
+
+	@Column(name = "ch_pedfecha")
+	private String ch_pedfecha;
+
 	public Long getNu_id_orden_sto() {
 		return nu_id_orden_sto;
 	}
@@ -263,6 +272,30 @@ public class Qs3STO implements Serializable {
 
 	public void setCh_pedfechaemb(String ch_pedfechaemb) {
 		this.ch_pedfechaemb = ch_pedfechaemb;
+	}
+
+	public String getCh_carrier() {
+		return ch_carrier;
+	}
+
+	public void setCh_carrier(String ch_carrier) {
+		this.ch_carrier = ch_carrier;
+	}
+
+	public String getCh_pedfechaent() {
+		return ch_pedfechaent;
+	}
+
+	public void setCh_pedfechaent(String ch_pedfechaent) {
+		this.ch_pedfechaent = ch_pedfechaent;
+	}
+
+	public String getCh_pedfecha() {
+		return ch_pedfecha;
+	}
+
+	public void setCh_pedfecha(String ch_pedfecha) {
+		this.ch_pedfecha = ch_pedfecha;
 	}
 
 }
