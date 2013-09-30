@@ -35,10 +35,14 @@
 		<property name="message" value="No fue posible conectarse a la base de datos." />
 	</bean>
 
+	<bean id="sendMailSemaforoSap" class="com.danone.bonafont.batch.tasklet.SendMailTasklet">
+		<property name="sendMailService" ref="sendMailService" />
+		<property name="message" value="En la ultima media hora no se han registrado archivos de SAP." />
+	</bean>
 
 	<batch:job id="sendMailJob" restartable="false">
 		<batch:step id="sendMailStep">
-			<batch:tasklet ref="sendMailConnectionDB" />
+			<batch:tasklet ref="sendMailSemaforoSap" />
 		</batch:step>
 	</batch:job>
 	

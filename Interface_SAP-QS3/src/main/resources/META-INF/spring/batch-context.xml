@@ -434,5 +434,54 @@
 	</bean>
 <!-- ############################ FIN STO OUTPUT ##################################### -->
 	
+<!-- ############################# SEMAFORO SAP ###################################### -->
+
+	<batch:job id="jobSemaforoSap">
+		<batch:step id="stepSemaforoSap">
+			<batch:tasklet>
+				<batch:chunk reader="readerSemaforoSap" processor="processorSemaforoSap" writer="writerSemaforoSap" commit-interval="1000" />
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+
+	<bean id="processorSemaforoSap" class="com.danone.bonafont.batch.processor.SemaforoProcessor"/>
+	
+	<bean id="readerSemaforoSap"
+		class="org.springframework.batch.item.database.JdbcCursorItemReader"
+		scope="step">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sql">
+			<value>
+				<![CDATA[
+				SELECT TOP(1)* FROM dbo.QS_TBL_ARCHIVOS WHERE nu_id_tipo IN(1, 2, 3, 4) ORDER BY da_registro DESC
+				]]>
+			</value>
+		</property>
+		<property name="rowMapper">
+			<bean id="SemaforoSapMapper" class="org.springframework.jdbc.core.BeanPropertyRowMapper">
+				<property name="mappedClass">
+					<value type="java.lang.Class">com.danone.bonafont.batch.model.Archivo</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="writerSemaforoSap" 
+		class="org.springframework.batch.item.database.JdbcBatchItemWriter" scope="step">
+		<property name="itemSqlParameterSourceProvider">
+			<bean
+				class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
+		</property>
+		<property name="sql">
+			<value>
+           	<![CDATA[        
+			UPDATE QS_TBL_SEMAFORO SET nu_estatus = :nu_estatus, ch_descripcion = :ch_descripcion, da_fecha = :da_fecha where ch_entidad = 'Sap Lectura'
+           	]]>
+			</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+<!-- ########################### FIN SEMAFORO SAP #################################### -->
 
 </beans>

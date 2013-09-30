@@ -23,6 +23,7 @@
 				<ref bean="cronOrdenCreationCanOutputMX3" />
 				<ref bean="cronStoOutputMX2" />
 				<ref bean="cronStoOutputMX3" />
+				<ref bean="cronSemaforoSap" />
 			</list>
 		</property>
 	</bean>
@@ -203,6 +204,24 @@
 	<bean id="cronStoOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailStoOutputMX2" />
 		<property name="cronExpression" value="* 54 * * * ?" />
+	</bean>
+
+<!-- ################################ SEMAFORO SAP ################################# -->
+	<bean id="jobDetailSemaforoSap" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.danone.bonafont.batch.launcher.JobLauncherDetails" />
+		<property name="group" value="quartz-batch" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="jobName" value="jobSemaforoSap" />
+				<entry key="jobLocator" value-ref="jobRegistry" />
+				<entry key="jobLauncher" value-ref="jobLauncher" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="cronSemaforoSap" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetailSemaforoSap" />
+		<property name="cronExpression" value="0 * * * * ?" />
 	</bean>
 		
 </beans>
