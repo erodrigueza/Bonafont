@@ -23,7 +23,8 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 
 	private static final Logger LOG = Logger.getLogger(FlatFileReader.class);
 	protected Resource resource;
-	protected boolean isError = false;
+	protected boolean isError;
+	protected boolean isDuplicate;
 	protected String desError = "";
 	protected Long idArchivo;
 
@@ -33,18 +34,19 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 	public void setResource(Resource resource, Integer interfaz) {
 		LOG.info("File Name: " + resource.getFilename());
 		this.resource = resource;
+		isDuplicate = false;
 		regFile(resource, interfaz);
 		super.setResource(resource);
 	}
 
 	private void regFile(Resource resource, Integer interfaz) {
-		Integer status = Constants.ARCHIVO_PROCESANDO; 
 		List<Archivo> archivos = archivoDAO.findByName(resource.getFilename());
 		if(archivos.size() > 0){
-			status = Constants.ARCHIVO_DUPLICADO;
+			isDuplicate = true;
 		}
 		try{
-			idArchivo = archivoDAO.registerFile(resource.getFilename(),status, interfaz);
+			idArchivo = archivoDAO.registerFile(resource.getFilename(),
+								Constants.ARCHIVO_PROCESANDO, interfaz);
 			isError = false;
 		}catch (Exception e){
 			LOG.error("Error al registrar el archivo, excepcion: "+e.getMessage());
@@ -87,6 +89,9 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 		if(this.isError){
 			archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
 			archivo.setCh_descripcion(desError);
+		}else if(isDuplicate){
+			archivo.setNu_id_estatus(Constants.ARCHIVO_DUPLICADO);
+			archivo.setCh_descripcion("Archivo Duplicado");
 		}else{
 			archivo.setNu_id_estatus(Constants.ARCHIVO_LEIDO);
 		}
