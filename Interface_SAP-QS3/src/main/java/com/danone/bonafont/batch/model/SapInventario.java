@@ -25,8 +25,8 @@ public class SapInventario implements Serializable{
 
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)  
-    @Column(name = "id_inventario", unique = true, nullable = false, precision = 10)  
-    private Integer id_inventario;
+    @Column(name = "nu_id_inventario", unique = true, nullable = false, precision = 10)  
+    private Integer nu_id_inventario;
 	
 	@Column(name = "nu_id_estatus", nullable = false)  
 	private Integer nu_id_estatus;
@@ -66,16 +66,20 @@ public class SapInventario implements Serializable{
 
 	@Column(name = "ch_tipo_material")
 	private String ch_tipo_material;
-	
+
+	@Column(name = "da_creationdate")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date da_creationdate;
+
 	@Transient
 	private String dummy;
 
-	public Integer getId_inventario() {
-		return id_inventario;
+	public Integer getNu_id_inventario() {
+		return nu_id_inventario;
 	}
 
-	public void setId_inventario(Integer id_inventario) {
-		this.id_inventario = id_inventario;
+	public void setNu_id_inventario(Integer nu_id_inventario) {
+		this.nu_id_inventario = nu_id_inventario;
 	}
 
 	public Integer getNu_id_estatus() {
@@ -174,6 +178,14 @@ public class SapInventario implements Serializable{
 		this.ch_tipo_material = ch_tipo_material;
 	}
 
+	public Date getDa_creationdate() {
+		return da_creationdate;
+	}
+
+	public void setDa_creationdate(Date da_creationdate) {
+		this.da_creationdate = da_creationdate;
+	}
+
 	public String getDummy() {
 		return dummy;
 	}
@@ -181,5 +193,5 @@ public class SapInventario implements Serializable{
 	public void setDummy(String dummy) {
 		this.dummy = dummy;
 	}
-
+	
 }
