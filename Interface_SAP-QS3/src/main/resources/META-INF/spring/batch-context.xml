@@ -10,12 +10,33 @@
 	<description>Specification Jobs.</description>
 	<import resource="classpath:/META-INF/spring/mail-context.xml" />
 	
+<!-- ##### Common Batch ##### -->
+
+	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener" />
+
+	<bean id="dateEditor"
+		class="org.springframework.beans.propertyeditors.CustomDateEditor">
+		<constructor-arg>
+			<bean class="java.text.SimpleDateFormat">
+				<constructor-arg value="dd/MM/yyyy" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg value="true" />
+	</bean>
+	
+	<bean id="dateResourceSuffix" class="com.danone.bonafont.batch.util.DateResourceSuffix"/>
+	
+	<bean id="skipPolicy" class="com.danone.bonafont.batch.skippolicy.Skip_Policy"/>
+	
 <!-- ############################# ORDEN CREATION INPUT ############################## -->
 
 	<batch:job id="jobOrdenCreationInput">
 		<batch:step id="stepOrdenCreationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" >
+				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" skip-limit="1000">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
 					<batch:listeners>
 						<batch:listener ref="listenerChunk" />
 					</batch:listeners>
@@ -29,8 +50,6 @@
 		</batch:step>
 	</batch:job>
 	
-	<bean id="listenerChunk" class="com.danone.bonafont.batch.listener.ChunkErrorListener"/>
-
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
 		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_OrderCR*" />
 		<property name="delegate" ref="fileReaderOrdenCreationInput" />
@@ -83,11 +102,15 @@
 	<batch:job id="jobOrdenCancellationInput">
 		<batch:step id="stepOrdenCancellationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" />
+				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" skip-limit="1000">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+					<batch:listeners>
+						<batch:listener ref="listenerChunk" />
+					</batch:listeners>
+				</batch:chunk>
 			</batch:tasklet>
-			<batch:listeners>
-				<batch:listener ref="listenerChunk"/>
-			</batch:listeners>
 		</batch:step>
 	</batch:job>
 	
@@ -143,11 +166,15 @@
 	<batch:job id="jobDeliveryInput">
 		<batch:step id="stepDeliveryInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" />
+				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" skip-limit="1000">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+					<batch:listeners>
+						<batch:listener ref="listenerChunk" />
+					</batch:listeners>
+				</batch:chunk>
 			</batch:tasklet>
-			<batch:listeners>
-				<batch:listener ref="listenerChunk"/>
-			</batch:listeners>
 		</batch:step>
 	</batch:job>
 	
@@ -186,15 +213,6 @@
 
 	<bean id="deliveryDTOPrototype" scope="prototype" class="com.danone.bonafont.batch.model.SapEntrega" />
 
-	<bean id="dateEditor" class="org.springframework.beans.propertyeditors.CustomDateEditor">
-		<constructor-arg>
-			<bean class="java.text.SimpleDateFormat">
-				<constructor-arg value="dd/MM/yyyy" />
-			</bean>
-		</constructor-arg>
-		<constructor-arg value="true" />
-	</bean>
-	
 	<bean id="writerDeliveryInput"
 		class="com.danone.bonafont.batch.writer.JdbcWriterSapEntrega" scope="step">
 		<property name="itemSqlParameterSourceProvider">
@@ -219,11 +237,15 @@
 	<batch:job id="jobInventoryInput">
 		<batch:step id="stepInventoryInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" />
+				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" skip-limit="1000">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+					<batch:listeners>
+						<batch:listener ref="listenerChunk" />
+					</batch:listeners>
+				</batch:chunk>
 			</batch:tasklet>
-			<batch:listeners>
-				<batch:listener ref="listenerChunk"/>
-			</batch:listeners>
 		</batch:step>
 	</batch:job>
 	
@@ -317,8 +339,6 @@
 		<property name="delegate" ref="fileWriterOrdenCreationOutput"/>
 		<property name="resourceSuffixCreator" ref="dateResourceSuffix"/>
 	</bean>
-	
-	<bean id="dateResourceSuffix" class="com.danone.bonafont.batch.util.DateResourceSuffix"/>
 	
 	<bean id="fileWriterOrdenCreationOutput" class="com.danone.bonafont.batch.writer.FlatFileIWriterQs3Orden" scope="step">
 		<property name="shouldDeleteIfEmpty" value="true"/>
