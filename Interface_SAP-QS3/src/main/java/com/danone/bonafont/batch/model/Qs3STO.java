@@ -98,6 +98,33 @@ public class Qs3STO implements Serializable {
 	@Column(name = "ch_pedfecha")
 	private String ch_pedfecha;
 
+	@Column(name = "ch_observa")
+	private String ch_observa;
+	
+	@Column(name = "ch_status")
+	private String ch_status;
+	
+	@Column(name = "ch_escrito")
+	private String ch_escrito;
+	
+	@Column(name = "ch_leido")
+	private String ch_leido;
+	
+	@Column(name = "ch_prioridad")
+	private String ch_prioridad;
+	
+	@Column(name = "ch_purch_org")
+	private String ch_purch_org;
+	
+	@Column(name = "ch_pur_group")
+	private String ch_pur_group;
+	
+	@Column(name = "ch_currency")
+	private String ch_currency;
+	
+	@Column(name = "ch_existencia")
+	private String ch_existencia;
+	
 	public Long getNu_id_orden_sto() {
 		return nu_id_orden_sto;
 	}
@@ -296,6 +323,78 @@ public class Qs3STO implements Serializable {
 
 	public void setCh_pedfecha(String ch_pedfecha) {
 		this.ch_pedfecha = ch_pedfecha;
+	}
+
+	public String getCh_observa() {
+		return ch_observa;
+	}
+
+	public void setCh_observa(String ch_observa) {
+		this.ch_observa = ch_observa;
+	}
+
+	public String getCh_status() {
+		return ch_status;
+	}
+
+	public void setCh_status(String ch_status) {
+		this.ch_status = ch_status;
+	}
+
+	public String getCh_escrito() {
+		return ch_escrito;
+	}
+
+	public void setCh_escrito(String ch_escrito) {
+		this.ch_escrito = ch_escrito;
+	}
+
+	public String getCh_leido() {
+		return ch_leido;
+	}
+
+	public void setCh_leido(String ch_leido) {
+		this.ch_leido = ch_leido;
+	}
+
+	public String getCh_prioridad() {
+		return ch_prioridad;
+	}
+
+	public void setCh_prioridad(String ch_prioridad) {
+		this.ch_prioridad = ch_prioridad;
+	}
+
+	public String getCh_purch_org() {
+		return ch_purch_org;
+	}
+
+	public void setCh_purch_org(String ch_purch_org) {
+		this.ch_purch_org = ch_purch_org;
+	}
+
+	public String getCh_pur_group() {
+		return ch_pur_group;
+	}
+
+	public void setCh_pur_group(String ch_pur_group) {
+		this.ch_pur_group = ch_pur_group;
+	}
+
+	public String getCh_currency() {
+		return ch_currency;
+	}
+
+	public void setCh_currency(String ch_currency) {
+		this.ch_currency = ch_currency;
+	}
+
+	public String getCh_existencia() {
+		return ch_existencia;
+	}
+
+	public void setCh_existencia(String ch_existencia) {
+		this.ch_existencia = ch_existencia;
 	}
 
 }
