@@ -191,7 +191,7 @@
 				<property name="lineTokenizer">
 					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="delimiter" value=";"/> 
-						<property name="names" value="ch_origen,ch_seriepedido,ch_foliopedido,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_estadopedido,ch_observa,ch_producto,ch_cantidad,ch_fechaembarque,ch_ocedi,dummy,dummy,dummy,dummy,dummy,da_avisos,ch_comentario,dummy,ch_occamion,ch_proveedoredi,ch_tipopedido,ch_orgventas,ch_numeroalmacen,ch_ruta,ch_peso_neto,ch_receproducto,ch_numeropieza,dummy,ch_numerolote,ch_material_cliente,ch_calidad,ch_fecha_transito" /> 
+						<property name="names" value="ch_origen,ch_seriepedido,ch_foliopedido,ch_destino,ch_pedfecha,ch_pedfechaemb,ch_pedfechaent,ch_estadopedido,ch_observa,ch_cubicuadre,ch_pedidos3,ch_producto,ch_cantidad,ch_fechaembarque,ch_ocedi,ch_tarimas,ch_peso,ch_status,da_escrito,da_leido,da_avisos,ch_comentario,nu_id,ch_occamion,ch_proveedoredi,ch_fecha_transito,ch_almacen" /> 
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
@@ -223,8 +223,8 @@
 			<value>
            	<![CDATA[        
 			INSERT INTO dbo.QS_TBL_SAP_ENTREGA
-    			(nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_tipopedido, ch_orgventas, ch_numeroalmacen, ch_ruta, ch_peso_neto, ch_receproducto, ch_numeropieza, ch_numerolote, ch_material_cliente, ch_calidad, ch_fecha_transito)
-    			VALUES(:nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_tipopedido, :ch_orgventas, :ch_numeroalmacen, :ch_ruta, :ch_peso_neto, :ch_receproducto, :ch_numeropieza, :ch_numerolote, :ch_material_cliente, :ch_calidad, :ch_fecha_transito)
+    			(nu_id_orden_ent, nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_fecha_transito, ch_cubicuadre, ch_pedidos3, ch_tarimas, ch_peso, ch_status, da_escrito, da_leido, nu_id, ch_almacen)
+    			VALUES(:nu_id_orden_ent, :nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_fecha_transito, :ch_cubicuadre, :ch_pedidos3, :ch_tarimas, :ch_peso, :ch_status, :da_escrito, :da_leido, :nu_id, :ch_almacen)
            	]]>
 			</value>
 		</property>

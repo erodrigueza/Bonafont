@@ -95,39 +95,38 @@ public class SapEntrega implements Serializable{
 
 	@Column(name = "ch_proveedoredi")
 	private String ch_proveedoredi;
-	
-	@Column(name = "ch_tipopedido")
-	private String ch_tipopedido;
-
-	@Column(name = "ch_orgventas")
-	private String ch_orgventas;
-
-	@Column(name = "ch_numeroalmacen")
-	private String ch_numeroalmacen;
-
-	@Column(name = "ch_ruta")
-	private String ch_ruta;
-
-	@Column(name = "ch_peso_neto")
-	private String ch_peso_neto;
-
-	@Column(name = "ch_receproducto")
-	private String ch_receproducto;
-
-	@Column(name = "ch_numeropieza")
-	private String ch_numeropieza;
-
-	@Column(name = "ch_numerolote")
-	private String ch_numerolote;
-
-	@Column(name = "ch_material_cliente")
-	private String ch_material_cliente;
-
-	@Column(name = "ch_calidad")
-	private String ch_calidad;
 
 	@Column(name = "ch_fecha_transito")
 	private String ch_fecha_transito;
+
+	@Column(name = "ch_cubicuadre")
+	private String ch_cubicuadre;
+
+	@Column(name = "ch_pedidos3")
+	private String ch_pedidos3;
+
+	@Column(name = "ch_tarimas")
+	private String ch_tarimas;
+
+	@Column(name = "ch_peso")
+	private String ch_peso;
+
+	@Column(name = "ch_status")
+	private String ch_status;
+
+	@Column(name = "da_escrito")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date da_escrito;
+
+	@Column(name = "da_leido")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date da_leido;
+
+	@Column(name = "nu_id")
+	private Long nu_id;
+
+	@Column(name = "ch_almacen")
+	private String ch_almacen;
 
 	@Transient
 	private String dummy;
@@ -308,92 +307,84 @@ public class SapEntrega implements Serializable{
 		this.ch_proveedoredi = ch_proveedoredi;
 	}
 
-	public String getCh_tipopedido() {
-		return ch_tipopedido;
-	}
-
-	public void setCh_tipopedido(String ch_tipopedido) {
-		this.ch_tipopedido = ch_tipopedido;
-	}
-
-	public String getCh_orgventas() {
-		return ch_orgventas;
-	}
-
-	public void setCh_orgventas(String ch_orgventas) {
-		this.ch_orgventas = ch_orgventas;
-	}
-
-	public String getCh_numeroalmacen() {
-		return ch_numeroalmacen;
-	}
-
-	public void setCh_numeroalmacen(String ch_numeroalmacen) {
-		this.ch_numeroalmacen = ch_numeroalmacen;
-	}
-
-	public String getCh_ruta() {
-		return ch_ruta;
-	}
-
-	public void setCh_ruta(String ch_ruta) {
-		this.ch_ruta = ch_ruta;
-	}
-
-	public String getCh_peso_neto() {
-		return ch_peso_neto;
-	}
-
-	public void setCh_peso_neto(String ch_peso_neto) {
-		this.ch_peso_neto = ch_peso_neto;
-	}
-
-	public String getCh_receproducto() {
-		return ch_receproducto;
-	}
-
-	public void setCh_receproducto(String ch_receproducto) {
-		this.ch_receproducto = ch_receproducto;
-	}
-
-	public String getCh_numeropieza() {
-		return ch_numeropieza;
-	}
-
-	public void setCh_numeropieza(String ch_numeropieza) {
-		this.ch_numeropieza = ch_numeropieza;
-	}
-
-	public String getCh_numerolote() {
-		return ch_numerolote;
-	}
-
-	public void setCh_numerolote(String ch_numerolote) {
-		this.ch_numerolote = ch_numerolote;
-	}
-
-	public String getCh_material_cliente() {
-		return ch_material_cliente;
-	}
-
-	public void setCh_material_cliente(String ch_material_cliente) {
-		this.ch_material_cliente = ch_material_cliente;
-	}
-
-	public String getCh_calidad() {
-		return ch_calidad;
-	}
-
-	public void setCh_calidad(String ch_calidad) {
-		this.ch_calidad = ch_calidad;
-	}
-
 	public String getCh_fecha_transito() {
 		return ch_fecha_transito;
 	}
 
 	public void setCh_fecha_transito(String ch_fecha_transito) {
 		this.ch_fecha_transito = ch_fecha_transito;
+	}
+
+	public String getCh_cubicuadre() {
+		return ch_cubicuadre;
+	}
+
+	public void setCh_cubicuadre(String ch_cubicuadre) {
+		this.ch_cubicuadre = ch_cubicuadre;
+	}
+
+	public String getCh_pedidos3() {
+		return ch_pedidos3;
+	}
+
+	public void setCh_pedidos3(String ch_pedidos3) {
+		this.ch_pedidos3 = ch_pedidos3;
+	}
+
+	public String getCh_tarimas() {
+		return ch_tarimas;
+	}
+
+	public void setCh_tarimas(String ch_tarimas) {
+		this.ch_tarimas = ch_tarimas;
+	}
+
+	public String getCh_peso() {
+		return ch_peso;
+	}
+
+	public void setCh_peso(String ch_peso) {
+		this.ch_peso = ch_peso;
+	}
+
+	public String getCh_status() {
+		return ch_status;
+	}
+
+	public void setCh_status(String ch_status) {
+		this.ch_status = ch_status;
+	}
+
+	public Date getDa_escrito() {
+		return da_escrito;
+	}
+
+	public void setDa_escrito(Date da_escrito) {
+		this.da_escrito = da_escrito;
+	}
+
+	public Date getDa_leido() {
+		return da_leido;
+	}
+
+	public void setDa_leido(Date da_leido) {
+		this.da_leido = da_leido;
+	}
+
+	public Long getNu_id() {
+		return nu_id;
+	}
+
+	public void setNu_id(Long nu_id) {
+		this.nu_id = nu_id;
+	}
+
+	public String getCh_almacen() {
+		return ch_almacen;
+	}
+
+	public void setCh_almacen(String ch_almacen) {
+		this.ch_almacen = ch_almacen;
 	}
 
 	public String getDummy() {
@@ -403,6 +394,7 @@ public class SapEntrega implements Serializable{
 	public void setDummy(String dummy) {
 		this.dummy = dummy;
 	}
+
 
 
 }
