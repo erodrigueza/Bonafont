@@ -43,7 +43,7 @@
 	
 	<bean id="cronOrdenCreationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationInput" />
-		<property name="cronExpression" value="0 0 * * * ?" />
+		<property name="cronExpression" value="0 0,5,10,15,20,25,30,35,40,45,50,55 * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CANCELLATION INPUT ############################# -->
@@ -61,7 +61,7 @@
 	
 	<bean id="cronOrdenCancellationInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCancellationInput" />
-		<property name="cronExpression" value="0 6 * * * ?" />
+		<property name="cronExpression" value="0 1,6,11,16,21,26,31,36,41,46,51,56 * * * ?" />
 	</bean>
 
 <!-- ################################ DELIVERY INPUT ################################# -->
@@ -79,7 +79,7 @@
 	
 	<bean id="cronDeliveryInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailDeliveryInput" />
-		<property name="cronExpression" value="0 12 * * * ?" />
+		<property name="cronExpression" value="0 2,7,12,17,22,27,32,37,42,47,52,57 * * * ?" />
 	</bean>
 
 <!-- ############################### INVENTORY INPUT ################################## -->
@@ -97,7 +97,7 @@
 	
 	<bean id="cronInventoryInput" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailInventoryInput" />
-		<property name="cronExpression" value="0 18 * * * ?" />
+		<property name="cronExpression" value="0 3,8,13,18,23,28,33,38,43,53,58 * * * ?" />
 	</bean>
 
 <!-- ############################# ORDEN CREATION OUTPUT ############################## -->
@@ -116,7 +116,7 @@
 	</bean>
 	<bean id="cronOrdenCreationOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationOutputMX3" />
-		<property name="cronExpression" value="0 24 * * * ?" />
+		<property name="cronExpression" value="30 2,7,12,17,22,27,32,37,42,47,52,57 * * * ?" />
 	</bean>
 
 	<bean id="jobDetailOrdenCreationOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -133,7 +133,7 @@
 	</bean>
 	<bean id="cronOrdenCreationOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationOutputMX2" />
-		<property name="cronExpression" value="0 30 * * * ?" />
+		<property name="cronExpression" value="30 3,8,13,18,23,28,33,38,43,53,58 * * * ?" />
 	</bean>
 	
 <!-- ##################### ORDEN CREATION CANCELLATION OUTPUT ######################## -->
@@ -151,7 +151,7 @@
 	</bean>
 	<bean id="cronOrdenCreationCanOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationCanOutputMX3" />
-		<property name="cronExpression" value="0 36 * * * ?" />
+		<property name="cronExpression" value="0 4,9,14,19,24,29,34,39,44,54,59 * * * ?" />
 	</bean>
 
 	<bean id="jobDetailOrdenCreationCanOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -168,7 +168,7 @@
 	</bean>
 	<bean id="cronOrdenCreationCanOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailOrdenCreationCanOutputMX2" />
-		<property name="cronExpression" value="0 42 * * * ?" />
+		<property name="cronExpression" value="30 4,9,14,19,24,29,34,39,44,54,59 * * * ?" />
 	</bean>
 
 <!-- ################################ STO OUTPUT ##################################### -->
@@ -186,7 +186,7 @@
 	</bean>
 	<bean id="cronStoOutputMX3" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailStoOutputMX3" />
-		<property name="cronExpression" value="0 48 * * * ?" />
+		<property name="cronExpression" value="0 4,9,14,19,24,29,34,39,44,54,59 * * * ?" />
 	</bean>
 
 	<bean id="jobDetailStoOutputMX2" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -203,7 +203,7 @@
 	</bean>
 	<bean id="cronStoOutputMX2" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail" ref="jobDetailStoOutputMX2" />
-		<property name="cronExpression" value="0 54 * * * ?" />
+		<property name="cronExpression" value="50 4,9,14,19,24,29,34,39,44,54,59 * * * ?" />
 	</bean>
 
 <!-- ################################ SEMAFORO SAP ################################# -->
