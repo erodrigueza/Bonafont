@@ -1,7 +1,5 @@
 package com.danone.bonafont.batch.writer;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +52,6 @@ public class FlatFileMultiWriterQs3Sto extends MultiResourceItemWriter<Qs3STO> {
 	}
 	
 	private List<Qs3STO> addSequent(List<Qs3STO> list){
-		NumberFormat formatter = new DecimalFormat("000");
 		Integer nu_posicionitem = 10;
 		Integer ch_numerolinea = 1; 
 		for (Qs3STO qs3sto : list) {
@@ -62,7 +59,7 @@ public class FlatFileMultiWriterQs3Sto extends MultiResourceItemWriter<Qs3STO> {
 			qs3sto.setCh_lote("");
 			qs3sto.setCh_orderunit(getOrderUnit(qs3sto.getCh_orderunit()));
 			qs3sto.setNu_posicionitem(nu_posicionitem);
-			qs3sto.setCh_numerolinea(formatter.format(ch_numerolinea));
+			qs3sto.setCh_numerolinea("0001");
 			nu_posicionitem += 10;
 			ch_numerolinea++;
 		}
