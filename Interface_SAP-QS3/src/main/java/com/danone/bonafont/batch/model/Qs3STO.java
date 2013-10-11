@@ -38,9 +38,6 @@ public class Qs3STO implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date da_proceso;
 
-	@Column(name = "ch_codecomp")
-	private String ch_codecomp;
-
 	@Column(name = "ch_tipopedido")
 	private String ch_tipopedido;
 
@@ -59,9 +56,6 @@ public class Qs3STO implements Serializable {
 	@Column(name = "ch_cubicuadre")
 	private String ch_cubicuadre;
 
-	@Column(name = "ch_estadopedido")
-	private String ch_estadopedido;
-
 	@Column(name = "ch_producto")
 	private String ch_producto;
 
@@ -73,9 +67,6 @@ public class Qs3STO implements Serializable {
 
 	@Column(name = "ch_cantidad")
 	private String ch_cantidad;
-
-	@Column(name = "ch_ordenunidad")
-	private String ch_ordenunidad;
 
 	@Column(name = "ch_lote")
 	private String ch_lote;
@@ -89,29 +80,22 @@ public class Qs3STO implements Serializable {
 	@Column(name = "ch_pedfechaemb")
 	private String ch_pedfechaemb;
 
-	@Column(name = "ch_carrier")
-	private String ch_carrier;
-
-	@Column(name = "ch_pedfechaent")
-	private String ch_pedfechaent;
-
-	@Column(name = "ch_pedfecha")
-	private String ch_pedfecha;
-
 	@Column(name = "ch_observa")
 	private String ch_observa;
 	
 	@Column(name = "ch_status")
 	private String ch_status;
 	
-	@Column(name = "ch_escrito")
-	private String ch_escrito;
+	@Column(name = "da_escrito")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date da_escrito;
 	
-	@Column(name = "ch_leido")
-	private String ch_leido;
+	@Column(name = "da_leido")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date da_leido;
 	
-	@Column(name = "ch_prioridad")
-	private String ch_prioridad;
+	@Column(name = "nu_prioridad")
+	private Integer nu_prioridad;
 	
 	@Column(name = "ch_purch_org")
 	private String ch_purch_org;
@@ -122,9 +106,9 @@ public class Qs3STO implements Serializable {
 	@Column(name = "ch_currency")
 	private String ch_currency;
 	
-	@Column(name = "ch_existencia")
-	private String ch_existencia;
-	
+	@Column(name = "ch_orderunit")
+	private String ch_orderunit;
+
 	public Long getNu_id_orden_sto() {
 		return nu_id_orden_sto;
 	}
@@ -163,14 +147,6 @@ public class Qs3STO implements Serializable {
 
 	public void setDa_proceso(Date da_proceso) {
 		this.da_proceso = da_proceso;
-	}
-
-	public String getCh_codecomp() {
-		return ch_codecomp;
-	}
-
-	public void setCh_codecomp(String ch_codecomp) {
-		this.ch_codecomp = ch_codecomp;
 	}
 
 	public String getCh_tipopedido() {
@@ -221,14 +197,6 @@ public class Qs3STO implements Serializable {
 		this.ch_cubicuadre = ch_cubicuadre;
 	}
 
-	public String getCh_estadopedido() {
-		return ch_estadopedido;
-	}
-
-	public void setCh_estadopedido(String ch_estadopedido) {
-		this.ch_estadopedido = ch_estadopedido;
-	}
-
 	public String getCh_producto() {
 		return ch_producto;
 	}
@@ -259,14 +227,6 @@ public class Qs3STO implements Serializable {
 
 	public void setCh_cantidad(String ch_cantidad) {
 		this.ch_cantidad = ch_cantidad;
-	}
-
-	public String getCh_ordenunidad() {
-		return ch_ordenunidad;
-	}
-
-	public void setCh_ordenunidad(String ch_ordenunidad) {
-		this.ch_ordenunidad = ch_ordenunidad;
 	}
 
 	public String getCh_lote() {
@@ -301,30 +261,6 @@ public class Qs3STO implements Serializable {
 		this.ch_pedfechaemb = ch_pedfechaemb;
 	}
 
-	public String getCh_carrier() {
-		return ch_carrier;
-	}
-
-	public void setCh_carrier(String ch_carrier) {
-		this.ch_carrier = ch_carrier;
-	}
-
-	public String getCh_pedfechaent() {
-		return ch_pedfechaent;
-	}
-
-	public void setCh_pedfechaent(String ch_pedfechaent) {
-		this.ch_pedfechaent = ch_pedfechaent;
-	}
-
-	public String getCh_pedfecha() {
-		return ch_pedfecha;
-	}
-
-	public void setCh_pedfecha(String ch_pedfecha) {
-		this.ch_pedfecha = ch_pedfecha;
-	}
-
 	public String getCh_observa() {
 		return ch_observa;
 	}
@@ -341,28 +277,28 @@ public class Qs3STO implements Serializable {
 		this.ch_status = ch_status;
 	}
 
-	public String getCh_escrito() {
-		return ch_escrito;
+	public Date getDa_escrito() {
+		return da_escrito;
 	}
 
-	public void setCh_escrito(String ch_escrito) {
-		this.ch_escrito = ch_escrito;
+	public void setDa_escrito(Date da_escrito) {
+		this.da_escrito = da_escrito;
 	}
 
-	public String getCh_leido() {
-		return ch_leido;
+	public Date getDa_leido() {
+		return da_leido;
 	}
 
-	public void setCh_leido(String ch_leido) {
-		this.ch_leido = ch_leido;
+	public void setDa_leido(Date da_leido) {
+		this.da_leido = da_leido;
 	}
 
-	public String getCh_prioridad() {
-		return ch_prioridad;
+	public Integer getNu_prioridad() {
+		return nu_prioridad;
 	}
 
-	public void setCh_prioridad(String ch_prioridad) {
-		this.ch_prioridad = ch_prioridad;
+	public void setNu_prioridad(Integer nu_prioridad) {
+		this.nu_prioridad = nu_prioridad;
 	}
 
 	public String getCh_purch_org() {
@@ -389,12 +325,13 @@ public class Qs3STO implements Serializable {
 		this.ch_currency = ch_currency;
 	}
 
-	public String getCh_existencia() {
-		return ch_existencia;
+	public String getCh_orderunit() {
+		return ch_orderunit;
 	}
 
-	public void setCh_existencia(String ch_existencia) {
-		this.ch_existencia = ch_existencia;
+	public void setCh_orderunit(String ch_orderunit) {
+		this.ch_orderunit = ch_orderunit;
 	}
+
 
 }

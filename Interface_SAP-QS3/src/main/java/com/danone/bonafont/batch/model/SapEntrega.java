@@ -111,20 +111,6 @@ public class SapEntrega implements Serializable{
 	@Column(name = "ch_peso")
 	private String ch_peso;
 
-	@Column(name = "ch_status")
-	private String ch_status;
-
-	@Column(name = "da_escrito")
-    @Temporal(TemporalType.TIMESTAMP)
-	private Date da_escrito;
-
-	@Column(name = "da_leido")
-    @Temporal(TemporalType.TIMESTAMP)
-	private Date da_leido;
-
-	@Column(name = "nu_id")
-	private Long nu_id;
-
 	@Column(name = "ch_almacen")
 	private String ch_almacen;
 
@@ -345,38 +331,6 @@ public class SapEntrega implements Serializable{
 
 	public void setCh_peso(String ch_peso) {
 		this.ch_peso = ch_peso;
-	}
-
-	public String getCh_status() {
-		return ch_status;
-	}
-
-	public void setCh_status(String ch_status) {
-		this.ch_status = ch_status;
-	}
-
-	public Date getDa_escrito() {
-		return da_escrito;
-	}
-
-	public void setDa_escrito(Date da_escrito) {
-		this.da_escrito = da_escrito;
-	}
-
-	public Date getDa_leido() {
-		return da_leido;
-	}
-
-	public void setDa_leido(Date da_leido) {
-		this.da_leido = da_leido;
-	}
-
-	public Long getNu_id() {
-		return nu_id;
-	}
-
-	public void setNu_id(Long nu_id) {
-		this.nu_id = nu_id;
 	}
 
 	public String getCh_almacen() {
