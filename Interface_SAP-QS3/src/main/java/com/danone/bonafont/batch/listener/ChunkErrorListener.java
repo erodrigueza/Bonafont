@@ -41,9 +41,11 @@ public class ChunkErrorListener implements ChunkListener {
 		executionContext.putInt("anErrorHappened", 1);
 
 		Exception ex = (Exception) context.getAttribute(ROLLBACK_EXCEPTION_KEY);
-		LOG.error("EXCEPTION ["+ex.getCause().getClass().getName()+"]");
-		if(ex.getCause().getMessage().contains("Cannot open connection")){
-			stepExecution.setExitStatus(new ExitStatus("EXCEPTION DB"));
+		if (ex.getCause() != null) {
+			LOG.error("EXCEPTION [" + ex.getCause().getClass().getName() + "]");
+			if (ex.getCause().getMessage().contains("Cannot open connection")) {
+				stepExecution.setExitStatus(new ExitStatus("EXCEPTION DB"));
+			}
 		}
 	}
 
