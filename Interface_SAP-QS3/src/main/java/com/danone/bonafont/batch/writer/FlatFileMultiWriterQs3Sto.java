@@ -55,7 +55,7 @@ public class FlatFileMultiWriterQs3Sto extends MultiResourceItemWriter<Qs3STO> {
 		Integer nu_posicionitem = 10;
 		Integer ch_numerolinea = 1; 
 		for (Qs3STO qs3sto : list) {
-			qs3sto.setCh_pedfechaemb("");
+//			qs3sto.setCh_pedfechaemb("");
 			qs3sto.setCh_lote("");
 			qs3sto.setCh_orderunit(getOrderUnit(qs3sto.getCh_orderunit()));
 			qs3sto.setNu_posicionitem(nu_posicionitem);
