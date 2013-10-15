@@ -105,9 +105,6 @@ public class SapEntrega implements Serializable{
 	@Column(name = "ch_pedidos3")
 	private String ch_pedidos3;
 
-	@Column(name = "ch_tarimas")
-	private String ch_tarimas;
-
 	@Column(name = "ch_peso")
 	private String ch_peso;
 
@@ -315,14 +312,6 @@ public class SapEntrega implements Serializable{
 
 	public void setCh_pedidos3(String ch_pedidos3) {
 		this.ch_pedidos3 = ch_pedidos3;
-	}
-
-	public String getCh_tarimas() {
-		return ch_tarimas;
-	}
-
-	public void setCh_tarimas(String ch_tarimas) {
-		this.ch_tarimas = ch_tarimas;
 	}
 
 	public String getCh_peso() {
