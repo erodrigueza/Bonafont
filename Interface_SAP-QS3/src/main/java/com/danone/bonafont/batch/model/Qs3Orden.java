@@ -105,6 +105,9 @@ public class Qs3Orden implements Serializable{
 	@Column(name = "ch_razonpedido")
 	private String ch_razonpedido ;
 
+	@Column(name = "ch_tipofactura")
+	private String ch_tipofactura ;
+	
 	@Transient
 	private String dummy;
 
@@ -324,11 +327,20 @@ public class Qs3Orden implements Serializable{
 		this.ch_razonpedido = ch_razonpedido;
 	}
 
+	public String getCh_tipofactura() {
+		return ch_tipofactura;
+	}
+
+	public void setCh_tipofactura(String ch_tipofactura) {
+		this.ch_tipofactura = ch_tipofactura;
+	}
+
 	public String getDummy() {
 		return dummy;
 	}
-
+	
 	public void setDummy(String dummy) {
 		this.dummy = dummy;
 	}
+	
 }
