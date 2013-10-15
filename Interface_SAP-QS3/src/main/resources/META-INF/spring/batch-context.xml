@@ -223,8 +223,8 @@
 			<value>
            	<![CDATA[        
 			INSERT INTO dbo.QS_TBL_SAP_ENTREGA
-    			(nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_fecha_transito, ch_cubicuadre, ch_pedidos3, ch_tarimas, ch_peso, ch_almacen)
-    			VALUES(:nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_fecha_transito, :ch_cubicuadre, :ch_pedidos3, :ch_tarimas, :ch_peso, :ch_almacen)
+    			(nu_id_estatus, da_registro, nu_id_archivo, da_proceso, ch_origen, ch_seriepedido, ch_foliopedido, ch_destino, ch_pedfecha, ch_pedfechaemb, ch_pedfechaent, ch_estadopedido, ch_observa, ch_producto, ch_cantidad, ch_fechaembarque, ch_ocedi, da_avisos, ch_comentario, ch_occamion, ch_proveedoredi, ch_fecha_transito, ch_cubicuadre, ch_pedidos3, ch_peso, ch_almacen)
+    			VALUES(:nu_id_estatus, SYSDATETIME(), :nu_id_archivo, :da_proceso, :ch_origen, :ch_seriepedido, :ch_foliopedido, :ch_destino, :ch_pedfecha, :ch_pedfechaemb, :ch_pedfechaent, :ch_estadopedido, :ch_observa, :ch_producto, :ch_cantidad, :ch_fechaembarque, :ch_ocedi, :da_avisos, :ch_comentario, :ch_occamion, :ch_proveedoredi, :ch_fecha_transito, :ch_cubicuadre, :ch_pedidos3, :ch_peso, :ch_almacen)
            	]]>
 			</value>
 		</property>
