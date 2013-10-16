@@ -27,12 +27,7 @@ public class JdbcWriterSapEntrega extends JdbcBatchItemWriter<SapEntrega> {
 		for (SapEntrega entrega : items) {
 			LOG.info("ch_foliopedido: " + entrega.getCh_foliopedido());
 			LOG.info("ch_producto: " + entrega.getCh_producto());
-			List<SapEntrega> entregas = sapEntregaDAO.findByFolioProducto(entrega);
-			if(entregas.size() > 0){
-				entrega.setNu_id_estatus(Constants.REG_DUPLICADO);
-			}else{
-				entrega.setNu_id_estatus(Constants.REG_NUEVO);
-			}
+			entrega.setNu_id_estatus(Constants.REG_NUEVO);
 		}
 		super.write(items);
 	}
