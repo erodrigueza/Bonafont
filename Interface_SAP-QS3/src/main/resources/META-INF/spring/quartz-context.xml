@@ -26,6 +26,12 @@
 				<ref bean="cronSemaforoSap" />
 			</list>
 		</property>
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+				<prop key="org.quartz.threadPool.threadCount">1</prop>
+			</props>
+		</property>
 	</bean>
 
 <!-- ############################# ORDEN CREATION INPUT ############################## -->
