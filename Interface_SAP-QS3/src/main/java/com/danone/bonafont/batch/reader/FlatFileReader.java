@@ -105,7 +105,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 			throws ItemStreamException {
 		if (executionContext.get("anErrorHappened") != null && !this.isError) {
 			this.isError = executionContext.getInt("anErrorHappened") == 1;
-			desError = Constants.ERR_FILE_DATA;
+			desError = executionContext.getString("DescriptionError", Constants.ERR_FILE_DATA);
 		}
 		super.update(executionContext);
 	}

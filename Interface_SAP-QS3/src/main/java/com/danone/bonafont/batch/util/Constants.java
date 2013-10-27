@@ -30,5 +30,6 @@ public class Constants {
 	public final static String ERR_FILE_MOVE 			= "No se puede mover de ruta el archivo.";
 	public final static String ERR_FILE_DATA 			= "Error al insertar el dato en la DB.";
 	public final static String ERR_FILE_STRU 			= "Estructura incorrecta del archivo.";
+	public final static String ERR_DATA_DUPL 			= "Archivo con registros duplicados.";
 	
 }

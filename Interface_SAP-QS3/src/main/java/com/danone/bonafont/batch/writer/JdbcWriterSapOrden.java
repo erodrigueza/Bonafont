@@ -9,7 +9,6 @@ import org.springframework.batch.item.database.JdbcBatchItemWriter;
 
 import com.danone.bonafont.batch.dao.ArchivoDAO;
 import com.danone.bonafont.batch.dao.SapOrdenDAO;
-import com.danone.bonafont.batch.model.Archivo;
 import com.danone.bonafont.batch.model.SapOrden;
 import com.danone.bonafont.batch.util.Constants;
 
@@ -41,21 +40,12 @@ public class JdbcWriterSapOrden extends JdbcBatchItemWriter<SapOrden> {
 				orden.setNu_id_estatus(Constants.REG_DUPLICADO);
 				isDuplicate = true;
 				idArchivo = orden.getNu_id_archivo();
+				throw new Exception(Constants.ERR_DATA_DUPL);
 			} else {
 				orden.setNu_id_estatus(Constants.REG_NUEVO);
 			}
 		}
-		updateFile();
 		super.write(items);
-	}
-
-	private void updateFile() {
-		if (idArchivo != null && isDuplicate) {
-			Archivo archivo = archivoDAO.findByPK(Archivo.class, idArchivo);
-			archivo.setNu_id_estatus(Constants.ARCHIVO_ERROR);
-			archivo.setCh_descripcion("Archivo con registros duplicados");
-			archivoDAO.update(archivo);
-		}
 	}
 
 }

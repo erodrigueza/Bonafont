@@ -11,6 +11,8 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.scope.context.StepContext;
 import org.springframework.batch.item.ExecutionContext;
 
+import com.danone.bonafont.batch.util.Constants;
+
 /**
  * @author Eduardo Rodriguez
  * 
@@ -41,6 +43,9 @@ public class ChunkErrorListener implements ChunkListener {
 		executionContext.putInt("anErrorHappened", 1);
 
 		Exception ex = (Exception) context.getAttribute(ROLLBACK_EXCEPTION_KEY);
+		if(ex instanceof Exception && Constants.ERR_DATA_DUPL.equals(ex.getMessage())){
+			executionContext.putString("DescriptionError", ex.getMessage());
+		}
 		if (ex.getCause() != null) {
 			LOG.error("EXCEPTION [" + ex.getCause().getClass().getName() + "]");
 			if (ex.getCause().getMessage().contains("Cannot open connection")) {
