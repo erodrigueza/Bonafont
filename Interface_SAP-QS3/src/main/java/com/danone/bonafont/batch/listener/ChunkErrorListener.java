@@ -27,7 +27,7 @@ public class ChunkErrorListener implements ChunkListener {
 
 	@Override
 	public void afterChunk(ChunkContext context) {
-		LOG.info("Termino correctamente a nivel de Chunk.");
+		LOG.debug("Termino correctamente a nivel de Chunk.");
 		StepContext stepContext = context.getStepContext();
 		StepExecution stepExecution = stepContext.getStepExecution();
 		ExecutionContext executionContext = stepExecution.getExecutionContext();
@@ -43,6 +43,9 @@ public class ChunkErrorListener implements ChunkListener {
 		executionContext.putInt("anErrorHappened", 1);
 
 		Exception ex = (Exception) context.getAttribute(ROLLBACK_EXCEPTION_KEY);
+		if(ex != null){
+			LOG.error("Exception: "+ex.getMessage());
+		}
 		if(ex instanceof Exception && Constants.ERR_DATA_DUPL.equals(ex.getMessage())){
 			executionContext.putString("DescriptionError", ex.getMessage());
 		}
