@@ -92,7 +92,7 @@ public class FlatFileReader<T> extends FlatFileItemReader<T> {
 				archivo.setCh_descripcion(desError);
 			} else if (isDuplicate) {
 				archivo.setNu_id_estatus(Constants.ARCHIVO_DUPLICADO);
-				archivo.setCh_descripcion("Archivo Duplicado");
+				archivo.setCh_descripcion(Constants.ERR_FILE_DUPL);
 			} else {
 				archivo.setNu_id_estatus(Constants.ARCHIVO_LEIDO);
 			}
