@@ -19,7 +19,7 @@ public class JdbcWriterSapOrden extends JdbcBatchItemWriter<SapOrden> {
 
 	private static final Logger LOG = Logger.getLogger(JdbcWriterSapOrden.class);
 
-	protected boolean threwException;
+	protected String threwException = "";
 
 	@Resource
 	SapOrdenDAO sapOrdenDAO;
@@ -32,8 +32,9 @@ public class JdbcWriterSapOrden extends JdbcBatchItemWriter<SapOrden> {
 			List<SapOrden> ordens = sapOrdenDAO.findByFolioProducto(orden);
 			if (ordens.size() > 0) {
 				orden.setNu_id_estatus(Constants.REG_DUPLICADO);
-				if(!threwException){
-					threwException = true;
+				String key = orden.getNu_id_archivo()+orden.getCh_foliopedido()+orden.getCh_producto()+orden.getCh_destino();
+				if(!threwException.equals(key)){
+					threwException = key;
 					throw new Exception(Constants.ERR_DATA_DUPL);
 				}
 			} else {
