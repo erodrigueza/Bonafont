@@ -25,6 +25,7 @@ public class SapOrdenDAOJPAImpl extends GenericDAOJPAImpl<SapOrden, Long>
 
 		paramMap.put("ch_foliopedido", orden.getCh_foliopedido());
 		paramMap.put("ch_producto", orden.getCh_producto());
+		paramMap.put("ch_destino", orden.getCh_destino());
 
 		return getJpaTemplate().findByNamedQueryAndNamedParams("SapOrden.findByFolioProducto", paramMap);
 	}

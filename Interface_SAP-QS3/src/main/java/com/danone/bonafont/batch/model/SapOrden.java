@@ -20,7 +20,13 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "QS_TBL_SAP_ORDEN", schema = "dbo")
-@NamedQuery(name="SapOrden.findByFolioProducto", query="SELECT t FROM SapOrden t, Archivo s WHERE t.ch_foliopedido = :ch_foliopedido AND t.ch_producto = :ch_producto AND s.nu_id_archivo = t.nu_id_archivo AND s.nu_id_estatus = 1001")
+@NamedQuery(name="SapOrden.findByFolioProducto", 
+query="SELECT t FROM SapOrden t, Archivo s "
+		+ "WHERE t.ch_foliopedido = :ch_foliopedido "
+		+ "AND t.ch_destino = :ch_destino "
+		+ "AND t.ch_producto = :ch_producto "
+		+ "AND s.nu_id_archivo = t.nu_id_archivo "
+		+ "AND s.nu_id_estatus = 1001")
 public class SapOrden implements Serializable{
 
 	private static final long serialVersionUID = 1L;
