@@ -308,7 +308,7 @@
 	<batch:job id="jobOrdenCreationOutput">
 		<batch:step id="stepOrdenCreationOutput">
 			<batch:tasklet>
-				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="1000" />
+				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="10000" />
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
@@ -361,7 +361,7 @@
 	<batch:job id="jobOrdenCreationCanOutput">
 		<batch:step id="stepOrdenCreationCanOutput">
 			<batch:tasklet>
-				<batch:chunk reader="readerOrdenCreationCanOutput" writer="writerOrdenCreationCanOutput" commit-interval="1000" />
+				<batch:chunk reader="readerOrdenCreationCanOutput" writer="writerOrdenCreationCanOutput" commit-interval="10000" />
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
@@ -413,7 +413,7 @@
 	<batch:job id="jobStoOutput">
 		<batch:step id="stepStoOutput">
 			<batch:tasklet>
-				<batch:chunk reader="readerStoOutput" writer="writerStoOutput" commit-interval="1000" />
+				<batch:chunk reader="readerStoOutput" writer="writerStoOutput" commit-interval="10000" />
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
