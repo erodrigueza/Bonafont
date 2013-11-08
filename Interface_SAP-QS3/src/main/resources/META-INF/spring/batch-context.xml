@@ -51,7 +51,7 @@
 	</batch:job>
 	
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_OrderCR*" />
+		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX*_OrderCR*" />
 		<property name="delegate" ref="fileReaderOrdenCreationInput" />
 		<property name="strict" value="false"/>
 	</bean>
