@@ -5,7 +5,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.danone.bonafot.batch</groupId>
 	<artifactId>interface-SAP-QS3</artifactId>
-	<version>0.1</version>
 	<packaging>jar</packaging>
 	<name>Bonafont Interface SAP QS3</name>
 	<url>http://www.intellego.com.mx/</url>
@@ -369,4 +368,5 @@
 		</pluginRepository>
 	</pluginRepositories>
 
+	<version>1.0</version>
 </project>
