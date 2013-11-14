@@ -25,7 +25,7 @@ public class JobLauncherDetails extends QuartzJobBean {
 
 	static final String JOB_NAME = "jobName" ;
 	
-	static final String PATH_BASE_OUT = "C:/interface_sap-qs3/data/out/new/" ;
+	static final String PATH_BASE_OUT = "D:/interface_sap-qs3/data/out/new/" ;
 
 	private JobLocator jobLocator;
 

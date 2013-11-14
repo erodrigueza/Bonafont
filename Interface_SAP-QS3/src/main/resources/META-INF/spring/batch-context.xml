@@ -51,7 +51,7 @@
 	</batch:job>
 	
 	<bean id="readerOrdenCreationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX*_OrderCR*" />
+		<property name="resources" value="file:D:/interface_sap-qs3/data/in/new/MX*_OrderCR*" />
 		<property name="delegate" ref="fileReaderOrdenCreationInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -115,7 +115,7 @@
 	</batch:job>
 	
 	<bean id="readerOrdenCancellationInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_OrderCN*" />
+		<property name="resources" value="file:D:/interface_sap-qs3/data/in/new/MX2_OrderCN*" />
 		<property name="delegate" ref="fileReaderOrdenCancellationInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -179,7 +179,7 @@
 	</batch:job>
 	
 	<bean id="readerDeliveryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_Deliveries*" />
+		<property name="resources" value="file:D:/interface_sap-qs3/data/in/new/MX2_Deliveries*" />
 		<property name="delegate" ref="fileReaderDeliveryInput" />
 		<property name="strict" value="false"/>
 	</bean>
@@ -250,7 +250,7 @@
 	</batch:job>
 	
 	<bean id="readerInventoryInput" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step">
-		<property name="resources" value="file:C:/interface_sap-qs3/data/in/new/MX2_Inventory*" />
+		<property name="resources" value="file:D:/interface_sap-qs3/data/in/new/MX2_Inventory*" />
 		<property name="delegate" ref="fileReaderInventoryInput" />
 		<property name="strict" value="false"/>
 	</bean>
