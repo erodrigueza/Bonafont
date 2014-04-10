@@ -33,7 +33,7 @@
 	<batch:job id="jobOrdenCreationInput">
 		<batch:step id="stepOrdenCreationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" skip-limit="1000">
+				<batch:chunk reader="readerOrdenCreationInput" writer="writerOrdenCreationInput" commit-interval="1" skip-limit="10">
 					<batch:skippable-exception-classes>
 						<batch:include class="java.lang.Exception" />
 					</batch:skippable-exception-classes>
@@ -102,7 +102,7 @@
 	<batch:job id="jobOrdenCancellationInput">
 		<batch:step id="stepOrdenCancellationInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" skip-limit="1000">
+				<batch:chunk reader="readerOrdenCancellationInput" writer="writerOrdenCancellationInput" commit-interval="1" skip-limit="10">
 					<batch:skippable-exception-classes>
 						<batch:include class="java.lang.Exception" />
 					</batch:skippable-exception-classes>
@@ -166,7 +166,7 @@
 	<batch:job id="jobDeliveryInput">
 		<batch:step id="stepDeliveryInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" skip-limit="1000">
+				<batch:chunk reader="readerDeliveryInput" writer="writerDeliveryInput" commit-interval="1" skip-limit="10">
 					<batch:skippable-exception-classes>
 						<batch:include class="java.lang.Exception" />
 					</batch:skippable-exception-classes>
@@ -237,7 +237,7 @@
 	<batch:job id="jobInventoryInput">
 		<batch:step id="stepInventoryInput">
 			<batch:tasklet transaction-manager="transactionManager" start-limit="100">
-				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" skip-limit="1000">
+				<batch:chunk reader="readerInventoryInput" writer="writerInventoryInput" commit-interval="1" skip-limit="10">
 					<batch:skippable-exception-classes>
 						<batch:include class="java.lang.Exception" />
 					</batch:skippable-exception-classes>
@@ -308,7 +308,12 @@
 	<batch:job id="jobOrdenCreationOutput">
 		<batch:step id="stepOrdenCreationOutput">
 			<batch:tasklet>
-				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput" commit-interval="10000" />
+				<batch:chunk reader="readerOrdenCreationOutput" writer="writerOrdenCreationOutput"
+					commit-interval="10000" skip-limit="3">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
@@ -361,7 +366,13 @@
 	<batch:job id="jobOrdenCreationCanOutput">
 		<batch:step id="stepOrdenCreationCanOutput">
 			<batch:tasklet>
-				<batch:chunk reader="readerOrdenCreationCanOutput" writer="writerOrdenCreationCanOutput" commit-interval="10000" />
+				<batch:chunk reader="readerOrdenCreationCanOutput"
+					writer="writerOrdenCreationCanOutput" commit-interval="10000"
+					skip-limit="3">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
@@ -413,7 +424,12 @@
 	<batch:job id="jobStoOutput">
 		<batch:step id="stepStoOutput">
 			<batch:tasklet>
-				<batch:chunk reader="readerStoOutput" writer="writerStoOutput" commit-interval="10000" />
+				<batch:chunk reader="readerStoOutput" writer="writerStoOutput"
+					commit-interval="10000" skip-limit="3">
+					<batch:skippable-exception-classes>
+						<batch:include class="java.lang.Exception" />
+					</batch:skippable-exception-classes>
+				</batch:chunk>
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
